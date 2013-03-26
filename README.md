@@ -2,9 +2,9 @@
 
 This project contains the C# source code for the ArcGIS Runtime SDK for Windows Phone interactive sample app.  
 
-[View it live](http://resources.arcgis.com/en/help/windows-phone-sdk/samples/start.htm)
+[Web view of the interactive sample app](http://resources.arcgis.com/en/help/windows-phone-sdk/samples/start.htm)
 
-[![Image of sample app](https://raw.github.com/Esri/arcgis-samples-winphone/master/arcgis-samples-winphonw.png "Interactive sample app")](http://resources.arcgis.com/en/help/windows-phone-sdk/samples/start.htm)
+[![Image of sample app](https://raw.github.com/Esri/arcgis-samples-winphone/master/arcgis-samples-winphone.png "Web view of interactive sample app")](http://resources.arcgis.com/en/help/windows-phone-sdk/samples/start.htm)
 
 ## Instructions 
 
