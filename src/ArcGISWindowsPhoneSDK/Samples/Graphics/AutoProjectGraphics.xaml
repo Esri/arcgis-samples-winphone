@@ -1,0 +1,101 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="ArcGISWindowsPhoneSDK.AutoProjectGraphics"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:esri="clr-namespace:ESRI.ArcGIS.Client;assembly=ESRI.ArcGIS.Client"
+    xmlns:esriSymbols="clr-namespace:ESRI.ArcGIS.Client.Symbols;assembly=ESRI.ArcGIS.Client"
+    xmlns:esriToolkitDS="clr-namespace:ESRI.ArcGIS.Client.Toolkit.DataSources;assembly=ESRI.ArcGIS.Client.Toolkit.DataSources"
+    xmlns:esriGeometry="clr-namespace:ESRI.ArcGIS.Client.Geometry;assembly=ESRI.ArcGIS.Client"
+    xmlns:esriTasks="clr-namespace:ESRI.ArcGIS.Client.Tasks;assembly=ESRI.ArcGIS.Client"
+    SupportedOrientations="PortraitOrLandscape"
+    mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480">
+
+    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.Resources>
+            <esriSymbols:SimpleMarkerSymbol x:Key="BlueMarkerSymbol" Color="Blue" Size="12" Style="Circle" />
+            <esriSymbols:SimpleLineSymbol x:Key="BlueLineSymbol" Color="Blue" Width="4" Style="Solid" />
+            <esriSymbols:SimpleFillSymbol x:Key="BlueFillSymbol" Fill="#660000FF" BorderBrush="Blue" BorderThickness="2" />
+            <esri:SimpleRenderer x:Key="MySimpleRenderer">
+                <esri:SimpleRenderer.Symbol>
+                    <esriSymbols:PictureMarkerSymbol Source="/Images/quake-30x30.png" OffsetX="8" OffsetY="8" Width="16" />
+                </esri:SimpleRenderer.Symbol>
+            </esri:SimpleRenderer>
+            <esriTasks:GeometryService x:Key="GeomSvc" 
+                  Url="http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer" />
+        </Grid.Resources>
+        
+        <Grid Grid.Row="0" x:Name="TitleGrid">
+            <TextBlock x:Name="ApplicationName" Text="Auto-project Graphics" Style="{StaticResource PhoneTextPageTitle1Style}"/>
+        </Grid>
+
+        <Grid Grid.Row="1" x:Name="ContentPanel">
+            <esri:Map x:Name="MyMap">
+                <esri:ArcGISTiledMapServiceLayer
+                    Url="http://maverick.arcgis.com/ArcGIS/rest/services/World_Mollweide/MapServer" />
+
+                <!--esriToolkitDS:KmlLayer ID="MyKMLLayer"
+                              ProjectionService="{StaticResource GeomSvc}"
+                              Source="http://earthquake.usgs.gov/earthquakes/catalogs/7day-M5.xml"                              
+                              Renderer="{StaticResource MySimpleRenderer}" /-->
+
+                <esri:GraphicsLayer ProjectionService="{StaticResource GeomSvc}" >
+
+                    <esri:Graphic Symbol="{StaticResource BlueMarkerSymbol}" >
+                        <esriGeometry:MapPoint X="-140.9" Y="63.391" >
+                            <esriGeometry:Geometry.SpatialReference >
+                                <esriGeometry:SpatialReference WKID="4326" />
+                            </esriGeometry:Geometry.SpatialReference>
+                        </esriGeometry:MapPoint>
+                    </esri:Graphic>
+
+                    <esri:Graphic Symbol="{StaticResource BlueLineSymbol}" >
+                        <esriGeometry:Polyline >
+                            <esriGeometry:Polyline.Paths>
+                                <esriGeometry:PointCollection>
+                                    <esriGeometry:MapPoint X="0" Y="51.399" />
+                                    <esriGeometry:MapPoint X="2.637" Y="48.865" />
+                                    <esriGeometry:MapPoint X="12.568" Y="41.706" />
+                                    <esriGeometry:MapPoint X="13.447" Y="52.483" />
+                                    <esriGeometry:MapPoint X="21.357" Y="52.160" />
+                                    <esriGeometry:MapPoint X="30.322" Y="59.845" />
+                                </esriGeometry:PointCollection>
+                            </esriGeometry:Polyline.Paths>
+                            <esriGeometry:Geometry.SpatialReference >
+                                <esriGeometry:SpatialReference WKID="4326" />
+                            </esriGeometry:Geometry.SpatialReference>
+                        </esriGeometry:Polyline>
+                    </esri:Graphic>
+
+                    <esri:Graphic Symbol="{StaticResource BlueFillSymbol}">
+                        <esriGeometry:Polygon >
+                            <esriGeometry:Polygon.Rings>
+                                <esriGeometry:PointCollection>
+                                    <esriGeometry:MapPoint X="110.039" Y="-20.303" />
+                                    <esriGeometry:MapPoint X="132.539" Y="-7.0137" />
+                                    <esriGeometry:MapPoint X="153.281" Y="-13.923" />
+                                    <esriGeometry:MapPoint X="162.773" Y="-35.174" />
+                                    <esriGeometry:MapPoint X="133.594" Y="-43.180" />
+                                    <esriGeometry:MapPoint X="111.797" Y="-36.032" />
+                                    <esriGeometry:MapPoint X="110.039" Y="-20.303" />
+                                </esriGeometry:PointCollection>
+                            </esriGeometry:Polygon.Rings>
+                            <esriGeometry:Geometry.SpatialReference >
+                                <esriGeometry:SpatialReference WKID="4326" />
+                            </esriGeometry:Geometry.SpatialReference>
+                        </esriGeometry:Polygon>
+                    </esri:Graphic>
+
+                </esri:GraphicsLayer>
+
+            </esri:Map>
+        </Grid>
+    </Grid>
+</phone:PhoneApplicationPage>

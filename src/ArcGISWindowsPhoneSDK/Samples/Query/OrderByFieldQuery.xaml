@@ -1,0 +1,110 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="ArcGISWindowsPhoneSDK.OrderByFieldQuery"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:esri="clr-namespace:ESRI.ArcGIS.Client;assembly=ESRI.ArcGIS.Client"
+    xmlns:esriSymbols="clr-namespace:ESRI.ArcGIS.Client.Symbols;assembly=ESRI.ArcGIS.Client"
+    SupportedOrientations="PortraitOrLandscape"
+    mc:Ignorable="d" d:DesignHeight="728" d:DesignWidth="480">
+
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBar.Buttons>
+                <shell:ApplicationBarIconButton x:Name="ShowFeatures" IconUri="Images/List.png" Text="show features" 
+                                                Click="ShowFeaturesButton_Click" IsEnabled="False" />
+            </shell:ApplicationBar.Buttons>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
+    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.Resources>
+            <esri:SimpleRenderer x:Key="SelectRenderer">
+                <esri:SimpleRenderer.Symbol>
+                    <esriSymbols:SimpleFillSymbol>
+                        <esriSymbols:SimpleFillSymbol.ControlTemplate>
+                            <ControlTemplate>
+                                <Path x:Name="Element" Fill="Transparent" Stroke="Black" StrokeThickness="1.5"
+							  Cursor="Hand">
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="SelectionStates">
+                                            <VisualState x:Name="Unselected" />
+                                            <VisualState x:Name="Selected">
+                                                <Storyboard>
+                                                    <ColorAnimation Storyboard.TargetName="Element"
+															Storyboard.TargetProperty="(Path.Fill).(SolidColorBrush.Color)" 
+															To="Yellow" Duration="0:0:.25" />
+                                                    <ColorAnimation Storyboard.TargetName="Element"
+															Storyboard.TargetProperty="(Path.Stroke).(SolidColorBrush.Color)" 
+															To="Cyan" Duration="0:0:.25" />
+                                                    <DoubleAnimation Storyboard.TargetName="Element" 
+															 Storyboard.TargetProperty="StrokeThickness"
+															 To="3" Duration="00:00:.25" />
+                                                </Storyboard>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                </Path>
+                            </ControlTemplate>
+                        </esriSymbols:SimpleFillSymbol.ControlTemplate>
+                    </esriSymbols:SimpleFillSymbol>
+                </esri:SimpleRenderer.Symbol>
+            </esri:SimpleRenderer>
+        </Grid.Resources>
+
+        <Grid Grid.Row="0" x:Name="TitleGrid">
+            <TextBlock x:Name="ApplicationName" Text="Query with order by field" Style="{StaticResource PhoneTextPageTitle1Style}"/>
+        </Grid>
+
+        <Grid Grid.Row="1" x:Name="ContentPanel">
+            <esri:Map x:Name="MyMap"  WrapAround="True" Background="WhiteSmoke" PropertyChanged="MyMap_PropertyChanged">
+                <esri:ArcGISDynamicMapServiceLayer 
+                    Url="http://sampleserver6.arcgisonline.com/arcgis/rest/services/MontgomeryQuarters/MapServer"/>
+                <esri:GraphicsLayer ID="MontgomeryParcels" Renderer="{StaticResource SelectRenderer}"
+                                    MouseLeftButtonUp="GraphicsLayer_MouseLeftButtonUp" />
+            </esri:Map>
+
+            <Grid x:Name="FeatureChoicesPage" Visibility="Collapsed" 
+                  Background="{StaticResource PhoneBackgroundBrush}" MaxHeight="350" VerticalAlignment="Bottom">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Margin="2" Orientation="Horizontal">
+                    <TextBox Name="SearchTextBox" Text="JOHN" VerticalAlignment="Center" 
+                                 HorizontalAlignment="Left" Width="175"/>
+                    <Button Content="Search by owner name" Click="Button_Click" 
+                                VerticalAlignment="Center" HorizontalAlignment="Right" />
+                </StackPanel>
+                <ListBox x:Name="FeatureListBox" Grid.Row="1" SelectionChanged="FeatureListBox_SelectionChanged" 
+                         FontSize="{StaticResource PhoneFontSizeNormal}" >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical" Margin="10">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Attributes[owner_name]}"/>
+                                    <TextBlock Text=" - Parcel " />
+                                    <TextBlock Text="{Binding Attributes[parcel_id]}" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="15 0 0 0" >
+                                    <TextBlock Text="Zone " FontSize="{StaticResource PhoneFontSizeSmall}"/>
+                                    <TextBlock Text="{Binding Attributes[zoning]}" FontSize="{StaticResource PhoneFontSizeSmall}"/>
+                                    <TextBlock Text=", Deed date: " FontSize="{StaticResource PhoneFontSizeSmall}" />
+                                    <TextBlock Text="{Binding Attributes[deed_date]}" FontSize="{StaticResource PhoneFontSizeSmall}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </Grid>
+    </Grid>
+</phone:PhoneApplicationPage>

@@ -1,0 +1,146 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="ArcGISWindowsPhoneSDK.EditingCodedValueDomains"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:esri="clr-namespace:ESRI.ArcGIS.Client;assembly=ESRI.ArcGIS.Client"
+    xmlns:esriToolkitPrimitives="clr-namespace:ESRI.ArcGIS.Client.Toolkit.Primitives;assembly=ESRI.ArcGIS.Client.Toolkit"
+    SupportedOrientations="PortraitOrLandscape"
+    mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480">
+
+    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.Resources>
+            <esri:Editor x:Key="MyEditor"
+                         Map="{Binding ElementName=MyMap}" 
+                         LayerIDs="RecreationFacilities"
+                         GeometryServiceUrl="http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer" />
+
+            <Style x:Key="CloseButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="{StaticResource PhoneAccentBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}" />
+                <Setter Property="HorizontalAlignment" Value="Right" />
+                <Setter Property="VerticalAlignment" Value="Top" />
+                <Setter Property="Margin" Value="0 -25 -25 0" />
+                <Setter Property="Height" Value="36" />
+                <Setter Property="Width" Value="36" />
+                <Setter Property="FontSize" Value="22" />
+                <Setter Property="BorderBrush" Value="Black" />
+                <Setter Property="BorderThickness" Value=".5" />
+                <Setter Property="Content" Value="X" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Grid>
+                                <Ellipse Fill="{TemplateBinding Background}"/>
+                                <ContentPresenter Content="{TemplateBinding Content}"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="ListBoxButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="White" />
+                <Setter Property="Foreground" Value="Black" />
+                <Setter Property="BorderThickness" Value="0" />
+            </Style>
+        </Grid.Resources>
+        
+        <Grid Grid.Row="0" x:Name="TitleGrid">
+            <TextBlock x:Name="ApplicationName" Text="Editing with Coded Value Domains" Style="{StaticResource PhoneTextPageTitle1Style}"/>
+        </Grid>
+
+        <Grid Grid.Row="1" x:Name="ContentPanel">
+            <esri:Map Name="MyMap" WrapAround="True" Grid.Row="0" 
+                      Extent="-13048268.6205721,4031003.10885897,-13041932.5628646,4039239.98387873">
+
+                <esri:ArcGISTiledMapServiceLayer ID="Street Map" 
+                    Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer"/>
+
+                <esri:FeatureLayer ID="RecreationFacilities" DisplayName="Recreation layer"
+                    Url="http://sampleserver5a.arcgisonline.com/arcgis/rest/services/LocalGovernment/Recreation/FeatureServer/0"
+                    Initialized="FeatureLayer_Initialized"
+                    OutFields="*"
+                    Mode="OnDemand"
+                    MouseLeftButtonDown="FeatureLayer_MouseLeftButtonDown"/>
+            </esri:Map>
+
+
+            <esriToolkitPrimitives:ChildPage x:Name="FeatureInfoPage">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Facility" VerticalAlignment="Center" FontSize="24" Padding="8"/>
+                    <Button x:Name="FacilityButton" Style="{StaticResource ListBoxButtonStyle}" Click="FacilityButton_Click" 
+                            Content="{Binding ElementName=FacilityChoicesListBox, Path=SelectedItem.Value}" />
+
+                    <TextBlock Text="Description" VerticalAlignment="Center" FontSize="24" Padding="8"/>
+                    <TextBox x:Name="DescriptionTB" Text="{Binding Attributes[description], Mode=TwoWay}" />
+
+                    <TextBlock Text="Quality" VerticalAlignment="Center" FontSize="24" Padding="8"/>
+                    <Button x:Name="QualityButton" Style="{StaticResource ListBoxButtonStyle}" Click="QualityButton_Click"
+                            Content="{Binding ElementName=QualityChoicesListBox, Path=SelectedItem.Value}" />
+
+                    <TextBlock Text="Observed" VerticalAlignment="Center" FontSize="24" Padding="8"/>
+                    <TextBox x:Name="CreatorTB" Text="{Binding Attributes[observed]}" />
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Content="OK" Click="OKButton_Click" />
+                        <Button Content="Delete" Click="DeleteButton_Click" />
+                    </StackPanel>
+                </StackPanel>
+            </esriToolkitPrimitives:ChildPage>
+
+            <esriToolkitPrimitives:ChildPage x:Name="FeatureTypeChoicesPage" IsOpen="False" Padding="20">
+                <ListBox x:Name="FeatureTypeListBox" FontSize="34" SelectionChanged="FeatureTypeListBox_SelectionChanged" >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <!-- this only works with marker symbols -->
+                                <ContentControl Template="{Binding Symbol.ControlTemplate}" Content="{Binding}" Width="45" Height="45"/>
+                                <TextBlock Text="{Binding Name}" Margin="5" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </esriToolkitPrimitives:ChildPage>
+
+            <esriToolkitPrimitives:ChildPage x:Name="FacilityChoicesPage">
+                <ListBox x:Name="FacilityChoicesListBox" FontSize="34" SelectionChanged="FacilityChoicesListBox_SelectionChanged" >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Value}" Margin="5" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </esriToolkitPrimitives:ChildPage>
+
+            <esriToolkitPrimitives:ChildPage x:Name="QualityChoicesPage">
+                <ListBox x:Name="QualityChoicesListBox" FontSize="34" SelectionChanged="QualityChoicesListBox_SelectionChanged" >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Value}" Margin="5" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </esriToolkitPrimitives:ChildPage>
+        </Grid>
+    </Grid>
+
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBarIconButton x:Name="AddItem" IconUri="Images/Add.png" Text="Add Item" 
+                                            Click="AddItemButton_Click" IsEnabled="False" />
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+    
+</phone:PhoneApplicationPage>

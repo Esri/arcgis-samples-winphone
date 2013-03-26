@@ -1,0 +1,77 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="ArcGISWindowsPhoneSDK.QueryWithoutMap"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:esri="clr-namespace:ESRI.ArcGIS.Client;assembly=ESRI.ArcGIS.Client"
+    xmlns:esriSymbols="clr-namespace:ESRI.ArcGIS.Client.Symbols;assembly=ESRI.ArcGIS.Client"
+    SupportedOrientations="PortraitOrLandscape"
+    mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480">
+
+    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" x:Name="TitleGrid">
+            <TextBlock x:Name="ApplicationName" Text="Query only" Style="{StaticResource PhoneTextPageTitle1Style}"/>
+        </Grid>
+
+        <Grid x:Name="ContentPanel" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Border BorderBrush="Black" Grid.Row="0" CornerRadius="5" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Top"
+                Background="#99000000" Margin="10">
+                <Grid >
+                    <StackPanel Orientation="Vertical" >
+                        <StackPanel Orientation="Vertical" Margin="10">
+                            <TextBlock Text="US State Name contains:" Foreground="White" 
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                   FontWeight="Bold" Margin="20,8,5,0" FontSize="30" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox x:Name="StateNameTextBox" Background="White" Text="New" Width="300" 
+                                     HorizontalContentAlignment="Center" FontSize="30" />
+                                <Button x:Name="QueryButton" Content="Query" VerticalAlignment="Center" 
+                                Click="QueryButton_Click" Width="130"
+                                Margin="5,0,5,0" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <Grid Grid.Row="1" HorizontalAlignment="Center" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="280" />
+                    <ColumnDefinition Width="200" />
+                </Grid.ColumnDefinitions>
+                <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stroke="White" StrokeThickness="1" 
+                           Grid.ColumnSpan="2"  />
+                <TextBlock Text=" State" Grid.Column="0" FontSize="30" FontWeight="Bold" />
+                <TextBlock Text=" Population" Grid.Column="3" TextWrapping="Wrap" FontSize="30" FontWeight="Bold" />
+            </Grid>
+
+            <ListBox x:Name="DataListBox" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="30" >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="280" />
+                                <ColumnDefinition Width="200" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Padding="10" Text="{Binding Path=Attributes[STATE_NAME]}" Grid.Column="0" TextWrapping="Wrap" />
+                            <TextBlock Padding="10" Text="{Binding Path=Attributes[POP2007]}" Grid.Column="3" TextWrapping="Wrap" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+    </Grid>
+
+</phone:PhoneApplicationPage>

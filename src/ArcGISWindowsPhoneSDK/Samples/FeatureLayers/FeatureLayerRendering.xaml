@@ -1,0 +1,107 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="ArcGISWindowsPhoneSDK.FeatureLayerRendering"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:esri="clr-namespace:ESRI.ArcGIS.Client;assembly=ESRI.ArcGIS.Client"
+    xmlns:esriSymbols="clr-namespace:ESRI.ArcGIS.Client.Symbols;assembly=ESRI.ArcGIS.Client"
+    xmlns:esriGeometry="clr-namespace:ESRI.ArcGIS.Client.Geometry;assembly=ESRI.ArcGIS.Client"
+    SupportedOrientations="PortraitOrLandscape"
+    mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480">
+
+    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+
+            <esriSymbols:SimpleMarkerSymbol x:Key="MyGreenMarkerSymbol" Color="#AA00FF00" Size="5" />
+            <esriSymbols:SimpleMarkerSymbol x:Key="MyRedMarkerSymbol" Color="#AAFF0000" Size="10" />
+            <esri:UniqueValueRenderer x:Key="MyUniqueValueRendererPoints" Field="CAPITAL" >
+                <esri:UniqueValueRenderer.Infos>
+                    <esri:UniqueValueInfo Value="N" Symbol="{StaticResource MyGreenMarkerSymbol}" />
+                    <esri:UniqueValueInfo Value="Y" Symbol="{StaticResource MyRedMarkerSymbol}" />
+                </esri:UniqueValueRenderer.Infos>
+            </esri:UniqueValueRenderer>
+
+            <esri:SimpleRenderer x:Key="MySimpleRendererLines" >
+                <esri:SimpleRenderer.Symbol>
+                    <esriSymbols:LineSymbol >
+                        <esriSymbols:LineSymbol.ControlTemplate>
+                            <ControlTemplate>
+                                <Grid>
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="MouseOver">
+                                                <Storyboard>
+                                                    <DoubleAnimation BeginTime="0" Storyboard.TargetName="Element" Storyboard.TargetProperty="(Shape.StrokeThickness)" To="3" Duration="00:00:01" />
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="Normal">
+                                                <Storyboard>
+                                                    <DoubleAnimation BeginTime="0" Storyboard.TargetName="Element" Storyboard.TargetProperty="(Shape.StrokeThickness)" To="1" Duration="00:00:01" />
+                                                </Storyboard>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                    <Path x:Name="Element" Stroke="Blue" StrokeThickness="1" />
+                                </Grid>
+                            </ControlTemplate>
+                        </esriSymbols:LineSymbol.ControlTemplate>
+                    </esriSymbols:LineSymbol>
+                </esri:SimpleRenderer.Symbol>
+            </esri:SimpleRenderer>
+
+            <esriSymbols:SimpleFillSymbol x:Key="LowFillSymbol" Fill="#99B9D3EE" BorderBrush="#AAFFFFFF" BorderThickness="1" />
+            <esriSymbols:SimpleFillSymbol x:Key="MediumFillSymbol" Fill="#999FB6CD" BorderBrush="#AAFFFFFF" BorderThickness="1" />
+            <esriSymbols:SimpleFillSymbol x:Key="HighFillSymbol" Fill="#996C7B8B" BorderBrush="#AAFFFFFF" BorderThickness="1"/>
+            <esri:ClassBreaksRenderer x:Key="MyClassBreaksRenderer" Field="POP07_SQMI" >
+                <esri:ClassBreaksRenderer.Classes>
+                    <esri:ClassBreakInfo MinimumValue="0" MaximumValue="50" Symbol="{StaticResource LowFillSymbol}" />
+                    <esri:ClassBreakInfo MinimumValue="50" MaximumValue="200" Symbol="{StaticResource MediumFillSymbol}" />
+                    <esri:ClassBreakInfo MinimumValue="200" MaximumValue="50000" Symbol="{StaticResource HighFillSymbol}" />
+                </esri:ClassBreaksRenderer.Classes>
+            </esri:ClassBreaksRenderer>
+        </Grid.Resources>
+
+        <Grid Grid.Row="0" x:Name="TitleGrid">
+            <TextBlock x:Name="ApplicationName" Text="Feature Layers - Rendering" Style="{StaticResource PhoneTextPageTitle1Style}"/>
+        </Grid>
+
+        <Grid Grid.Row="1" x:Name="ContentPanel">
+            <esri:Map x:Name="MyMap">
+                <esri:Map.Extent>
+                    <esriGeometry:Envelope XMin="-15000000" YMin="2000000" XMax="-7000000" YMax="8000000" >
+                        <esriGeometry:Envelope.SpatialReference>
+                            <esriGeometry:SpatialReference WKID="102100"/>
+                        </esriGeometry:Envelope.SpatialReference>
+                    </esriGeometry:Envelope>
+                </esri:Map.Extent>
+                <esri:Map.Layers>
+
+                    <esri:ArcGISTiledMapServiceLayer ID="BaseLayer"
+                        Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer"/>
+
+                    <esri:FeatureLayer ID="StatesFeatureLayer"
+                        Url="http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Demographics/ESRI_Census_USA/MapServer/5"
+					    Renderer="{StaticResource MyClassBreaksRenderer}" 
+                        OutFields="POP07_SQMI"/>
+
+                    <esri:FeatureLayer ID="RiversFeatureLayer"
+                        Url="http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StatesCitiesRivers_USA/MapServer/1" 
+                        Renderer="{StaticResource MySimpleRendererLines}" />
+
+                    <esri:FeatureLayer ID="CitiesFeatureLayer"
+                        Url="http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StatesCitiesRivers_USA/MapServer/0" 
+                        Renderer="{StaticResource MyUniqueValueRendererPoints}"
+                        Where="POP1990 > 75000"
+                        OutFields="CAPITAL" />
+
+                </esri:Map.Layers>
+            </esri:Map>
+        </Grid>
+    </Grid>
+</phone:PhoneApplicationPage>

@@ -1,0 +1,72 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="ArcGISWindowsPhoneSDK.LoadWebMapDynamically"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:esri="clr-namespace:ESRI.ArcGIS.Client;assembly=ESRI.ArcGIS.Client"
+    SupportedOrientations="PortraitOrLandscape"
+    mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480">
+
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBar.Buttons>                
+                <shell:ApplicationBarIconButton IconUri="Images/List.png" Click="Menu_List_Click" Text="Dialog" />
+            </shell:ApplicationBar.Buttons>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+    
+    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" x:Name="TitleGrid">
+            <TextBlock x:Name="ApplicationName" Text="Load WebMap Dynamically" Style="{StaticResource PhoneTextPageTitle1Style}"/>
+        </Grid>
+
+        <Grid Grid.Row="1" x:Name="ContentPanel">  
+            <esri:Map x:Name="MyMap"/>
+
+            <Grid x:Name="InfoGrid" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,15,15,0">
+                 <Rectangle Fill="#44FFFFFF" Stroke="Gray"  RadiusX="10" RadiusY="10" Margin="0" >
+            </Rectangle>
+            <Rectangle Fill="#FF000000" Stroke="DarkGray" RadiusX="5" RadiusY="5" Margin="5" />
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0,20,30,20">
+                    <TextBlock FontWeight="Bold" HorizontalAlignment="Center" Text="Enter ArcGIS.com WebMap ID" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
+                        <TextBlock Text="WebMap ID: " TextAlignment="Right" 
+                               VerticalAlignment="Center" Margin="30,0,0,0" Foreground="White" />
+                        <TextBox x:Name="WebMapTextBox" Text="a270575750c04bcb8fe71a6fa5d02f6c" Width="250"/>
+                    </StackPanel>
+                    <Button x:Name="LoadWebMapButton" Content="Load WebMap" Width="105" Margin="0,5,0,10" 
+                        HorizontalAlignment="Center" Click="LoadWebMapButton_Click" Height="72" />
+                    <TextBlock TextDecorations="underline" Text="WebMap Item Details" FontWeight="Bold"
+                           Margin="30,0,0,0" Foreground="White"/>
+                    <Grid x:Name="WebMapPropertiesTextBox" Margin="10,0,0,0" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,5,0,0">
+                            <TextBlock FontStyle="Italic" Text="Title:" Margin="0,0,5,0" Foreground="White" />
+                            <TextBlock Text="{Binding Title}" Margin="0,0,5,0" Foreground="White"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,5,0,0" >
+                            <TextBlock FontStyle="Italic" Text="Snippet:" Margin="0,0,5,0" Foreground="White" />
+                            <TextBlock Text="{Binding Snippet}" Margin="0,0,5,0" Foreground="White"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,5,0,0">
+                            <TextBlock FontStyle="Italic" Text="Owner:" Margin="0,0,5,0" Foreground="White" />
+                            <TextBlock Text="{Binding Owner}" Margin="0,0,5,0" Foreground="White" />
+                        </StackPanel>
+                    </Grid>                  
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</phone:PhoneApplicationPage>

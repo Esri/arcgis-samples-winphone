@@ -1,0 +1,38 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="ArcGISWindowsPhoneSDK.InfoWindowDynamic"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:esri="clr-namespace:ESRI.ArcGIS.Client;assembly=ESRI.ArcGIS.Client"
+    xmlns:esriGeometry="clr-namespace:ESRI.ArcGIS.Client.Geometry;assembly=ESRI.ArcGIS.Client"
+    SupportedOrientations="PortraitOrLandscape">
+
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock x:Name="ApplicationName" Text="InfoWindow Dynamic" Style="{StaticResource PhoneTextPageTitle1Style}"/>
+        </StackPanel>
+
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <esri:Map x:Name="MyMap" MapGesture="Map_MapGesture">
+                <esri:Map.Extent>
+                    <esriGeometry:Envelope XMin="-15000000" YMin="2000000" XMax="-7000000" YMax="8000000">
+                        <esriGeometry:Envelope.SpatialReference>
+                            <esriGeometry:SpatialReference WKID="102100"/>
+                        </esriGeometry:Envelope.SpatialReference>
+                    </esriGeometry:Envelope>
+                </esri:Map.Extent>
+                <esri:ArcGISTiledMapServiceLayer Url="http://services.arcgisonline.com:80/ArcGIS/rest/services/World_Topo_Map/MapServer" />
+                <esri:ArcGISDynamicMapServiceLayer Url="http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Demographics/ESRI_Census_USA/MapServer" 
+                                                   VisibleLayers="3" />
+            </esri:Map>
+        </Grid>
+    </Grid>
+</phone:PhoneApplicationPage>

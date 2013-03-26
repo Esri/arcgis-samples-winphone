@@ -1,0 +1,58 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="ArcGISWindowsPhoneSDK.Statistics"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:esri="clr-namespace:ESRI.ArcGIS.Client;assembly=ESRI.ArcGIS.Client"
+    SupportedOrientations="PortraitOrLandscape"
+    mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480">
+
+    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" x:Name="TitleGrid">
+            <TextBlock x:Name="ApplicationName" Text="Statistics" Style="{StaticResource PhoneTextPageTitle1Style}"/>
+        </Grid>
+
+        <Grid Grid.Row="1" x:Name="ContentPanel" Margin="0 10 0 0" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="45" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="160" />
+                <ColumnDefinition Width="160" />
+                <ColumnDefinition Width="160" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="US Region" Grid.Row="0" Grid.Column="0" FontSize="22" />
+            <TextBlock Text="State Count" Grid.Row="0" Grid.Column="1" FontSize="22" />
+            <TextBlock Text="Population" Grid.Row="0" Grid.Column="2" FontSize="22" />
+
+            <ListBox x:Name="OutStatisticsListBox" Grid.Row="1" Grid.ColumnSpan="3" Loaded="OutStatisticsListBox_Loaded" >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid HorizontalAlignment="Stretch">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="45" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="160" />
+                                <ColumnDefinition Width="160" />
+                                <ColumnDefinition Width="160" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock x:Name="USRegion" Grid.Row="0" Grid.Column="0" Text="{Binding Attributes[sub_region]}" />
+                            <TextBlock x:Name="StateCount" Grid.Row="0" Grid.Column="1" Text="{Binding Attributes[numberofstates]}" />
+                            <TextBlock x:Name="Population" Grid.Row="0" Grid.Column="2" Text="{Binding Attributes[subregionpopulation]}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+    </Grid>
+</phone:PhoneApplicationPage>

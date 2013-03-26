@@ -1,0 +1,63 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="ArcGISWindowsPhoneSDK.RoutingBarriers"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:esri="clr-namespace:ESRI.ArcGIS.Client;assembly=ESRI.ArcGIS.Client"
+    xmlns:esriSymbols="clr-namespace:ESRI.ArcGIS.Client.Symbols;assembly=ESRI.ArcGIS.Client"
+    xmlns:esriTasks="clr-namespace:ESRI.ArcGIS.Client.Tasks;assembly=ESRI.ArcGIS.Client"
+    SupportedOrientations="PortraitOrLandscape"
+    mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480">
+
+    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <ControlTemplate x:Name="CompositeSymbol"
+                xmlns="http://schemas.microsoft.com/client/2007"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                <Grid>
+                    <Ellipse Fill="{Binding Symbol.Color}" Width="{Binding Symbol.Size}" Height="{Binding Symbol.Size}" Stroke="Black" StrokeThickness="1" />
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Text="{Binding Path=Attributes[StopNumber]}"
+                        FontSize="24" Margin="0" FontWeight="Bold" Foreground="Black" />
+                </Grid>
+            </ControlTemplate>
+            <esriSymbols:SimpleMarkerSymbol x:Name="StopSymbol" Size="40" Style="Circle" Color="Salmon" ControlTemplate="{StaticResource CompositeSymbol}" />
+            <esriSymbols:SimpleMarkerSymbol x:Name="BarrierSymbol" Size="30" Style="Triangle" Color="Red"  />
+            <esriSymbols:SimpleLineSymbol x:Name="RouteSymbol" Color="#AA0000FF" Width="6"/>
+        </Grid.Resources>
+
+        <Grid Grid.Row="0" x:Name="TitleGrid">
+            <TextBlock x:Name="ApplicationName" Text="Routing" Style="{StaticResource PhoneTextPageTitle1Style}"/>
+        </Grid>
+
+        <Grid Grid.Row="1">
+                <StackPanel Orientation="Horizontal" Margin="0">
+                    <RadioButton Content="Add Stops" x:Name="StopsRadioButton" IsChecked="true" Padding="0"  Margin="-5"
+						Foreground="White" GroupName="add" VerticalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}"/>
+                    <RadioButton Content="Add Barriers" x:Name="BarriersRadioButton" Padding="0" Margin="-5"
+						Foreground="White" GroupName="add" VerticalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}"/>
+                    <Button Content="Clear" Click="Button_Click" Margin="0"/>
+                </StackPanel>
+            </Grid>
+        
+        <Grid Grid.Row="2" x:Name="ContentPanel">
+            <esri:Map x:Name="MyMap" Background="White" Extent="-117.22,34.04,-117.17,34.07">
+                <esri:Map.Layers>
+                    <esri:ArcGISTiledMapServiceLayer
+                      Url="http://server.arcgisonline.com/ArcGIS/rest/services/ESRI_StreetMap_World_2D/MapServer"/>
+                    <esri:GraphicsLayer ID="MyRouteGraphicsLayer" />
+                    <esri:GraphicsLayer ID="MyStopsGraphicsLayer" />
+                    <esri:GraphicsLayer ID="MyBarriersGraphicsLayer" />
+                </esri:Map.Layers>
+            </esri:Map>
+
+        </Grid>
+    </Grid>
+</phone:PhoneApplicationPage>

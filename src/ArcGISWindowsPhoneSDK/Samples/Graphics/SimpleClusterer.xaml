@@ -1,0 +1,62 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="ArcGISWindowsPhoneSDK.SimpleClusterer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:esri="clr-namespace:ESRI.ArcGIS.Client;assembly=ESRI.ArcGIS.Client"
+    xmlns:esriSymbols="clr-namespace:ESRI.ArcGIS.Client.Symbols;assembly=ESRI.ArcGIS.Client"
+    SupportedOrientations="PortraitOrLandscape"
+    mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480">
+
+    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <LinearGradientBrush x:Key="BlueGradient" MappingMode="RelativeToBoundingBox" >
+                <GradientStop Color="#990011FF" Offset="0"/>
+                <GradientStop Color="#990055FF" Offset="0.25"/>
+                <GradientStop Color="#990099FF" Offset="0.5"/>
+                <GradientStop Color="#9900CCFF" Offset="0.75"/>
+                <GradientStop Color="#9900FFFF" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Resources>
+        
+        <Grid Grid.Row="0" x:Name="TitleGrid">
+            <TextBlock x:Name="ApplicationName" Text="Simple Clusterer" Style="{StaticResource PhoneTextPageTitle1Style}"/>
+        </Grid>
+
+        <Grid Grid.Row="1" x:Name="ContentPanel">
+            <esri:Map x:Name="MyMap" WrapAround="True" PropertyChanged="MyMap_PropertyChanged">
+                <esri:ArcGISTiledMapServiceLayer  
+                      Url="http://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer"/>
+
+                <esri:GraphicsLayer ID="MyGraphicsLayer" >
+                    <esri:GraphicsLayer.Clusterer>
+                        <esri:SimpleClusterer   
+                            Radius="15" 
+                            Gradient="{StaticResource BlueGradient}" />
+                    </esri:GraphicsLayer.Clusterer>
+                    <esri:GraphicsLayer.Renderer>
+                        <esri:SimpleRenderer>
+                            <esri:SimpleRenderer.Symbol>
+                                <esriSymbols:SimpleMarkerSymbol>
+                                    <esriSymbols:SimpleMarkerSymbol.Color>
+                                        <RadialGradientBrush>
+                                            <GradientStop Color="Yellow" Offset="0.5"/>
+                                            <GradientStop Color="Black" Offset="1"/>
+                                        </RadialGradientBrush>
+                                    </esriSymbols:SimpleMarkerSymbol.Color>
+                                </esriSymbols:SimpleMarkerSymbol>
+                            </esri:SimpleRenderer.Symbol>
+                        </esri:SimpleRenderer>
+                    </esri:GraphicsLayer.Renderer>
+                </esri:GraphicsLayer>
+                
+            </esri:Map>
+        </Grid>
+    </Grid>
+</phone:PhoneApplicationPage>

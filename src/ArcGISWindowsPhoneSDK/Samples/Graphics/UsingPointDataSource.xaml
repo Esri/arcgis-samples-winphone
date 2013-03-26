@@ -1,0 +1,110 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="ArcGISWindowsPhoneSDK.UsingPointDataSource"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:esri="clr-namespace:ESRI.ArcGIS.Client;assembly=ESRI.ArcGIS.Client"
+    xmlns:esriSymbols="clr-namespace:ESRI.ArcGIS.Client.Symbols;assembly=ESRI.ArcGIS.Client"
+    xmlns:local="clr-namespace:ArcGISWindowsPhoneSDK"
+    SupportedOrientations="PortraitOrLandscape"
+    mc:Ignorable="d" d:DesignHeight="728" d:DesignWidth="480"
+    x:Name="PDSPage">
+
+    <phone:PhoneApplicationPage.Resources>
+        <local:PDSMainViewModel x:Key="MyViewModel" />
+    </phone:PhoneApplicationPage.Resources>
+    
+    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.Resources>
+            <esriSymbols:MarkerSymbol x:Key="SelectMarkerSymbol" >
+                <esriSymbols:MarkerSymbol.ControlTemplate>
+                    <ControlTemplate>
+                        <Ellipse x:Name="Element" Width="15" Height="15" Fill="Cyan" Stroke="Black" RenderTransformOrigin=".5,.5" >
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="SelectionStates">
+                                    <VisualState x:Name="Unselected" />
+                                    <VisualState x:Name="Selected">
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="Element" 
+												Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)"
+												To="Yellow" Duration="00:00:0.25"/>
+                                            <DoubleAnimation Storyboard.TargetName="scale" 
+												Storyboard.TargetProperty="ScaleX"
+												To="1.5" Duration="00:00:0.25"/>
+                                            <DoubleAnimation Storyboard.TargetName="scale" 
+												Storyboard.TargetProperty="ScaleY"
+												To="1.5" Duration="00:00:0.25"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Ellipse.RenderTransform>
+                                <ScaleTransform x:Name="scale" />
+                            </Ellipse.RenderTransform>
+                        </Ellipse>
+                    </ControlTemplate>
+                </esriSymbols:MarkerSymbol.ControlTemplate>
+            </esriSymbols:MarkerSymbol>
+        </Grid.Resources>
+        
+        <Grid Grid.Row="0" x:Name="TitleGrid">
+            <TextBlock x:Name="ApplicationName" Text="Using PointDataSource" Style="{StaticResource PhoneTextPageTitle1Style}"/>
+        </Grid>
+
+        <Grid Grid.Row="1" x:Name="ContentPanel">
+            <esri:Map x:Name="MyMap" WrapAround="True" >
+
+                <esri:ArcGISTiledMapServiceLayer ID="BaseMap"
+				Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer" />
+
+                <esri:GraphicsLayer>
+                    <esri:GraphicsLayer.GraphicsSource>
+                        <esri:PointDataSource
+                            ItemsSource="{Binding Source={StaticResource MyViewModel}, 
+                            Path=Instance.Data.PointsOfInterest}"
+                            XCoordinateBinding="{Binding X}"
+                            YCoordinateBinding="{Binding Y}"
+                            IsSelectedBinding="{Binding IsSelected}">
+                        </esri:PointDataSource>
+                    </esri:GraphicsLayer.GraphicsSource>
+
+                    <esri:GraphicsLayer.Clusterer>
+                        <esri:SimpleClusterer />
+                    </esri:GraphicsLayer.Clusterer>
+
+                    <esri:GraphicsLayer.Renderer>
+                        <esri:SimpleRenderer Symbol="{StaticResource SelectMarkerSymbol}" />
+                    </esri:GraphicsLayer.Renderer>
+
+                    <!--<esri:GraphicsLayer.MapTip>
+                        <Border Padding="4,2" Background="#99333333" CornerRadius="8" 
+                            DataContext="{Binding [DataContext]}">
+                            <TextBlock Text="{Binding Name}" Foreground="White" />
+                        </Border>
+                    </esri:GraphicsLayer.MapTip>-->
+                </esri:GraphicsLayer>
+
+            </esri:Map>
+        </Grid>
+    </Grid>
+
+    <!--Sample code showing usage of ApplicationBar-->
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="False">
+            <shell:ApplicationBarIconButton IconUri="/Images/DrawPoint.png" Text="Add Item"
+                                            Click="ApplicationBarIconButton_Click" />
+            <shell:ApplicationBarIconButton IconUri="/Images/GrayEraser.png" Text="Remove Item" 
+                                            Click="ApplicationBarIconButton_Click" />
+            <shell:ApplicationBarIconButton IconUri="/Images/Rotate.png" Text="Randomize" 
+                                            Click="ApplicationBarIconButton_Click" />
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+</phone:PhoneApplicationPage>

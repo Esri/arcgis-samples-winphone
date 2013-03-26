@@ -1,0 +1,223 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="ArcGISWindowsPhoneSDK.DynamicLayerThematic"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:esri="clr-namespace:ESRI.ArcGIS.Client;assembly=ESRI.ArcGIS.Client"
+    xmlns:esriToolkit="clr-namespace:ESRI.ArcGIS.Client.Toolkit;assembly=ESRI.ArcGIS.Client.Toolkit"
+    xmlns:esriToolkitPrimitives="clr-namespace:ESRI.ArcGIS.Client.Toolkit.Primitives;assembly=ESRI.ArcGIS.Client.Toolkit"
+    SupportedOrientations="PortraitOrLandscape"
+    mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480">
+
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBar.Buttons>
+                <shell:ApplicationBarIconButton x:Name="ShowLegend" IconUri="Images/List.png" Text="legend" Click="ShowLegendButton_Click" />
+                <shell:ApplicationBarIconButton x:Name="ShowThematicProperties" IconUri="Images/Edit.png" Text="properties" 
+                                                Click="ShowThematicPropertiesButton_Click" />
+            </shell:ApplicationBar.Buttons>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
+    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.Resources>
+            <Style x:Key="ListBoxButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="White" />
+                <Setter Property="Foreground" Value="Black" />
+                <Setter Property="BorderThickness" Value="0" />
+            </Style>
+        </Grid.Resources>
+
+        <Grid Grid.Row="0" x:Name="TitleGrid">
+            <TextBlock x:Name="ApplicationName" Text="Interactive Thematic Mapping" Style="{StaticResource PhoneTextPageTitle1Style}"/>
+        </Grid>
+
+        <Grid Grid.Row="1" x:Name="ContentPanel">
+            <esri:Map x:Name="MyMap" WrapAround="True" Extent="-15000000,2000000,-7000000,8000000" Grid.Column="0">
+                <esri:ArcGISTiledMapServiceLayer ID="BaseMapLayer" 
+                    Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer" />
+                <esri:FeatureLayer ID="StatesFeatureLayer" OutFields="*" DisplayName="USA Census - States"
+                    Url="http://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/dynamicLayer" 
+                               Initialized="FeatureLayer_Initialized">
+                    <esri:FeatureLayer.Source>
+                        <esri:LayerMapSource MapLayerID="3"/>
+                    </esri:FeatureLayer.Source>
+                </esri:FeatureLayer>
+            </esri:Map>
+
+            <esriToolkit:Legend x:Name="Legend" Map="{Binding ElementName=MyMap}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10"
+                         LayerIDs="StatesFeatureLayer"
+                         Background="White" Foreground="Black"
+                         Visibility="Collapsed" />
+
+            <esriToolkitPrimitives:ChildPage x:Name="ThematicPropertiesPage">
+                <ScrollViewer>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Set Thematic Properties" />
+                        <TextBlock Text="Base Symbol:" FontWeight="Bold" />
+                        <Button x:Name="BaseSymbolButton" Style="{StaticResource ListBoxButtonStyle}" 
+                                Click="PropertyButton_Click" Tag="BaseSymbol"
+                                Content="{Binding ElementName=ColorRampListBox, Path=SelectedItem.Content}" />
+                        <TextBlock Text="Start Color:" FontWeight="Bold" />
+                        <Button x:Name="StartColorButton" Style="{StaticResource ListBoxButtonStyle}" 
+                                Click="PropertyButton_Click" MinWidth="180" MinHeight="60" Tag="StartColor"
+                                Content="{Binding ElementName=StartColorListBox, Path=SelectedItem.Content}" />
+                        <TextBlock Text="End Color:" FontWeight="Bold" />
+                        <Button x:Name="EndColorButton" Style="{StaticResource ListBoxButtonStyle}" 
+                            Click="PropertyButton_Click" MinWidth="180" MinHeight="60" Tag="EndColor"
+                                Content="{Binding ElementName=EndColorListBox, Path=SelectedItem.Content}" />
+                        <TextBlock Text="Algorithm:" FontWeight="Bold" />
+                        <Button x:Name="AlgorithmButton" Style="{StaticResource ListBoxButtonStyle}" 
+                                Click="PropertyButton_Click" MinWidth="180" MinHeight="60" Tag="Algorithm" 
+                                Content="{Binding ElementName=AlgorithmListBox, Path=SelectedItem}" />
+                        <TextBlock Text="Classification Field:" FontWeight="Bold" />
+                        <Button x:Name="ClassificationFieldButton" Style="{StaticResource ListBoxButtonStyle}" 
+                                Click="PropertyButton_Click" MinWidth="180" MinHeight="60" Tag="ClassificationField"
+                                Content="{Binding ElementName=ClassificationFieldListBox, Path=SelectedItem.Name}" />
+                        <TextBlock Text="Method:" FontWeight="Bold" />
+                        <Button x:Name="ClassificationMethodButton" Style="{StaticResource ListBoxButtonStyle}" 
+                                Click="PropertyButton_Click" MinWidth="180" MinHeight="60" Tag="ClassificationMethod"
+                                Content="{Binding ElementName=ClassificationMethodListBox, Path=SelectedItem}" />
+                        <TextBlock Text="Interval:" FontWeight="Bold" />
+                        <Button x:Name="IntervalButton" Style="{StaticResource ListBoxButtonStyle}" 
+                                Click="PropertyButton_Click" MinWidth="180" MinHeight="60" Tag="Interval"
+                                Content="{Binding ElementName=IntervalListBox, Path=SelectedItem}" />
+                        <TextBlock Text="Break Count:" FontWeight="Bold" />
+                        <TextBox x:Name="BreakCountTB" Text="5" HorizontalAlignment="Stretch" />
+                        <TextBlock Text="Normalization Type:" FontWeight="Bold" />
+                        <Button x:Name="NormalizationTypeButton" Style="{StaticResource ListBoxButtonStyle}" 
+                                Click="PropertyButton_Click" MinWidth="180" MinHeight="60" Tag="NormalizationType"
+                                Content="{Binding ElementName=NormalizationTypeListBox, Path=SelectedItem}" />
+                        <TextBlock Text="Normalization Field:" FontWeight="Bold" />
+                        <Button x:Name="NormalizationFieldButton" Style="{StaticResource ListBoxButtonStyle}" 
+                                Click="PropertyButton_Click" MinWidth="180" MinHeight="60" Tag="NormalizationField"
+                                Content="{Binding ElementName=NormalizationFieldListBox, Path=SelectedItem.Name}" />                     
+                        <Button x:Name="RenderButton" Content="Apply" Click="RenderButton_Click" />
+                    </StackPanel>
+                </ScrollViewer>
+            </esriToolkitPrimitives:ChildPage>
+
+            <esriToolkitPrimitives:ChildPage x:Name="ColorRampChoicesPage" IsOpen="False">
+                <ListBox x:Name="ColorRampListBox" FontSize="34" 
+                         SelectionChanged="ColorRampListBox_SelectionChanged" >
+                    <ListBoxItem Content="Red" Background="Red" Margin="5" IsSelected="True" />
+                    <ListBoxItem Content="Orange" Background="Orange" Margin="5" />
+                    <ListBoxItem Content="Yellow" Background="Yellow" Margin="5" />
+                    <ListBoxItem Content="Green" Background="Green" Margin="5" />
+                    <ListBoxItem Content="Blue" Background="Blue" Margin="5" />
+                    <ListBoxItem Content="Purple" Background="Purple" Margin="5" />
+                    <ListBoxItem Content="Magenta" Background="Magenta" Margin="5" />
+                    <ListBoxItem Content="Black" Background="Black" Margin="5" Foreground="White" />
+                    <ListBoxItem Content="White" Background="White" Margin="5" Foreground="Black" />
+                    <ListBoxItem Content="Brown" Background="Brown" Margin="5" />
+                    <ListBoxItem Content="Cyan" Background="Cyan" Margin="5" />
+                </ListBox>
+            </esriToolkitPrimitives:ChildPage>            
+            
+            <esriToolkitPrimitives:ChildPage x:Name="StartColorChoicesPage">
+                <ListBox x:Name="StartColorListBox" FontSize="34" 
+                         SelectionChanged="StartColorListBox_SelectionChanged" >
+                    <ListBoxItem Content="Red" Background="Red" Margin="5" IsSelected="True"/>
+                    <ListBoxItem Content="Orange" Background="Orange" Margin="5" />
+                    <ListBoxItem Content="Yellow" Background="Yellow" Margin="5" />
+                    <ListBoxItem Content="Green" Background="Green" Margin="5" />
+                    <ListBoxItem Content="Blue" Background="Blue" Margin="5" />
+                    <ListBoxItem Content="Purple" Background="Purple" Margin="5" />
+                    <ListBoxItem Content="Magenta" Background="Magenta" Margin="5" />
+                    <ListBoxItem Content="Black" Background="Black" Margin="5" Foreground="White" />
+                    <ListBoxItem Content="White" Background="White" Margin="5" Foreground="Black" />
+                    <ListBoxItem Content="Brown" Background="Brown" Margin="5" />
+                    <ListBoxItem Content="Cyan" Background="Cyan" Margin="5" />
+                </ListBox>
+            </esriToolkitPrimitives:ChildPage>
+
+            <esriToolkitPrimitives:ChildPage x:Name="EndColorChoicesPage">
+                <ListBox x:Name="EndColorListBox" FontSize="34" 
+                         SelectionChanged="EndColorListBox_SelectionChanged" >
+                    <ListBoxItem Content="Red" Background="Red" Margin="5" />
+                    <ListBoxItem Content="Orange" Background="Orange" Margin="5" />
+                    <ListBoxItem Content="Yellow" Background="Yellow" Margin="5" />
+                    <ListBoxItem Content="Green" Background="Green" Margin="5" />
+                    <ListBoxItem Content="Blue" Background="Blue" Margin="5" />
+                    <ListBoxItem Content="Purple" Background="Purple" Margin="5" />
+                    <ListBoxItem Content="Magenta" Background="Magenta" Margin="5" IsSelected="True" />
+                    <ListBoxItem Content="Black" Background="Black" Margin="5" Foreground="White" />
+                    <ListBoxItem Content="White" Background="White" Margin="5" Foreground="Black" />
+                    <ListBoxItem Content="Brown" Background="Brown" Margin="5" />
+                    <ListBoxItem Content="Cyan" Background="Cyan" Margin="5" />
+                </ListBox>
+            </esriToolkitPrimitives:ChildPage>
+
+            <esriToolkitPrimitives:ChildPage x:Name="AlgorithmChoicesPage">
+                <ListBox x:Name="AlgorithmListBox" FontSize="34" SelectionChanged="PageListBox_SelectionChanged">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </esriToolkitPrimitives:ChildPage>
+
+            <esriToolkitPrimitives:ChildPage x:Name="ClassificationFieldChoicesPage">
+                <ListBox x:Name="ClassificationFieldListBox" FontSize="34" SelectionChanged="PageListBox_SelectionChanged">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </esriToolkitPrimitives:ChildPage>
+
+            <esriToolkitPrimitives:ChildPage x:Name="ClassificationMethodChoicesPage">
+                <ListBox x:Name="ClassificationMethodListBox" FontSize="34" 
+                         Tag="ClassificationMethod" SelectionChanged="PageListBox_SelectionChanged">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </esriToolkitPrimitives:ChildPage>
+
+            <esriToolkitPrimitives:ChildPage x:Name="IntervalChoicesPage">
+                <ListBox x:Name="IntervalListBox" FontSize="34" SelectionChanged="PageListBox_SelectionChanged">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </esriToolkitPrimitives:ChildPage>
+
+            <esriToolkitPrimitives:ChildPage x:Name="NormalizationTypeChoicesPage">
+                <ListBox x:Name="NormalizationTypeListBox" FontSize="34" 
+                         Tag="NormalizationType" SelectionChanged="PageListBox_SelectionChanged">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </esriToolkitPrimitives:ChildPage>
+
+            <esriToolkitPrimitives:ChildPage x:Name="NormalizationFieldChoicesPage">
+                <ListBox x:Name="NormalizationFieldListBox" FontSize="34" SelectionChanged="PageListBox_SelectionChanged">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </esriToolkitPrimitives:ChildPage>
+
+        </Grid>
+    </Grid>
+</phone:PhoneApplicationPage>

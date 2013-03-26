@@ -1,0 +1,66 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="ArcGISWindowsPhoneSDK.GeoRSS"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:esri="clr-namespace:ESRI.ArcGIS.Client;assembly=ESRI.ArcGIS.Client"
+    xmlns:esriSymbols="clr-namespace:ESRI.ArcGIS.Client.Symbols;assembly=ESRI.ArcGIS.Client"
+    xmlns:esriToolkit="clr-namespace:ESRI.ArcGIS.Client.Toolkit;assembly=ESRI.ArcGIS.Client.Toolkit"
+    SupportedOrientations="PortraitOrLandscape"
+    mc:Ignorable="d" d:DesignHeight="728" d:DesignWidth="480">
+
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBar.Buttons>
+                <shell:ApplicationBarIconButton x:Name="ShowRSSEntryButton" IconUri="Images/Dialog.png" Click="ShowRSSEntryButton_Click" Text="rss feed" />
+            </shell:ApplicationBar.Buttons>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
+    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.Resources>
+            <esriSymbols:PictureMarkerSymbol x:Name="QuakePictureSymbol" Source="/Images/quake-30x30.png" />
+        </Grid.Resources>
+        
+        <Grid Grid.Row="0" x:Name="TitleGrid">
+            <TextBlock x:Name="ApplicationName" Text="Show GeoRSS Feed" Style="{StaticResource PhoneTextPageTitle1Style}"/>
+        </Grid>
+
+        <Grid Grid.Row="1" x:Name="ContentPanel">
+            <esri:Map x:Name="MyMap" WrapAround="True" Grid.Row="1" MapGesture="MyMap_MapGesture">
+                <esri:ArcGISTiledMapServiceLayer ID="PhysicalTiledLayer" 
+                    Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer"/>
+                <esri:GraphicsLayer ID="MyGraphicsLayer" />
+            </esri:Map>
+           
+            <esriToolkit:InfoWindow x:Name="MyInfoWindow" 
+                                    Padding="2"
+                                    CornerRadius="15" 
+                                    Background="LightYellow"
+                                    Foreground="Black"
+                                    Map="{Binding ElementName=MyMap}" >
+                <TextBlock Text="{Binding Attributes[MAGNITUDE]}" FontSize="18" />
+            </esriToolkit:InfoWindow>
+
+            <Grid Name="RSSFeedGrid" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,15,15,100" >
+                <Rectangle Fill="{StaticResource PhoneBackgroundBrush}" RadiusX="5" RadiusY="5" Margin="10" />
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="20,20,20,20">
+                    <TextBlock FontWeight="Bold" HorizontalAlignment="Center" Text="Enter RSS Feed" Margin="2" />
+                    <TextBox x:Name="FeedLocationTextBox" Width="500" HorizontalAlignment="Right" Margin="0,2,0,2" 
+                             Text="http://earthquake.usgs.gov/eqcenter/catalogs/eqs7day-M2.5.xml" />
+                    <Button Name="FetchRssButton" Content="Fetch RSS" Width="175" Margin="0,5,0,10" 
+                            HorizontalAlignment="Center" Click="FetchRssButton_Click" />
+                </StackPanel>
+            </Grid>
+            
+        </Grid>
+    </Grid>
+</phone:PhoneApplicationPage>

@@ -1,0 +1,123 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="ArcGISWindowsPhoneSDK.DynamicLayerXAML"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:esri="clr-namespace:ESRI.ArcGIS.Client;assembly=ESRI.ArcGIS.Client"
+    xmlns:esriSymbols="clr-namespace:ESRI.ArcGIS.Client.Symbols;assembly=ESRI.ArcGIS.Client"
+    xmlns:esriGeometry="clr-namespace:ESRI.ArcGIS.Client.Geometry;assembly=ESRI.ArcGIS.Client"
+    SupportedOrientations="PortraitOrLandscape"
+    mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480">
+
+    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" x:Name="TitleGrid">
+            <TextBlock x:Name="ApplicationName" Text="Dynamic Layers in XAML" Style="{StaticResource PhoneTextPageTitle1Style}"/>
+        </Grid>
+
+        <Grid Grid.Row="1" x:Name="ContentPanel">
+            <esri:Map x:Name="MyMap" >
+                <esri:Map.Extent>
+                    <esriGeometry:Envelope XMin="-3170138" YMin="-1823795" XMax="2850785" YMax="1766663">
+                        <esriGeometry:Envelope.SpatialReference>
+                            <esriGeometry:SpatialReference WKID="102009"/>
+                        </esriGeometry:Envelope.SpatialReference>
+                    </esriGeometry:Envelope>
+                </esri:Map.Extent>
+
+                <esri:ArcGISDynamicMapServiceLayer ID="USA"				
+				Url="http://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer" 
+                VisibleLayers="0,2,4">
+                    <esri:ArcGISDynamicMapServiceLayer.LayerDefinitions>
+                        <esri:LayerDefinition LayerID="0" Definition="CAPITAL = 'Y'" />
+                    </esri:ArcGISDynamicMapServiceLayer.LayerDefinitions>
+                    <esri:ArcGISDynamicMapServiceLayer.LayerDrawingOptions>
+                        <esri:LayerDrawingOptionsCollection>
+                            <esri:LayerDrawingOptions LayerID="0" ShowLabels="True">
+                                <esri:LayerDrawingOptions.Renderer>
+                                    <esri:SimpleRenderer>
+                                        <esriSymbols:SimpleMarkerSymbol Color="Red" Size="10" Style="Diamond" />
+                                    </esri:SimpleRenderer>
+                                </esri:LayerDrawingOptions.Renderer>
+                            </esri:LayerDrawingOptions>
+                            <esri:LayerDrawingOptions LayerID="2">
+                                <esri:LayerDrawingOptions.Renderer>
+                                    <esri:ClassBreaksRenderer Field="POP2000">
+                                        <esri:ClassBreakInfo MaximumValue="1000000" MinimumValue="0">
+                                            <esriSymbols:SimpleFillSymbol 
+											BorderThickness="1" 
+											Fill="#74E01B" 
+											BorderBrush="Transparent" />
+                                        </esri:ClassBreakInfo>
+                                        <esri:ClassBreakInfo MaximumValue="2000000">
+                                            <esriSymbols:SimpleFillSymbol 
+											BorderThickness="1" 
+											Fill="#1BE025" 
+											BorderBrush="Transparent" />
+                                        </esri:ClassBreakInfo>
+                                        <esri:ClassBreakInfo MaximumValue="5000000">
+                                            <esriSymbols:SimpleFillSymbol 
+											BorderThickness="1" 
+											Fill="#1BE087" 
+											BorderBrush="Transparent" />
+                                        </esri:ClassBreakInfo>
+                                        <esri:ClassBreakInfo MaximumValue="10000000">
+                                            <esriSymbols:SimpleFillSymbol 
+											BorderThickness="1" 
+											Fill="#D6E01B" 
+											BorderBrush="Transparent" />
+                                        </esri:ClassBreakInfo>
+                                        <esri:ClassBreakInfo MaximumValue="40000000">
+                                            <esriSymbols:SimpleFillSymbol 
+											BorderThickness="1" 
+											Fill="#E0871B" 
+											BorderBrush="Transparent" />
+                                        </esri:ClassBreakInfo>
+                                    </esri:ClassBreaksRenderer>
+                                </esri:LayerDrawingOptions.Renderer>
+                            </esri:LayerDrawingOptions>
+                            <esri:LayerDrawingOptions LayerID="4">
+                                <esri:LayerDrawingOptions.Renderer>
+                                    <esri:SimpleRenderer>
+                                        <esriSymbols:SimpleFillSymbol Fill="Blue" BorderBrush="Black" />
+                                    </esri:SimpleRenderer>
+                                </esri:LayerDrawingOptions.Renderer>
+                            </esri:LayerDrawingOptions>
+                        </esri:LayerDrawingOptionsCollection>
+                    </esri:ArcGISDynamicMapServiceLayer.LayerDrawingOptions>
+                    <esri:ArcGISDynamicMapServiceLayer.DynamicLayerInfos>
+                        <esri:DynamicLayerInfoCollection>
+                            <esri:DynamicLayerInfo ID="0">
+                                <esri:DynamicLayerInfo.Source>
+                                    <esri:LayerMapSource MapLayerID="0" />
+                                </esri:DynamicLayerInfo.Source>
+                            </esri:DynamicLayerInfo>
+                            <esri:DynamicLayerInfo ID="4">
+                                <esri:DynamicLayerInfo.Source>
+                                    <esri:LayerDataSource>
+                                        <esri:LayerDataSource.DataSource>
+                                            <esri:TableDataSource 
+                                            WorkspaceID="MyDatabaseWorkspaceIDSSR2" 
+                                            DataSourceName="ss6.gdb.Lakes" />
+                                        </esri:LayerDataSource.DataSource>
+                                    </esri:LayerDataSource>
+                                </esri:DynamicLayerInfo.Source>
+                            </esri:DynamicLayerInfo>
+                            <esri:DynamicLayerInfo ID="2">
+                                <esri:DynamicLayerInfo.Source>
+                                    <esri:LayerMapSource MapLayerID="2" />
+                                </esri:DynamicLayerInfo.Source>
+                            </esri:DynamicLayerInfo>
+                        </esri:DynamicLayerInfoCollection>
+                    </esri:ArcGISDynamicMapServiceLayer.DynamicLayerInfos>
+                </esri:ArcGISDynamicMapServiceLayer>
+            </esri:Map>
+        </Grid>
+    </Grid>
+</phone:PhoneApplicationPage>

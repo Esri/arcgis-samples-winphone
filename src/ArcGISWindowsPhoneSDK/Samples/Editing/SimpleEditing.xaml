@@ -1,0 +1,83 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="ArcGISWindowsPhoneSDK.SimpleEditing"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:esri="clr-namespace:ESRI.ArcGIS.Client;assembly=ESRI.ArcGIS.Client"
+    xmlns:esriSymbols="clr-namespace:ESRI.ArcGIS.Client.Symbols;assembly=ESRI.ArcGIS.Client"
+    SupportedOrientations="PortraitOrLandscape"
+    mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480">
+
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBar.Buttons>
+                <shell:ApplicationBarIconButton x:Name="DrawPointButton" IconUri="Images/DrawPoint.png" Text="Add Point" 
+                                                Click="DrawPointButton_Click" />
+            </shell:ApplicationBar.Buttons>
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem x:Name="StopGraphicsMenuItem" Text="Stop Editing" Click="StopGraphicsMenuItem_Click" />
+            </shell:ApplicationBar.MenuItems>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
+    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}" >
+        
+        <Grid.Resources>
+            <esri:Editor x:Key="MyEditor" 
+                         LayerIDs="ThreatPoints"
+                         ContinuousMode="True"
+                         GeometryServiceUrl="http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer"
+                         EditCompleted="Editor_EditCompleted"
+                             />
+            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+            <SolidColorBrush x:Key="GrayBrush" Color="Gray" />
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" x:Name="TitleGrid">
+            <TextBlock x:Name="ApplicationName" Text="Simple Editing" Style="{StaticResource PhoneTextPageTitle1Style}"/>
+        </Grid>
+
+        <Grid Grid.Row="1" x:Name="ContentPanel">
+            <esri:Map x:Name="MyMap" Extent="-13054165,3850112,-13027133,3863559" >
+                <esri:ArcGISTiledMapServiceLayer ID="BaseLayer" 
+				    Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer" />
+                <esri:FeatureLayer ID="ThreatPoints"  
+                               Url="http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/HomelandSecurity/operations/FeatureServer/0"                  
+                               AutoSave="False" 
+                               Mode="OnDemand" 
+                               ValidateEdits="True" 
+                               DisableClientCaching="True"
+                               OutFields="*"    />
+            </esri:Map>
+            
+            <Grid x:Name="CoverGrid" Background="#66000000" Visibility="Collapsed" /> 
+
+            <Grid x:Name="AttributeGrid" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5,15,5,5" Visibility="Collapsed" >
+                <Rectangle Stroke="Gray"  RadiusX="10" RadiusY="10" Fill="#66FFFFFF" Margin="0" />                
+                <Rectangle Fill="#CC000000" Stroke="DarkGray" RadiusX="5" RadiusY="5" Margin="5" />
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="10">
+                    <TextBlock Text="Enter Threat Info" FontSize="{StaticResource PhoneFontSizeMediumLarge}" FontWeight="Bold" HorizontalAlignment="Center" Foreground="White" />
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Left" >
+                        <ListBox x:Name="ThreatListBox" Width="350" Margin="10" FontSize="{StaticResource PhoneFontSizeMediumLarge}" >
+                            
+                        </ListBox>                       
+                        <TextBox x:Name="DescriptionTextBox" Text="Description" Width="350"  
+                                 Margin="10" FontSize="{StaticResource PhoneFontSizeMediumLarge}" Background="White"
+                                 Foreground="{StaticResource GrayBrush}" GotFocus="Description_GotFocus" />
+                    </StackPanel>
+                    <Button x:Name="ApplyButton" Content="OK" Width="100" FontSize="{StaticResource PhoneFontSizeLarge}"
+                            HorizontalAlignment="Center" Click="ApplyButton_Click" Margin="0,5,0,0" />
+                </StackPanel>
+            </Grid>
+        </Grid>      
+
+    </Grid>
+</phone:PhoneApplicationPage>

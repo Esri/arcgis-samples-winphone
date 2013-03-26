@@ -1,0 +1,52 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="ArcGISWindowsPhoneSDK.ArcGISWebClientSimple"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:esri="clr-namespace:ESRI.ArcGIS.Client;assembly=ESRI.ArcGIS.Client"
+    xmlns:toolkit="clr-namespace:ESRI.ArcGIS.Client.Toolkit;assembly=ESRI.ArcGIS.Client.Toolkit"
+    xmlns:datasources="clr-namespace:ESRI.ArcGIS.Client.Toolkit.DataSources;assembly=ESRI.ArcGIS.Client.Toolkit.DataSources"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:esriSymbols="clr-namespace:ESRI.ArcGIS.Client.Symbols;assembly=ESRI.ArcGIS.Client"
+    xmlns:esriGeometry="clr-namespace:ESRI.ArcGIS.Client.Geometry;assembly=ESRI.ArcGIS.Client"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" d:DesignHeight="800" d:DesignWidth="480">
+
+    <Grid x:Name="LayoutRoot" Background="Black">
+
+        <esri:Map x:Name="MyMap"/>
+        <Grid x:Name="ControlPanel" Background="#44444444">
+            <Grid.Resources>
+                <!-- Data template bound to Name property in list of map services -->
+                <DataTemplate x:Key="ServiceTemplate">
+                    <TextBlock Text="{Binding Name}" />
+                </DataTemplate>
+            </Grid.Resources>
+            <StackPanel Orientation="Vertical">
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="3*" x:Name="MySvrTextBoxGridColumn" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Server Url:" VerticalAlignment="Center" FontWeight="Bold" Grid.Column="0" Margin="5,50,5,0" 
+                               HorizontalAlignment="Right" />
+                    <TextBlock x:Name="ApplicationName" Text="Service Areas" Style="{StaticResource PhoneTextPageTitle1Style}" Grid.ColumnSpan="2" Margin="6,6,328,44" Width="146" />
+                </Grid>
+                <TextBox x:Name="MySvrTextBox" Text="http://services.arcgisonline.com/arcgis/rest/services" Width="480" />
+                <Button Content="Get Services" Click="GetServicesButton_Click"/>
+                <Border BorderBrush="Black" BorderThickness="1" />
+                <Grid>
+                    <!-- TreeView to list map services-->
+                    <ListBox BorderThickness="0" x:Name="MySvcTreeView" SelectionMode="Single"  SelectionChanged="MySvcTreeView_SelectedItemChanged"
+                            ItemTemplate="{StaticResource ServiceTemplate}" Visibility="Collapsed"/>
+                    <TextBlock x:Name="NoMapServicesTextBlock" Text="No Map Services Available" Margin="10" />
+                </Grid>
+            </StackPanel>
+        </Grid>
+        <Button x:Name="HideShowButton" Click="Button_Click" Background="#44444444" HorizontalAlignment="Right" VerticalAlignment="Top" Height="70">Hide</Button>
+    </Grid>
+</phone:PhoneApplicationPage>

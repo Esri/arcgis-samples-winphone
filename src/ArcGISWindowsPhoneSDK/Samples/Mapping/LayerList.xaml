@@ -1,0 +1,63 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="ArcGISWindowsPhoneSDK.LayerList"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:esri="clr-namespace:ESRI.ArcGIS.Client;assembly=ESRI.ArcGIS.Client"
+    SupportedOrientations="PortraitOrLandscape"
+    mc:Ignorable="d" d:DesignHeight="728" d:DesignWidth="480">
+
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBar.Buttons>
+                <shell:ApplicationBarIconButton IconUri="Images/List.png" Click="Menu_List_Click" Text="List" />
+            </shell:ApplicationBar.Buttons>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
+    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" x:Name="TitleGrid">
+            <TextBlock x:Name="ApplicationName" Text="Layer List" Style="{StaticResource PhoneTextPageTitle1Style}"/>
+        </Grid>
+
+        <Grid Grid.Row="1" x:Name="ContentPanel">
+            <esri:Map x:Name="MyMap" WrapAround="True" Extent="-15000000,3600000,-11000000,5300000" Background="White">
+                <esri:ArcGISTiledMapServiceLayer ID="ShadedRelief" 
+                    Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer"/>
+                <esri:ArcGISDynamicMapServiceLayer ID="California" Opacity="0.4" VisibleLayers="8,10"
+                    Url="http://maverick.arcgis.com/ArcGIS/rest/services/California/MapServer" />
+                <esri:FeatureLayer ID="Earthquakes" Mode="OnDemand"
+                    Url="http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Earthquakes/EarthquakesFromLastSevenDays/MapServer/0" />
+            </esri:Map>
+
+            <Border x:Name="LayerListBorder" Background="#88000000" BorderThickness="3" BorderBrush="DarkGray" CornerRadius="5"
+                 HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Visible"
+                 Margin="15" Padding="0 10 0 0">
+                <ItemsControl ItemsSource="{Binding ElementName=MyMap, Path=Layers}" Margin="0 0 0 0">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="0 -30 0 0">
+                                <CheckBox IsChecked="{Binding Visible, Mode=TwoWay}" Margin="0 30 0 0"/>
+                                <Slider Orientation="Horizontal" Minimum="0" Maximum="1"
+                                        Value="{Binding Opacity, Mode=TwoWay}" Width="100" Height="100"
+                                        VerticalAlignment="Center" Margin="-10 30 0 -30" Padding="0 0 0 0"
+                                        Background="{StaticResource PhoneBackgroundBrush}" Foreground="{StaticResource PhoneAccentBrush}"/>
+
+                                <TextBlock Text="{Binding ID, Mode=OneWay}" Margin="15 30 10 0" VerticalAlignment="Center" 
+                                           FontSize="{StaticResource PhoneFontSizeNormal}" IsHitTestVisible="False"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Border>
+        </Grid>
+    </Grid>
+</phone:PhoneApplicationPage>

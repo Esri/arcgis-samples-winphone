@@ -1,0 +1,285 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="ArcGISWindowsPhoneSDK.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"   
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="PortraitOrLandscape"  
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="696" 
+    shell:SystemTray.IsVisible="True">
+
+    <phone:PhoneApplicationPage.Resources>
+        <DataTemplate x:Name="ListBoxItemDataTemplate">
+            <StackPanel x:Name="DataTemplateStackPanel" Orientation="Horizontal">
+                <Image x:Name="ItemImageDark" Source="Images/ArrowImg.png" Height="48" Width="48" VerticalAlignment="Center" Margin="0" Visibility="{StaticResource PhoneDarkThemeVisibility}"/>
+                <Image x:Name="ItemImageLight" Source="Images/ArrowImgLight.png" Height="48" Width="48" VerticalAlignment="Center" Margin="0" Visibility="{StaticResource PhoneLightThemeVisibility}"/>
+                <TextBlock x:Name="ItemText" Text="{Binding Title}" Margin="10,0,0,0" VerticalAlignment="Center" 
+                               Style="{StaticResource PhoneTextLargeStyle}"/>
+            </StackPanel>
+        </DataTemplate>
+    </phone:PhoneApplicationPage.Resources>
+
+    <!--Data context is set to sample data above and LayoutRoot contains the root grid where all other page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+
+            <Style TargetType="ListBoxItem" x:Name="CategoryListBoxItemStyle" >
+                <Setter Property="Padding" Value="8" />
+                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                <Setter Property="VerticalContentAlignment" Value="Top" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="TabNavigation" Value="Local" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListBoxItem">
+                            <Grid Background="{TemplateBinding Background}">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates" >
+                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="MouseOver">
+                                            <!--<Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="fillColor" 
+                                                                 Storyboard.TargetProperty="Opacity" 
+                                                                 Duration="0" To=".45" />
+                                            </Storyboard>-->
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled" />
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Rectangle x:Name="fillColor" Opacity="0" Fill="{StaticResource PhoneAccentBrush}" 
+                                           IsHitTestVisible="True" 
+                                           RadiusX="1" RadiusY="1" 
+                                           MouseLeftButtonDown="fillColor_MouseLeftButtonDown"
+                                           ManipulationCompleted="fillColor_ManipulationCompleted"  />
+                                <ContentPresenter x:Name="contentPresenter" Content="{TemplateBinding Content}" 
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                                  Margin="{TemplateBinding Padding}"  />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Name="MenuButtonStyle" TargetType="Button" >
+                <Setter Property="Margin" Value="0,0,10,10" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Grid>
+                                <Rectangle Width="140" Height="120" Fill="{StaticResource PhoneAccentBrush}" />
+                                <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" 
+                                                  VerticalAlignment="Center" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Name="MenuTextStyle" TargetType="TextBlock" >
+                <Setter Property="MaxWidth" Value="135" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="TextWrapping" Value="Wrap" />
+                <Setter Property="TextAlignment" Value="Center" />
+                <Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilyNormal}"/>
+                <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMedium}"/>
+                <Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
+            </Style>
+        </Grid.Resources>
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" >
+            <TextBlock x:Name="ApplicationTitle" Text="ArcGIS Runtime SDK for Windows Phone" 
+                       Style="{StaticResource PhoneTextPageTitle1Style}" Margin="10,0,0,0"/>
+            <TextBlock x:Name="ListTitle" Text="" Style="{StaticResource PhoneTextPageTitle3Style}"/>
+        </StackPanel>
+
+        <!--ContentPanel contains ListBox and ListBox ItemTemplate. Place additional content here-->
+        <Grid x:Name="ContentPanel" Grid.Row="1">
+            <ListBox x:Name="ListBox_Mapping" ItemsSource="{Binding Items}" MouseLeftButtonUp="ListBoxCategory_MouseLeftButtonUp" 
+                     Style="{StaticResource PhoneListBox}" Tag="Mapping" ItemTemplate="{StaticResource ListBoxItemDataTemplate}" 
+                     Visibility="Collapsed" />
+
+            <ListBox x:Name="ListBox_Graphics" ItemsSource="{Binding Items}" MouseLeftButtonUp="ListBoxCategory_MouseLeftButtonUp" 
+                     Style="{StaticResource PhoneListBox}" Tag="Graphics" ItemTemplate="{StaticResource ListBoxItemDataTemplate}" 
+                     Visibility="Collapsed" Opacity="1" />
+
+            <ListBox x:Name="ListBox_Query" ItemsSource="{Binding Items}" MouseLeftButtonUp="ListBoxCategory_MouseLeftButtonUp" 
+                     Style="{StaticResource PhoneListBox}" Tag="Query" ItemTemplate="{StaticResource ListBoxItemDataTemplate}" 
+                     Visibility="Collapsed" Opacity="1" />
+
+            <ListBox x:Name="ListBox_FeatureLayers" ItemsSource="{Binding Items}" MouseLeftButtonUp="ListBoxCategory_MouseLeftButtonUp" 
+                     Style="{StaticResource PhoneListBox}" Tag="Feature Layers" ItemTemplate="{StaticResource ListBoxItemDataTemplate}" 
+                     Visibility="Collapsed" Opacity="1" />
+
+            <ListBox x:Name="ListBox_Editing" ItemsSource="{Binding Items}" MouseLeftButtonUp="ListBoxCategory_MouseLeftButtonUp" 
+                     Style="{StaticResource PhoneListBox}" Tag="Editing" ItemTemplate="{StaticResource ListBoxItemDataTemplate}" 
+                     Visibility="Collapsed" Opacity="1" />
+                     
+            <ListBox x:Name="ListBox_Address" ItemsSource="{Binding Items}" MouseLeftButtonUp="ListBoxCategory_MouseLeftButtonUp" 
+                     Style="{StaticResource PhoneListBox}" Tag="Address Matching" ItemTemplate="{StaticResource ListBoxItemDataTemplate}" 
+                     Visibility="Collapsed" Opacity="1" />
+
+            <ListBox x:Name="ListBox_Network" ItemsSource="{Binding Items}" MouseLeftButtonUp="ListBoxCategory_MouseLeftButtonUp" 
+                     Style="{StaticResource PhoneListBox}" Tag="Network" ItemTemplate="{StaticResource ListBoxItemDataTemplate}" 
+                     Visibility="Collapsed" Opacity="1" />
+
+            <ListBox x:Name="ListBox_Geoprocessing" ItemsSource="{Binding Items}" MouseLeftButtonUp="ListBoxCategory_MouseLeftButtonUp" 
+                     Style="{StaticResource PhoneListBox}" Tag="Geoprocessing" ItemTemplate="{StaticResource ListBoxItemDataTemplate}" 
+                     Visibility="Collapsed" Opacity="1" />
+
+            <ListBox x:Name="ListBox_Utilities" ItemsSource="{Binding Items}" MouseLeftButtonUp="ListBoxCategory_MouseLeftButtonUp" 
+                     Style="{StaticResource PhoneListBox}" Tag="Utilities" ItemTemplate="{StaticResource ListBoxItemDataTemplate}" 
+                     Visibility="Collapsed" Opacity="1" />
+
+            <ListBox x:Name="ListBox_BingMaps" ItemsSource="{Binding Items}" MouseLeftButtonUp="ListBoxCategory_MouseLeftButtonUp" 
+                     Style="{StaticResource PhoneListBox}" Tag="Bing Maps" ItemTemplate="{StaticResource ListBoxItemDataTemplate}" 
+                     Visibility="Collapsed" Opacity="1" />
+
+            <ListBox x:Name="ListBox_ImageServices" ItemsSource="{Binding Items}" MouseLeftButtonUp="ListBoxCategory_MouseLeftButtonUp" 
+                     Style="{StaticResource PhoneListBox}" Tag="Image Services" ItemTemplate="{StaticResource ListBoxItemDataTemplate}" 
+                     Visibility="Collapsed" Opacity="1" />
+
+            <ListBox x:Name="ListBox_Json" ItemsSource="{Binding Items}" MouseLeftButtonUp="ListBoxCategory_MouseLeftButtonUp" 
+                     Style="{StaticResource PhoneListBox}" Tag="JSON" ItemTemplate="{StaticResource ListBoxItemDataTemplate}" 
+                     Visibility="Collapsed" Opacity="1" />
+
+            <ListBox x:Name="ListBox_ToolkitDataSources" ItemsSource="{Binding Items}" MouseLeftButtonUp="ListBoxCategory_MouseLeftButtonUp" 
+                     Style="{StaticResource PhoneListBox}" Tag="Toolkit Data Sources" ItemTemplate="{StaticResource ListBoxItemDataTemplate}" 
+                     Visibility="Collapsed" Opacity="1" />
+
+            <ListBox x:Name="ListBox_WebMaps" ItemsSource="{Binding Items}" MouseLeftButtonUp="ListBoxCategory_MouseLeftButtonUp" 
+                     Style="{StaticResource PhoneListBox}" Tag="WebMaps" ItemTemplate="{StaticResource ListBoxItemDataTemplate}" 
+                     Visibility="Collapsed" Opacity="1" />
+
+            <ListBox x:Name="ListBox_Toolkit" ItemsSource="{Binding Items}" MouseLeftButtonUp="ListBoxCategory_MouseLeftButtonUp" 
+                     Style="{StaticResource PhoneListBox}" Tag="Toolkit Controls" ItemTemplate="{StaticResource ListBoxItemDataTemplate}" 
+                     Visibility="Collapsed" Opacity="1" />
+
+            <ListBox x:Name="ListBox_Portal" ItemsSource="{Binding Items}" MouseLeftButtonUp="ListBoxCategory_MouseLeftButtonUp" 
+                     Style="{StaticResource PhoneListBox}" Tag="Portal" ItemTemplate="{StaticResource ListBoxItemDataTemplate}" 
+                     Visibility="Collapsed" Opacity="1" />
+
+            <ListBox x:Name="ListBox_TimeAware" ItemsSource="{Binding Items}" MouseLeftButtonUp="ListBoxCategory_MouseLeftButtonUp" 
+                     Style="{StaticResource PhoneListBox}" Tag="Time-Aware Layers" ItemTemplate="{StaticResource ListBoxItemDataTemplate}" 
+                     Visibility="Collapsed" Opacity="1" />
+
+            <ListBox x:Name="ListBox_Security" ItemsSource="{Binding Items}" MouseLeftButtonUp="ListBoxCategory_MouseLeftButtonUp" 
+                     Style="{StaticResource PhoneListBox}" Tag="Security" ItemTemplate="{StaticResource ListBoxItemDataTemplate}" 
+                     Visibility="Collapsed" Opacity="1" />
+
+            <ListBox x:Name="ListBox_Extras" ItemsSource="{Binding Items}" MouseLeftButtonUp="ListBoxCategory_MouseLeftButtonUp" 
+                     Style="{StaticResource PhoneListBox}" Tag="Extras" ItemTemplate="{StaticResource ListBoxItemDataTemplate}" 
+                     Visibility="Collapsed" Opacity="1" />
+            
+            <ListBox x:Name="ListBox_WhatsNew" ItemsSource="{Binding Items}" MouseLeftButtonUp="ListBoxCategory_MouseLeftButtonUp" 
+                     Style="{StaticResource PhoneListBox}" Tag="What's New" ItemTemplate="{StaticResource ListBoxItemDataTemplate}" 
+                     Visibility="Collapsed" Opacity="1" />
+
+        </Grid>
+
+        <Grid x:Name="CategoryListGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Visible" 
+              Grid.Row="0" Grid.RowSpan="2" Margin="5,30,0,0">
+            <ScrollViewer>
+                <Border Background="Transparent" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <StackPanel Orientation="Vertical" >
+                        <StackPanel Orientation="Horizontal">
+                            <Button Style="{StaticResource MenuButtonStyle}" Tag="0" Click="MainMenuButton_Click" Width="110" >
+                                <TextBlock Text="Mapping" Style="{StaticResource MenuTextStyle}"  />
+                            </Button>
+                            <Button Style="{StaticResource MenuButtonStyle}" Tag="1" Click="MainMenuButton_Click" Width="110">
+                                <TextBlock Text="Toolkit Controls" Style="{StaticResource MenuTextStyle}" />
+                            </Button>
+                            <Button Style="{StaticResource MenuButtonStyle}" Tag="2" Click="MainMenuButton_Click" Width="110">
+                                <TextBlock Text="Toolkit Data Sources" Style="{StaticResource MenuTextStyle}" />
+                            </Button>
+                            <Button Style="{StaticResource MenuButtonStyle}" Tag="3" Click="MainMenuButton_Click" Width="110">
+                                <TextBlock Text="Graphics" Style="{StaticResource MenuTextStyle}"  />
+                            </Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Style="{StaticResource MenuButtonStyle}" Tag="4" Click="MainMenuButton_Click" Width="110">
+                                <TextBlock Text="Query" Style="{StaticResource MenuTextStyle}" />
+                            </Button>
+                            <Button Style="{StaticResource MenuButtonStyle}" Tag="5" Click="MainMenuButton_Click" Width="110">
+                                <TextBlock Text="Feature Layers" Style="{StaticResource MenuTextStyle}" />
+                            </Button>
+                            <Button Style="{StaticResource MenuButtonStyle}" Tag="6" Click="MainMenuButton_Click" Width="110">
+                                <TextBlock Text="Editing" Style="{StaticResource MenuTextStyle}"  />
+                            </Button>
+                            <Button Style="{StaticResource MenuButtonStyle}" Tag="7" Click="MainMenuButton_Click" Width="110">
+                                <TextBlock Text="Address Matching" Style="{StaticResource MenuTextStyle}"  />
+                            </Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Style="{StaticResource MenuButtonStyle}" Tag="8" Click="MainMenuButton_Click" Width="110">
+                                <TextBlock Text="Network" Style="{StaticResource MenuTextStyle}" />
+                            </Button>
+                            <Button Style="{StaticResource MenuButtonStyle}" Tag="9" Click="MainMenuButton_Click" Width="110">
+                                <TextBlock Text="GP" Style="{StaticResource MenuTextStyle}" />
+                            </Button>
+                            <Button Style="{StaticResource MenuButtonStyle}" Tag="10" Click="MainMenuButton_Click" Width="110">
+                                <TextBlock Text="Utilities" Style="{StaticResource MenuTextStyle}"  />
+                            </Button>
+                            <Button Style="{StaticResource MenuButtonStyle}" Tag="11" Click="MainMenuButton_Click" Width="110">
+                                <TextBlock Text="Bing  Maps" Style="{StaticResource MenuTextStyle}"  />
+                            </Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Style="{StaticResource MenuButtonStyle}" Tag="12" Click="MainMenuButton_Click" Width="110">
+                                <TextBlock Text="Image Services" Style="{StaticResource MenuTextStyle}" />
+                            </Button>
+                            <Button Style="{StaticResource MenuButtonStyle}" Tag="13" Click="MainMenuButton_Click" Width="110">
+                                <TextBlock Text="JSON" Style="{StaticResource MenuTextStyle}" />
+                            </Button>
+                            <Button Style="{StaticResource MenuButtonStyle}" Tag="14" Click="MainMenuButton_Click" Width="110">
+                                <TextBlock Text="WebMaps" Style="{StaticResource MenuTextStyle}"  />
+                            </Button>
+                            <Button Style="{StaticResource MenuButtonStyle}" Tag="15" Click="MainMenuButton_Click" Width="110">
+                                <TextBlock Text="Portal" Style="{StaticResource MenuTextStyle}"  />
+                            </Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">                            
+                            <Button Style="{StaticResource MenuButtonStyle}" Tag="16" Click="MainMenuButton_Click" Width="110">
+                                <TextBlock Text="Time-Aware Layers" Style="{StaticResource MenuTextStyle}" />
+                            </Button>
+                            <Button Style="{StaticResource MenuButtonStyle}" Tag="17" Click="MainMenuButton_Click" Width="110">
+                                <TextBlock Text="Security" Style="{StaticResource MenuTextStyle}"  />
+                            </Button>
+                            <Button Style="{StaticResource MenuButtonStyle}" Tag="18" Click="MainMenuButton_Click" Width="110">
+                                <TextBlock Text="Extras" Style="{StaticResource MenuTextStyle}"  />
+                            </Button>
+                            <Button Style="{StaticResource MenuButtonStyle}" Tag="19" Click="MainMenuButton_Click" Width="110">
+                                <TextBlock Text="What's New" Style="{StaticResource MenuTextStyle}"  />
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBar.Buttons>
+                <shell:ApplicationBarIconButton x:Name="BackButton" IconUri="Images/Back.png" Click="BackButton_Click" 
+                                                Text="Back" />
+                <shell:ApplicationBarIconButton x:Name="ForwardButton" IconUri="Images/Forward.png" Click="ForwardButton_Click" 
+                                                Text="Forward" />
+                <shell:ApplicationBarIconButton x:Name="CategoryButton" IconUri="Images/List.png" Click="Menu_List_Click" 
+                                                Text="Category List" IsEnabled="False" />
+            </shell:ApplicationBar.Buttons>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
+</phone:PhoneApplicationPage>

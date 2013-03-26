@@ -1,0 +1,154 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="ArcGISWindowsPhoneSDK.SpatialQuery"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:esri="clr-namespace:ESRI.ArcGIS.Client;assembly=ESRI.ArcGIS.Client"
+    xmlns:esriSymbols="clr-namespace:ESRI.ArcGIS.Client.Symbols;assembly=ESRI.ArcGIS.Client"
+    SupportedOrientations="PortraitOrLandscape"
+    mc:Ignorable="d" d:DesignHeight="728" d:DesignWidth="480">
+
+        <phone:PhoneApplicationPage.ApplicationBar>
+            <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+                <shell:ApplicationBar.Buttons>
+                    <shell:ApplicationBarIconButton x:Name="DrawPointButton" IconUri="Images/DrawPoint.png" Click="DrawPointButton_Click" Text="Point" />
+                    <shell:ApplicationBarIconButton x:Name="DrawPolylineButton" IconUri="Images/DrawPolyline.png" Click="DrawPolylineButton_Click" Text="Polyline" />
+                    <shell:ApplicationBarIconButton x:Name="DrawPolygonButton" IconUri="Images/DrawPolygon.png" Click="DrawPolygonButton_Click" Text="Polygon" />
+                    <shell:ApplicationBarIconButton x:Name="DrawRectangleButton" IconUri="Images/DrawRectangle.png" Click="DrawRectangleButton_Click" Text="Rectangle" />
+                </shell:ApplicationBar.Buttons>
+                <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem x:Name="UseOtherMenuItem" Text="Use Other Shape" Click="UseOtherMenuItem_Click" />
+                <shell:ApplicationBarMenuItem x:Name="ClearGraphicsMenuItem" Text="clear map" Click="ClearGraphicsMenuItem_Click" />
+                </shell:ApplicationBar.MenuItems>
+            </shell:ApplicationBar>
+        </phone:PhoneApplicationPage.ApplicationBar>
+
+    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+
+        <Grid.Resources>
+            <esriSymbols:SimpleMarkerSymbol x:Key="DefaultMarkerSymbol" Size="16" Color="Red" Style="Circle" />
+            <esriSymbols:SimpleLineSymbol x:Key="DefaultLineSymbol" Color="Red" Width="6"  />
+            <esriSymbols:SimpleFillSymbol x:Key="DefaultFillSymbol"  >
+                <esriSymbols:FillSymbol.ControlTemplate>
+                    <ControlTemplate>
+                        <Path x:Name="Element" IsHitTestVisible="False" Fill="#66FF0000" 
+                            Stroke="Red" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </esriSymbols:FillSymbol.ControlTemplate>
+            </esriSymbols:SimpleFillSymbol>
+
+            <esriSymbols:FillSymbol x:Key="ResultsFillSymbol">
+                <esriSymbols:FillSymbol.ControlTemplate>
+                    <ControlTemplate x:Name="CustomPolygonTemplate">
+                        <Grid>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="Element"
+                                                Storyboard.TargetProperty="(Fill).(Color)"
+                                                To="#880000FF" Duration="0:0:0.1" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="Element"
+                                                Storyboard.TargetProperty="(Fill).(Color)"
+                                                To="#8800FFFF" Duration="0:0:0.1" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Selected">
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="Element"
+                                                Storyboard.TargetProperty="(Fill).(Color)"
+                                                To="#8800FFFF" Duration="0:0:0.1" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Path x:Name="Element" Stroke="Blue" Fill="#880000FF"
+                                StrokeStartLineCap="Round" StrokeThickness="2" 
+                                StrokeLineJoin="Round" StrokeEndLineCap="Round" />
+                        </Grid>
+                    </ControlTemplate>
+                </esriSymbols:FillSymbol.ControlTemplate>
+            </esriSymbols:FillSymbol>
+
+        </Grid.Resources>
+
+        <Grid Grid.Row="0" x:Name="TitleGrid">
+            <TextBlock x:Name="ApplicationName" Text="Spatial Query" Style="{StaticResource PhoneTextPageTitle1Style}"/>
+        </Grid>
+
+        <Grid x:Name="ContentPanel" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="150" />
+            </Grid.RowDefinitions>
+            <esri:Map x:Name="MyMap" Extent="-15000000,2000000,-7000000,8000000" esri:Editor.IsTouchMagnifierEnabled="False">
+                <esri:ArcGISTiledMapServiceLayer ID="StreetMapLayer" 
+                    Url="http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer"/>
+                <esri:GraphicsLayer ID="MySelectionGraphicsLayer" MouseLeftButtonDown="GraphicsLayer_MouseLeftButtonDown" />                
+            </esri:Map> 
+
+            <Border BorderBrush="Black" Grid.Row="0" CornerRadius="5" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Top"
+                Background="#99000000" Margin="10">
+                <Grid >
+                 </Grid>
+            </Border>
+            
+            <Grid Grid.Row="1" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="240" />
+                    <ColumnDefinition Width="240" />
+                </Grid.ColumnDefinitions>
+                <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stroke="White" StrokeThickness="1" Grid.ColumnSpan="2" />
+                <TextBlock Width="240" Padding="10,0,10,2" Text="State" Grid.Column="0" FontSize="30"/>
+                <TextBlock Width="240" Padding="10,0,10,2" Text="Population" Grid.Column="1" TextWrapping="Wrap" FontSize="30" />
+            </Grid>
+
+            <ListBox x:Name="DataListBox" Grid.Row="2" SelectionChanged="DataListBox_SelectionChanged">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="240" />
+                                <ColumnDefinition Width="240" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Padding="10" Text="{Binding Path=Attributes[STATE_NAME]}" Grid.Column="0" />
+                            <TextBlock Padding="10" Text="{Binding Path=Attributes[POP2007]}" Grid.Column="1" TextWrapping="Wrap" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <Border x:Name="UseOtherShapeChoice" Background="#CC000000" BorderThickness="3" CornerRadius="5"
+                    HorizontalAlignment="Center" BorderBrush="DarkGray" VerticalAlignment="Center" 
+                    Margin="5" Visibility="Collapsed" Padding="10">
+                <StackPanel Width="275">
+                    <TextBlock Text="Choose a selection shape" 
+                       Foreground="White" FontWeight="Bold" Grid.Row="0" FontSize="{StaticResource PhoneFontSizeNormal}"                    
+                       Margin="15,5,15,1" HorizontalAlignment="Center" />
+                    <Line X1="10" Y1="10" X2="265" Y2="10" Stroke="DarkGray" StrokeThickness="2" />
+
+                    <ListBox x:Name="ShapeChoicesLB" SelectionChanged="ShapeChoicesLB_SelectionChanged" SelectionMode="Single" >
+                        <ListBoxItem x:Name="RectLBI" Content="Rectangle" FontSize="24" Padding="0 5" />
+                        <ListBoxItem x:Name="ArrowLBI" Content="Arrow" FontSize="24" Padding="0 5" />
+                        <ListBoxItem x:Name="TriLBI" Content="Triangle" FontSize="24" Padding="0 5" />
+                        <ListBoxItem x:Name="CircleLBI" Content="Circle" FontSize="24" Padding="0 5" />
+                        <ListBoxItem x:Name="EllipLBI" Content="Ellipse" FontSize="24" Padding="0 5" />
+                    </ListBox>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</phone:PhoneApplicationPage>

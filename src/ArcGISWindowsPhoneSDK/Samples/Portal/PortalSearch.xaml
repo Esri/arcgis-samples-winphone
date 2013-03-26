@@ -1,0 +1,241 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="ArcGISWindowsPhoneSDK.PortalSearch"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:esriToolkitPrimitives="clr-namespace:ESRI.ArcGIS.Client.Toolkit.Primitives;assembly=ESRI.ArcGIS.Client.Toolkit"
+    xmlns:converters="clr-namespace:ArcGISWindowsPhoneSDK"
+    SupportedOrientations="PortraitOrLandscape"
+    mc:Ignorable="d" d:DesignHeight="728" d:DesignWidth="480">
+
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBar.Buttons>
+                <shell:ApplicationBarIconButton IconUri="Images/person.png" Click="ShowSignInPageButton_Click" Text="Sign In" />
+            </shell:ApplicationBar.Buttons>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
+    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" x:Name="TitleGrid">
+            <TextBlock x:Name="ApplicationName" Text="Portal Search" Style="{StaticResource PhoneTextPageTitle1Style}"/>
+        </Grid>
+
+        <Grid Grid.Row="1" x:Name="ContentPanel">
+            <Grid.Resources>
+                <converters:HtmlToTextConverter x:Key="HtmlToTextConverter" />
+            </Grid.Resources>
+
+            <Grid x:Name="ResultsPanel">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="QueryText" Grid.Column="0"
+                             Text="World" KeyDown="QueryText_KeyDown"/>
+                    <Button x:Name="SearchButton" Grid.Column="1"
+                            Content="Search" Click="SearchButton_Click" />
+                </Grid>
+                <ListBox x:Name="ResultsListBox" Grid.Row="1" SelectionChanged="ResultsListBox_SelectionChanged"
+                         Background="{StaticResource PhoneBackgroundBrush}" Foreground="{StaticResource PhoneForegroundBrush}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate >
+                            <Grid x:Name="ResultItem" Margin="0 0 0 10" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="{Binding Title}"
+                                           TextTrimming="WordEllipsis" 
+                                           Grid.Row="0"
+                                           FontSize="{StaticResource PhoneFontSizeMedium}"
+                                           Margin="5,5,5,0"
+                                           TextWrapping="NoWrap" />
+                                <StackPanel Orientation="Horizontal" Grid.Row="1">
+                                    <TextBlock Text="{Binding Type}"
+                                               FontSize="{StaticResource PhoneFontSizeNormal}" Margin="5,0,0,0" />
+                                    <TextBlock Text="by"
+                                               FontSize="{StaticResource PhoneFontSizeNormal}" Margin="2,0,0,0" />
+                                    <TextBlock Text="{Binding Owner}" 
+                                               Margin="2,0,0,0" FontSize="{StaticResource PhoneFontSizeNormal}" />
+                                    <TextBlock Text="(last modified:"
+                                               Margin="2,0,0,0" FontSize="{StaticResource PhoneFontSizeNormal}" />
+                                    <TextBlock Text="{Binding ModificationDate, StringFormat='MMMM dd, yyyy)'}"
+                                               FontSize="{StaticResource PhoneFontSizeNormal}" Margin="2,0,0,0" />
+                                </StackPanel>
+                                <Grid Grid.Row="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="85" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid Margin="5, 0, 10, 0"
+                                          Grid.Row="0" Grid.Column="0" Grid.RowSpan="2">
+                                        <Border BorderBrush="Black" BorderThickness="2" >
+                                            <Image Source="{Binding ThumbnailUri}"						   
+                                               MouseLeftButtonDown="Image_MouseLeftButtonDown"
+                                               MaxHeight="80" MaxWidth="120" />
+                                        </Border>
+                                    </Grid>
+                                    <TextBlock Text="{Binding Description, Converter={StaticResource HtmlToTextConverter}}"
+						                   TextTrimming="WordEllipsis"
+						                   Grid.Row="0"
+						                   Grid.Column="1"
+						                   Height="85"
+						                   TextWrapping="Wrap"
+						                   FontSize="{StaticResource PhoneFontSizeNormal}"
+						                   Margin="5,5,5,1" />
+                                </Grid>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+            
+            <esriToolkitPrimitives:ChildPage x:Name="SignInPage" IsOpen="False"  >
+                <StackPanel>
+                    <TextBlock Text="Username" />
+                    <TextBox x:Name="UsernameTB"  />
+                    <TextBlock Text="Password" />
+                    <PasswordBox x:Name="PasswordTB" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button x:Name="SignInButton" Content="OK" Click="SignInButton_Click" />
+                        <Button x:Name="CancelSignInButton" Content="Cancel" Click="Cancel_Click" />
+                    </StackPanel>
+                </StackPanel>
+            </esriToolkitPrimitives:ChildPage>
+
+            <esriToolkitPrimitives:ChildPage x:Name="MapItemDetailPage" IsOpen="False"  >
+                <Grid x:Name="MapItemDetail" Grid.Column="1" Margin="20,0,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="{Binding Title}" Grid.Row="0"
+						       TextTrimming="WordEllipsis"
+						       Margin="5"
+						       FontSize="{StaticResource PhoneFontSizeMedium}" />
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Margin="5, 0, 10, 10" HorizontalAlignment="Left">
+                            <Rectangle Width="210"
+							   Height="143"
+							   Fill="White"
+							   Stroke="Gray" />
+                            <Image Source="{Binding ThumbnailUri}"
+						           MouseLeftButtonDown="Image_MouseLeftButtonDown"
+						           Height="133"
+						           Width="200" />
+                        </Grid>
+                    </Grid>
+                    <ScrollViewer Grid.Row="2"
+							  Background="Transparent"
+							  Margin="5,0,0,0"
+							  BorderThickness="0,1,0,0"
+							  HorizontalAlignment="Stretch"
+							  VerticalScrollBarVisibility="Auto"
+							  HorizontalScrollBarVisibility="Auto"
+							  Padding="0">
+                        <Grid Margin="0, 10, 0, 10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="300" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Summary" />
+                            <Grid Grid.Column="1">
+                                <TextBlock Text="{Binding Description, Converter={StaticResource HtmlToTextConverter}}"
+										   TextTrimming="WordEllipsis"
+										   HorizontalAlignment="Stretch"
+										   MaxHeight="100"
+										   TextWrapping="Wrap" />
+                            </Grid>
+                            <TextBlock Grid.Row="1"
+									   Text="Tags"
+									   Margin="0,6,0,0" />
+                            <Grid Grid.Column="1"
+								  Grid.Row="1"
+								  Margin="0,5,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <ListBox ItemsSource="{Binding Tags}"
+										 Background="Transparent"
+										 BorderBrush="Transparent"
+										 ScrollViewer.VerticalScrollBarVisibility="Disabled"
+										 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+										 HorizontalAlignment="Left"
+										 Margin="0,0,0,0">
+                                </ListBox>
+                            </Grid>
+                            <TextBlock Grid.Row="2"
+									   Text="Type"
+									   Margin="0,6,0,0" />
+                            <TextBlock Grid.Row="2"
+									   Grid.Column="1"
+									   Text="{Binding Type}"
+									   Margin="0,6,0,0" />
+                            <TextBlock Grid.Row="3"
+									   Text="Rating"
+									   Margin="0,6,0,0" />
+                            <TextBlock Grid.Row="3" Grid.Column="1" Margin="0,6,0,0">
+                                <Run Text="{Binding AvgRating}" />
+                                <Run Text="{Binding NumRatings, StringFormat='({0} ratings,'}" />
+                                <Run Text="{Binding NumViews, StringFormat='\{0} views)'}"/>
+                            </TextBlock>
+                            <TextBlock Grid.Row="4" 
+                                       Text="Last Modified" 
+                                       Margin="0,0,5,0" />
+                            <TextBlock Grid.Row="4" Grid.Column="1"
+								       Text="{Binding ModificationDate, StringFormat='MMMM dd, yyyy'}" />
+                            <TextBlock Grid.Row="5"
+									   Text="Owner" 
+                                       Margin="0,6,0,0" />
+                            <TextBlock Grid.Row="5" 
+                                       Grid.Column="1"
+								       Text="{Binding Owner}"
+									   Margin="0,6,0,0" />
+                        </Grid>
+                    </ScrollViewer>
+                </Grid>
+            </esriToolkitPrimitives:ChildPage>
+
+            <esriToolkitPrimitives:ChildPage x:Name="WebmapContentPage" IsOpen="False">
+                <Grid x:Name="WebmapContent" Grid.ColumnSpan="2" Background="#FF565656"/>
+            </esriToolkitPrimitives:ChildPage>
+
+        </Grid>
+    </Grid>
+</phone:PhoneApplicationPage>

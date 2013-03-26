@@ -1,0 +1,41 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="ArcGISWindowsPhoneSDK.CreateWebMapFromJson"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:esri="clr-namespace:ESRI.ArcGIS.Client;assembly=ESRI.ArcGIS.Client"
+    xmlns:toolkit="clr-namespace:ESRI.ArcGIS.Client.Toolkit;assembly=ESRI.ArcGIS.Client.Toolkit"
+    xmlns:datasources="clr-namespace:ESRI.ArcGIS.Client.Toolkit.DataSources;assembly=ESRI.ArcGIS.Client.Toolkit.DataSources"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:esriSymbols="clr-namespace:ESRI.ArcGIS.Client.Symbols;assembly=ESRI.ArcGIS.Client"
+    xmlns:esriGeometry="clr-namespace:ESRI.ArcGIS.Client.Geometry;assembly=ESRI.ArcGIS.Client"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" d:DesignHeight="800" d:DesignWidth="480">
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+         <Grid x:Name="MyMapGrid" Grid.Row="0" Background="Gray" />
+         <TextBlock x:Name="ApplicationName" Text="WebMap From JSON" Foreground="White" Style="{StaticResource PhoneTextPageTitle1Style}" Margin="12,12,248,343" Grid.Row="0"/>
+
+        <Grid  Grid.Row="1" Background="Gray" VerticalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="90" />
+                <RowDefinition Height="300*" />
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" Grid.Row="0" >
+                <Button FontSize="{StaticResource PhoneFontSizeSmall}" Content="Clear Map"  Click="Button_ClearMap" />
+                <Button FontSize="{StaticResource PhoneFontSizeSmall}" Content="Create Map from Web Map JSON" Click="Button_Load"/>
+            </StackPanel>
+            <ScrollViewer Grid.Row="1">
+                <TextBox x:Name="JsonTextBox" FontSize="12" />
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</phone:PhoneApplicationPage>

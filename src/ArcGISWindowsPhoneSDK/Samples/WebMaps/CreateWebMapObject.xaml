@@ -1,0 +1,18 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="ArcGISWindowsPhoneSDK.CreateWebMapObject"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignHeight="800" d:DesignWidth="480">
+
+    <Grid Background="White" Height="799">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80*" />
+            <RowDefinition Height="760*" />
+        </Grid.RowDefinitions>
+        <Grid x:Name="TitleGrid" Background="Black" Grid.RowSpan="2">
+            <TextBlock x:Name="ApplicationName" Text="Create WebMap Object"  Style="{StaticResource PhoneTextPageTitle1Style}" Margin="20,20,0,-14" />
+        </Grid>
+        <Grid Grid.Row="1" x:Name="LayoutRoot" />
+    </Grid>
+   
+</phone:PhoneApplicationPage>

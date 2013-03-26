@@ -1,0 +1,121 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="ArcGISWindowsPhoneSDK.BingRouting"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:esri="clr-namespace:ESRI.ArcGIS.Client;assembly=ESRI.ArcGIS.Client"
+    xmlns:esriSymbols="clr-namespace:ESRI.ArcGIS.Client.Symbols;assembly=ESRI.ArcGIS.Client"
+    xmlns:bing="clr-namespace:ESRI.ArcGIS.Client.Bing;assembly=ESRI.ArcGIS.Client.Bing"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    SupportedOrientations="PortraitOrLandscape"
+    mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480">
+
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBar.Buttons>
+                <shell:ApplicationBarIconButton x:Name="DrawPointButton" IconUri="Images/DrawPoint.png" Click="DrawPointButton_Click" Text="Add Point" />
+                <shell:ApplicationBarIconButton IconUri="Images/List.png" Click="Menu_List_Click" Text="Dialog" />
+            </shell:ApplicationBar.Buttons>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
+    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <ControlTemplate x:Key="CompositeSymbol" xmlns="http://schemas.microsoft.com/client/2007"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                <Grid>
+                    <Ellipse Fill="{Binding Symbol.Color}" Width="{Binding Symbol.Size}" Height="{Binding Symbol.Size}" Stroke="Black" StrokeThickness="1" />
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Text="{Binding Path=Attributes[StopNumber]}"
+                        FontSize="24" Margin="0" FontWeight="Bold" Foreground="Black" />
+                </Grid>
+            </ControlTemplate>
+            <esriSymbols:SimpleMarkerSymbol x:Key="UserStopSymbol" Size="40" Style="Circle" Color="Salmon" ControlTemplate="{StaticResource CompositeSymbol}" />
+            <esriSymbols:SimpleMarkerSymbol x:Key="ResultStopSymbol" Size="30" Color="LightGreen" ControlTemplate="{StaticResource CompositeSymbol}" />
+            <esriSymbols:SimpleLineSymbol x:Key="RoutePathSymbol" Style="Solid" Width="6" Color="LightGreen" />
+        </Grid.Resources>
+
+        
+        <Grid Grid.Row="0" x:Name="TitleGrid">
+            <TextBlock x:Name="ApplicationName" Text="Bing Maps - Routing" Style="{StaticResource PhoneTextPageTitle1Style}"/>
+        </Grid>
+
+        <Grid Grid.Row="1" x:Name="ButtonGrid" >
+            <Button x:Name="RouteButton" Content="Solve Route" Margin="2"  HorizontalAlignment="Left" IsEnabled="False"
+                            Click="RouteButton_Click" />
+            <Button x:Name="ClearRouteButton" Content="Clear Route" Margin="2"  HorizontalAlignment="Right" 
+                            Click="ClearRouteButton_Click" />
+        </Grid>
+
+        <Grid Grid.Row="2" x:Name="ContentPanel">
+            <esri:Map x:Name="MyMap" >
+                <esri:GraphicsLayer ID="RouteResultsGraphicsLayer" />
+                <esri:GraphicsLayer ID="WaypointGraphicsLayer" />
+            </esri:Map>
+
+            <Grid Name="BingKeyGrid" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,15,15,100">
+                <Rectangle Fill="{StaticResource PhoneBackgroundBrush}" RadiusX="5" RadiusY="5" Margin="10" />
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="20,20,20,20">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="2" >
+                        <TextBlock FontWeight="Bold" HorizontalAlignment="Center" Text="Enter Bing Key" Margin="2" />
+                        <HyperlinkButton Content="(Get Bing Key)" Margin="2" NavigateUri="https://www.bingmapsportal.com" 
+                                     TargetName="_blank"/>
+                    </StackPanel>
+                    <TextBox x:Name="BingKeyTextBox" Width="400" HorizontalAlignment="Right" Margin="0,2,0,2" 
+                        TextChanged="BingKeyTextBox_TextChanged" />
+                    <TextBlock Name="InvalidBingKeyTextBlock" Text="Invalid Key" Foreground="Red"
+                        Margin="0,2,0,2" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                    <Button Name="LoadMapButton" Content="Load Map" Width="175" Margin="0,5,0,10" IsEnabled="False" 
+                        HorizontalAlignment="Center" Click="LoadMapButton_Click" />
+                </StackPanel>
+            </Grid>
+            
+            <Grid x:Name="DialogsGrid" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid x:Name="DirectionsGrid" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5" Visibility="Collapsed" MinWidth="200" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Rectangle Fill="#FF000000" Stroke="Gray"  RadiusX="10" RadiusY="10" Margin="0" Grid.RowSpan="2" >
+                    </Rectangle>
+
+                    <TextBlock x:Name="DirectionsTitleTextBlock" Margin="10,0,0,5" Text="Directions" Style="{StaticResource PhoneTextPageTitle1Style}" FontWeight="Bold" Grid.Row="0" />
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Margin="5" >
+                        <TextBlock x:Name="DirectionsContentTextBlock" Style="{StaticResource PhoneTextPageTitle1Style}" TextWrapping="Wrap" HorizontalAlignment="Stretch" />
+                    </ScrollViewer>
+                    <Grid x:Name="CloseDirectionsGridGrid" HorizontalAlignment="Right" VerticalAlignment="Top" MouseLeftButtonDown="CloseDirectionsGridGrid_MouseLeftButtonDown"  Margin="5" Grid.Row="0" >
+                        <Ellipse x:Name="CloseDirectionsGrid" Width="20" Height="20" Fill="White" Stroke="Black" StrokeThickness="1" />
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="X" Foreground="Black" />
+                    </Grid>
+
+                </Grid>
+
+                <Grid x:Name="InputGrid" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5" >
+                    <Rectangle Fill="#FF000000" Stroke="Gray" RadiusX="10" RadiusY="10" Margin="0" >
+                    </Rectangle>
+                    <StackPanel Margin="10">
+                        <TextBlock Text="Enter Bing key and load the map. Enable point button and click on map to define waypoints. When finished, click the Solve Route button to generate a route." 
+                           TextWrapping="Wrap" Style="{StaticResource PhoneTextPageTitle1Style}" Width="350" />
+                    </StackPanel>
+                    <Grid x:Name="CloseInputGridGrid" HorizontalAlignment="Right" VerticalAlignment="Top" MouseLeftButtonDown="CloseInputGridGrid_MouseLeftButtonDown" Margin="5" >
+                        <Ellipse x:Name="CloseInputGrid" Width="20" Height="20" Fill="White" Stroke="Black" StrokeThickness="1" />
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="X" Foreground="Black" />
+                    </Grid>
+                </Grid>
+            </Grid>
+
+        </Grid>
+    </Grid>
+</phone:PhoneApplicationPage>

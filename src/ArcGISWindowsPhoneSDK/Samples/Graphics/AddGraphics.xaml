@@ -1,0 +1,41 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="ArcGISWindowsPhoneSDK.AddGraphics"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:esri="clr-namespace:ESRI.ArcGIS.Client;assembly=ESRI.ArcGIS.Client"
+    xmlns:esriSymbols="clr-namespace:ESRI.ArcGIS.Client.Symbols;assembly=ESRI.ArcGIS.Client"
+    SupportedOrientations="PortraitOrLandscape"
+    mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480">
+
+    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" x:Name="TitleGrid">
+            <TextBlock x:Name="ApplicationName" Text="Add Graphics using Code" Style="{StaticResource PhoneTextPageTitle1Style}"/>
+        </Grid>
+
+        <Grid Grid.Row="1" x:Name="ContentPanel">
+            <Grid.Resources>
+                <esriSymbols:SimpleMarkerSymbol x:Name="RedMarkerSymbol" Color="Red" Size="12" Style="Circle" />
+                <esriSymbols:SimpleMarkerSymbol x:Name="BlackMarkerSymbol" Color="Black" Size="14" Style="Diamond" />
+                <esriSymbols:PictureMarkerSymbol x:Name="GlobePictureSymbol" OffsetX="16" OffsetY="16" Height="32" Width="32" 
+                Source="/images/globe-16x16.png" />
+                <esriSymbols:SimpleLineSymbol x:Name="DefaultLineSymbol" Color="Green" Style="DashDot" Width="4" />
+                <esriSymbols:SimpleFillSymbol x:Name="DefaultFillSymbol" Fill="Green" BorderBrush="Blue" 
+                BorderThickness="3" />
+            </Grid.Resources>
+
+            <esri:Map x:Name="MyMap">
+                <esri:ArcGISTiledMapServiceLayer ID="PhysicalTiledLayer" 
+                      Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer"/>
+                <esri:GraphicsLayer ID="MyGraphicsLayer" />
+            </esri:Map>
+        </Grid>
+    </Grid>
+</phone:PhoneApplicationPage>
