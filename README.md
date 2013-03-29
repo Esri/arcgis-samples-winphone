@@ -48,6 +48,6 @@ limitations under the License.
 
 A copy of the license is available in the repository's [license.txt]( https://raw.github.com/Esri/arcgis-samples-silverlight/master/license.txt) file.
 
-[](Esri Tags: ArcGIS Runtime SDK Windows Phone)
-[](Esri Language: Silverlight C#)
+[](Esri Tags: ArcGIS Runtime SDK Windows Phone Silverlight C-Sharp C# XAML)
+[](Esri Language: DotNet)
 
