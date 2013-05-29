@@ -11,8 +11,9 @@ This project contains the C# source code for the ArcGIS Runtime SDK for Windows 
 1. Fork and then clone the repo or download the .zip file. 
 2. Download the [ArcGIS Runtime SDK for Windows Phone (requires Esri Global account)](http://www.esri.com/apps/products/download/index.cfm?fuseaction=download.main&downloadid=875).   
 3. Download and install the [October 2012 version of the Windows Phone Toolkit](http://phone.codeplex.com/) on CodePlex.
-4. In Visual Studio, open the solution ArcGISWindowsPhoneSDK.sln. If necessary, repair the references to the ArcGIS Runtime SDK for Windows Phone assemblies and the Windows Phone Toolkit. 
-5. Clean and build the solution, then run the application. 
+4. Download and install the latest version of [JSON.NET library](http://json.codeplex.com/) on Codeplex. 
+5. In Visual Studio, open the solution ArcGISWindowsPhoneSDK.sln. If necessary, repair the references to the ArcGIS Runtime SDK for Windows Phone assemblies and the Windows Phone Toolkit. 
+6. Clean and build the solution, then run the application. 
 
 ## Requirements
 
