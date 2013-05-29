@@ -13,7 +13,7 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
             <shell:ApplicationBar.Buttons>
-                <shell:ApplicationBarIconButton IconUri="Images/Dialog.png" Click="JsonButton_Click" Text="display json" />
+                <shell:ApplicationBarIconButton IconUri="Images/Rotate.png" Click="ApplyButton_Click" Text="apply" />
             </shell:ApplicationBar.Buttons>
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="reset to service" Click="ResetMenuItem_Click" />
@@ -23,10 +23,11 @@
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
-    
+
     <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -34,19 +35,19 @@
             <TextBlock x:Name="ApplicationName" Text="Renderers" Style="{StaticResource PhoneTextPageTitle1Style}"/>
         </Grid>
 
-        <Grid Grid.Row="1" x:Name="ContentPanel">
-            <esri:Map x:Name="MyMap" WrapAround="True" Extent="-15000000,2600000,-7000000,13950000"  >
-                <esri:ArcGISTiledMapServiceLayer ID="TiledLayer" 
+        <ScrollViewer Grid.Row="1" Margin="-10,0,-10,5">
+            <TextBox x:Name="JsonTextBox" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeMedium}" />
+        </ScrollViewer>
+
+        <esri:Map x:Name="MyMap" Grid.Row="2" WrapAround="True" Extent="-15000000,2600000,-7000000,13950000"  >
+            <esri:ArcGISTiledMapServiceLayer ID="TiledLayer" 
                     Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer" />
-                <esri:FeatureLayer ID="MyFeatureLayerStates" 
+            <esri:FeatureLayer ID="MyFeatureLayerStates" 
                     Url="http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StatesCitiesRivers_USA/MapServer/2"               
                     OutFields="*"
                     Initialized="FeatureLayer_Initialized"
                     PropertyChanged="FeatureLayer_PropertyChanged" />
-            </esri:Map>
-
-            <phone:WebBrowser x:Name="JsonBrowser" Height="383" Width="480" Visibility="Visible"
-                                  HorizontalAlignment="Left" VerticalAlignment="Top" />
-        </Grid>
+        </esri:Map>
     </Grid>
+
 </phone:PhoneApplicationPage>

@@ -49,7 +49,7 @@
                     <Button x:Name="SearchButton" Grid.Column="1"
                             Content="Search" Click="SearchButton_Click" />
                 </Grid>
-                <ListBox x:Name="ResultsListBox" Grid.Row="1" SelectionChanged="ResultsListBox_SelectionChanged"
+                <ListBox x:Name="ResultsListBox" Grid.Row="1" 
                          Background="{StaticResource PhoneBackgroundBrush}" Foreground="{StaticResource PhoneForegroundBrush}">
                     <ListBox.ItemTemplate>
                         <DataTemplate >
@@ -101,14 +101,15 @@
 						                   Height="85"
 						                   TextWrapping="Wrap"
 						                   FontSize="{StaticResource PhoneFontSizeNormal}"
-						                   Margin="5,5,5,1" />
+						                   Margin="5,5,5,1"
+                                           MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" />
                                 </Grid>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
             </Grid>
-            
+
             <esriToolkitPrimitives:ChildPage x:Name="SignInPage" IsOpen="False"  >
                 <StackPanel>
                     <TextBlock Text="Username" />

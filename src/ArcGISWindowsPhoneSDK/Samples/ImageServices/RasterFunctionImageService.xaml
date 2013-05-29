@@ -15,12 +15,21 @@
     FontSize="{StaticResource PhoneFontSizeNormal}">
 
     <Grid x:Name="LayoutRoot">
-        <esri:Map x:Name="MyMap" Extent="1445440.75144509,540657.514450867,1452348.26589595,544407.514450867">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" x:Name="TitleGrid">
+            <TextBlock x:Name="ApplicationName" Text="Raste Functions" Style="{StaticResource PhoneTextPageTitle1Style}"/>
+        </Grid>
+        
+        <esri:Map x:Name="MyMap"  Grid.Row="1" Extent="1445440.75144509,540657.514450867,1452348.26589595,544407.514450867">
             <esri:ArcGISImageServiceLayer ID="MyImageLayer" 
                 Url="http://sampleserver6.arcgisonline.com/arcgis/rest/services/CharlotteLAS/ImageServer" 
                 Initialized="ArcGISImageServiceLayer_Initialized" />
         </esri:Map>
-        <Border BorderBrush="Black" VerticalAlignment="Top" BorderThickness="1" Margin="0" 
+        <Border BorderBrush="Black" VerticalAlignment="Top" BorderThickness="1" Margin="0" Grid.Row="1"
                 CornerRadius="5" Background="#444444" HorizontalAlignment="Right" MinWidth="300">
 
             <StackPanel Margin="5">

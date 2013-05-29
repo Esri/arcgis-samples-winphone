@@ -34,9 +34,10 @@
                     Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer"/>
             </esri:Map>
 
-            <Canvas x:Name="InfoCanvas" HorizontalAlignment="Right" VerticalAlignment="Top" Width="380" Height="230" Margin="0,15,15,0" >
-                <Rectangle Canvas.Left="0" Canvas.Top="0" Width="380" Height="230" RadiusX="10" RadiusY="10" Fill="#77919191" Stroke="Gray" />
-                <Rectangle Canvas.Left="10" Canvas.Top="10" Width="359" Height="211" RadiusX="5" RadiusY="5" Fill="{StaticResource PhoneBackgroundBrush}" Stroke="DarkGray" />
+            <Canvas x:Name="InfoCanvas" HorizontalAlignment="Right" VerticalAlignment="Top" 
+                    Width="380" Height="230" Margin="0,15,15,0" >                
+                <Rectangle Canvas.Left="10" Canvas.Top="10" Width="359" Height="211" 
+                           Fill="{StaticResource PhoneBackgroundBrush}" Stroke="DarkGray" />
                 <StackPanel Margin="20,14,10,0">
                     <StackPanel Width="355" Height="50" >
                         <TextBlock Text="Set the speed of the Zoom Animation" Height="25" Width="355" FontSize="20" Foreground="{StaticResource PhoneForegroundBrush}"/>

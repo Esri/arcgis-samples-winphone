@@ -78,9 +78,10 @@
                                         <VisualStateGroup x:Name="CommonStates">
                                             <VisualState x:Name="Normal">
                                                 <Storyboard RepeatBehavior="Forever">
+                                                    <!--Positive or negative value changes direction of animation-->
                                                     <DoubleAnimation BeginTime="0:0:0" Storyboard.TargetName="Element" 
 																				 Storyboard.TargetProperty="StrokeDashOffset" 
-																				 To="1000" Duration="0:3:0" />
+																				 To="-1000" Duration="0:3:0" />
                                                 </Storyboard>
                                             </VisualState>
                                         </VisualStateGroup>
@@ -145,12 +146,11 @@
         </Grid>
 
         <Grid Grid.Row="1" x:Name="ContentPanel">
-            <esri:Map x:Name="MyMap" Extent="-117.23,34.03,-117.16,34.08" MapGesture="MyMap_MapGesture">
+            <esri:Map x:Name="MyMap" Extent="-13046432.965,3854870.095,-13036649.025,3859114.855" 
+                      MapGesture="MyMap_MapGesture">
                 <esri:ArcGISTiledMapServiceLayer
-                      Url="http://services.arcgisonline.com/ArcGIS/rest/services/ESRI_StreetMap_World_2D/MapServer"/>
-
+                      Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer"/>
                 <esri:GraphicsLayer ID="MyRoutesGraphicsLayer" Renderer="{StaticResource RouteRenderer}" />
-
                 <esri:GraphicsLayer ID="MyIncidentsGraphicsLayer" />
                 <esri:GraphicsLayer ID="MyBarriersGraphicsLayer" />
                 <esri:GraphicsLayer ID="MyFacilitiesGraphicsLayer" />
@@ -158,37 +158,33 @@
             </esri:Map>
 
             <esriToolkit:InfoWindow x:Name="MyRouteInfoWindow" Map="{Binding ElementName=MyMap}"
-                                    BorderBrush="#7700FF00" CornerRadius="10" BorderThickness="10"
-                                    Background="#DDFFEEEE" Foreground="Black">
+                                    BorderBrush="Black" BorderThickness="1" CornerRadius="0"
+                                    Background="#DDFFFFFF" Foreground="Black">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="10">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="From Incident " FontWeight="Bold" Foreground="#FF0F274E" VerticalAlignment="Center"/>
+                        <TextBlock Text="From Incident: " FontWeight="Bold" Foreground="#FF0F274E" VerticalAlignment="Center"/>
                         <TextBlock Text="{Binding Attributes[IncidentID]}" HorizontalAlignment="Left" VerticalAlignment="Center" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="To Facility " FontWeight="Bold" Foreground="#FF0F274E" VerticalAlignment="Center"/>
+                        <TextBlock Text="To Facility: " FontWeight="Bold" Foreground="#FF0F274E" VerticalAlignment="Center"/>
                         <TextBlock Text="{Binding Attributes[FacilityID]}" HorizontalAlignment="Left" VerticalAlignment="Center" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Total Time (mins): " FontWeight="Bold" Foreground="#FF0F274E" VerticalAlignment="Center" />
-                        <TextBlock Text="{Binding Attributes[Total_Time], StringFormat=\{0:F\}}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                        <TextBlock Text="Travel Time (mins): " FontWeight="Bold" Foreground="#FF0F274E" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding Attributes[Total_TravelTime], StringFormat=\{0:F\}}" HorizontalAlignment="Left" VerticalAlignment="Center" />
                     </StackPanel>
                 </StackPanel>
             </esriToolkit:InfoWindow>
 
-            <Border x:Name="Info" Background="#DD919191" BorderThickness="1" CornerRadius="5"
-                    HorizontalAlignment="Left"  VerticalAlignment="Top"
-                    Margin="20 20 20 30" Padding="10" BorderBrush="Black">
-                <Grid Margin="5">
-                    <TextBlock x:Name="ResponseTextBlock" Text="Use the app bar and context menu to add facilities, barriers, and incidents. Modify input properties to define closest facility parameters. Tap Solve on the app bar to generate results and display them in the map. Tap route results to see incident and facility IDs and travel time."
-                               Foreground="White" TextAlignment="Left" TextWrapping="Wrap" />
-                </Grid>
+            <Border x:Name="Info" Background="#DD919191" HorizontalAlignment="Center"  VerticalAlignment="Top" Margin="20">
+                    <TextBlock x:Name="ResponseTextBlock" Text="Use the app bar and context menu to add facilities, incidents, and barriers. Modify input properties to define closest facility parameters. Tap Solve on the app bar to generate results and display them in the map. Tap route results to see incident IDs, facility IDs, and travel time."
+                               Foreground="White" TextAlignment="Left" TextWrapping="Wrap" Padding="5" />
             </Border>
 
-            <Border x:Name="AddBarriersInfo" Visibility="Collapsed" Background="#DD919191" BorderThickness="1" CornerRadius="5"
-                    HorizontalAlignment="Left" VerticalAlignment="Bottom"
+            <Border x:Name="AddBarriersInfo" Visibility="Collapsed" Background="#DD919191" BorderThickness="1"
+                    HorizontalAlignment="Center" VerticalAlignment="Top"
                     Margin="20" Padding="10" BorderBrush="Black">
-                <Grid >
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
@@ -203,13 +199,13 @@
                 </Grid>
             </Border>
 
-            <Border x:Name="ParameterInfo" Visibility="Collapsed" Background="#DD919191" BorderThickness="1" CornerRadius="5"
-                    HorizontalAlignment="Left"  VerticalAlignment="Bottom"
-                    Margin="20" Padding="10" BorderBrush="Black" MaxHeight="700" >
+            <Border x:Name="ParameterInfo" Visibility="Collapsed" Background="#DD919191" BorderThickness="1" 
+                    HorizontalAlignment="Center" VerticalAlignment="Top"
+                    Margin="20" Padding="10" BorderBrush="Black" Height="Auto" >
                 <Grid >
                     <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="Closest Facility Parameters" FontSize="22" Grid.Row="0"/>
                     <ScrollViewer Grid.Row="1" >
@@ -263,16 +259,16 @@
                             <TextBox x:Name="DefaultTargetFacilityCount2" Text="1" Grid.Row="2" Grid.Column="1" />
 
                             <TextBlock Text="Output Spatial Reference:" Grid.Row="3" Grid.Column="0" />
-                            <TextBox x:Name="OutputSpatialReference2" Text="4326" Grid.Row="3" Grid.Column="1" />
+                            <TextBox x:Name="OutputSpatialReference2" Text="102100" Grid.Row="3" Grid.Column="1" />
 
                             <TextBlock Text="Accumulate Attribute Names:" Grid.Row="4" Grid.Column="0" />
                             <TextBox x:Name="AccumulateAttributeNames2" Grid.Row="4" Grid.Column="1" />
 
                             <TextBlock Text="Impedance Attribute Name:" Grid.Row="5" Grid.Column="0" />
-                            <TextBox x:Name="ImpedanceAttributeName2" Text="Time" Grid.Row="5" Grid.Column="1" />
+                            <TextBox x:Name="ImpedanceAttributeName2" Text="TravelTime" Grid.Row="5" Grid.Column="1" />
 
                             <TextBlock Text="Restriction Attribute Names:" Grid.Row="6" Grid.Column="0" />
-                            <TextBox x:Name="RestrictionAttributeNames2" Text="OneWay,TurnRestriction,Avoid passenger ferries,Non-routeable segments" 
+                            <TextBox x:Name="RestrictionAttributeNames2" Text="" 
 										Grid.Row="6" Grid.Column="1" />
 
                             <TextBlock Text="Attribute Parameter Value:" Grid.Row="7" Grid.Column="0" />
@@ -315,12 +311,11 @@
                                         Content="Unknown" Click="ChoicesButton_Click" />
 
                             <TextBlock Text="Directions Time Attribute Name:" Grid.Row="21" Grid.Column="0" />
-                            <TextBox x:Name="DirectionsTimeAttributeName2" Text="Time" Grid.Row="21" Grid.Column="1" />
+                            <TextBox x:Name="DirectionsTimeAttributeName2" Text="TravelTime" Grid.Row="21" Grid.Column="1" />
 
                             <TextBlock Text="Directions Length Units:" Grid.Row="22" Grid.Column="0" />
                             <Button x:Name="DirectionsLengthUnits2" Grid.Row="22" Grid.Column="1" Style="{StaticResource ListBoxButtonStyle}" 
                                         Content="Miles" Click="ChoicesButton_Click" />
-
                         </Grid>
                     </ScrollViewer>
                     <Button Click="ParameterInfoVisibility_Click" Style="{StaticResource CloseButtonStyle}" />
@@ -328,8 +323,7 @@
             </Border>
 
             <esriToolkitPrimitives:ChildPage x:Name="ChoicesPage" IsOpen="False" Padding="20">
-                <ListBox x:Name="ChoicesListBox" FontSize="34" >
-                </ListBox>
+                <ListBox x:Name="ChoicesListBox" FontSize="34" />
             </esriToolkitPrimitives:ChildPage>
         </Grid>
     </Grid>

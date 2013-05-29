@@ -13,8 +13,7 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
             <shell:ApplicationBar.Buttons>
-                <shell:ApplicationBarIconButton Text="url entry" IconUri="Images/List.png" Click="ShowUrlEntry_Clicked"/>
-                <shell:ApplicationBarIconButton Text="extent" IconUri="Images/Dialog.png"  Click="ShowExtent_Clicked" />
+                <shell:ApplicationBarIconButton Text="info" IconUri="Images/Dialog.png"  Click="ShowInfo_Clicked" />
             </shell:ApplicationBar.Buttons>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
@@ -33,18 +32,22 @@
             <esri:Map x:Name="MyMap" WrapAround="True" ExtentChanged="MyMap_ExtentChange" ExtentChanging="MyMap_ExtentChange" />
 
             <Grid x:Name="UrlEntry" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="15,15,15,0"  >
-                <Rectangle Stroke="Gray"  RadiusX="10" RadiusY="10" Fill="#77919191" Margin="0,0,0,5" />
-                <Rectangle Fill="#DDFFFFFF" Stroke="DarkGray" RadiusX="5" RadiusY="5" Margin="10,10,10,15" />
+                <Rectangle Fill="LightGray" Stroke="DarkGray" Margin="10,10,10,15" />
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="10,20,10,20">
-                    <TextBlock FontWeight="Bold" HorizontalAlignment="Center" Foreground="Black" FontSize="18" Text="Enter url to an ArcGIS Server tiled map service" />
-                    <TextBox x:Name="UrlTextBox" Foreground="Black" Text="http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer" />
-                    <Button x:Name="AddLayerButton" Content="Add Layer" FontSize="22" Width="150" BorderBrush="Black" Foreground="Black" Margin="0,5,0,0" HorizontalAlignment="Center" Click="AddLayerButton_Click" />
+                    <TextBlock FontWeight="Bold" HorizontalAlignment="Center" Foreground="Black" FontSize="18" 
+                               Text="Url for ArcGIS Server tiled map service" />
+                    <TextBox x:Name="UrlTextBox" Foreground="Black" 
+                             Text="http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer" />
+                    <Button x:Name="AddLayerButton" Content="Add Layer" FontSize="22" Width="150" BorderBrush="Black" 
+                            Foreground="Black" Margin="0,5,0,0" HorizontalAlignment="Center" Click="AddLayerButton_Click" />
                 </StackPanel>
             </Grid>
 
-            <Grid x:Name="ExtentGrid" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10" Visibility="Collapsed" >
-                <Rectangle Fill="#77919191" Stroke="DarkGray"  RadiusX="10" RadiusY="10" Margin="0" />
-                <TextBlock x:Name="ExtentTextBlock" Text="Extent: " Margin="5" TextWrapping="Wrap" FontWeight="Bold" Foreground="Black"/>
+            <Grid x:Name="ExtentGrid" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10" 
+                  Visibility="Collapsed" >
+                <Rectangle Fill="LightGray" Stroke="DarkGray" Margin="0" />
+                <TextBlock x:Name="ExtentTextBlock" Text="Extent: " Margin="5" TextWrapping="Wrap" 
+                           FontWeight="Bold" Foreground="Black"/>
             </Grid>
 
         </Grid>

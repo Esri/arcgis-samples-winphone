@@ -158,16 +158,10 @@ namespace ArcGISWindowsPhoneSDK
                     WebmapContent.Children.Add(b.Map);
                     WebmapContentPage.IsOpen = true;
                 }
-
             };
             document.GetMapAsync(portalItem.Id);
         }
 
-        private void ResultsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            MapItemDetail.DataContext = (sender as ListBox).SelectedItem as ArcGISPortalItem;
-            MapItemDetailPage.IsOpen = true;
-        }
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             SignInPage.IsOpen = false;
@@ -177,6 +171,12 @@ namespace ArcGISWindowsPhoneSDK
         {
             if (MapItemDetailPage.IsOpen && !WebmapContentPage.IsOpen)
                 ResultsListBox.SelectedItem = null;
+        }
+
+        private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            MapItemDetail.DataContext = (sender as TextBlock).DataContext;
+            MapItemDetailPage.IsOpen = true;
         }
     }
 

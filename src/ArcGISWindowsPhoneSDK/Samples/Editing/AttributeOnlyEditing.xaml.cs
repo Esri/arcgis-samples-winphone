@@ -62,7 +62,6 @@ namespace ArcGISWindowsPhoneSDK
         private void OKButton_Click(object sender, RoutedEventArgs e)
         {
             FeatureInfoPage.Visibility = Visibility.Collapsed;
-            var editor = LayoutRoot.Resources["MyEditor"] as Editor;
         }
 
         
@@ -72,8 +71,6 @@ namespace ArcGISWindowsPhoneSDK
             if (FeatureInfoPage.Visibility == Visibility.Visible)
             {
                 FeatureInfoPage.Visibility = Visibility.Collapsed;
-                //ApplicationBar.IsVisible = true;
-
                 e.Cancel = true;
             }
         }

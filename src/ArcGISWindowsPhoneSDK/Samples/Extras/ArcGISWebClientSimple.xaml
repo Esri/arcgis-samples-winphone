@@ -34,7 +34,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="Server Url:" VerticalAlignment="Center" FontWeight="Bold" Grid.Column="0" Margin="5,50,5,0" 
                                HorizontalAlignment="Right" />
-                    <TextBlock x:Name="ApplicationName" Text="Service Areas" Style="{StaticResource PhoneTextPageTitle1Style}" Grid.ColumnSpan="2" Margin="6,6,328,44" Width="146" />
+                    <TextBlock x:Name="ApplicationName" Text="ArcGIS Web Client" Style="{StaticResource PhoneTextPageTitle1Style}" Grid.ColumnSpan="2" Margin="6,6,270,44" />
                 </Grid>
                 <TextBox x:Name="MySvrTextBox" Text="http://services.arcgisonline.com/arcgis/rest/services" Width="480" />
                 <Button Content="Get Services" Click="GetServicesButton_Click"/>

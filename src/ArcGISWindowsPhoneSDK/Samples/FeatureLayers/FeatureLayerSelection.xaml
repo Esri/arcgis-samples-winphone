@@ -14,14 +14,10 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
             <shell:ApplicationBar.Buttons>
-                <shell:ApplicationBarIconButton x:Name="NewButton" IconUri="Images/Rotate.png" Click="NewButton_Click" Text="New" />
-                <shell:ApplicationBarIconButton x:Name="AddButton" IconUri="Images/Add.png" Click="AddButton_Click" Text="Add" />
-                <shell:ApplicationBarIconButton x:Name="RemoveButton" IconUri="Images/GrayEraser.png" Click="RemoveButton_Click" Text="Remove" />
-                <shell:ApplicationBarIconButton x:Name="ClearButton" IconUri="Images/Cancel.png" Click="ClearButton_Click" Text="Clear" />
+                <shell:ApplicationBarIconButton x:Name="NewButton" IconUri="Images/Add.png" Click="NewButton_Click" Text="New" />
+                <shell:ApplicationBarIconButton x:Name="ClearButton" IconUri="Images/GrayEraser.png" Click="ClearButton_Click" Text="Clear" />
+                <shell:ApplicationBarIconButton IconUri="Images/List.png" Click="InfoButton_Click" Text="Dialog" />
             </shell:ApplicationBar.Buttons>
-            <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem x:Name="InfoButton" Text="Hide info" Click="InfoButton_Click" />
-            </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 

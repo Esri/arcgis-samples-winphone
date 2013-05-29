@@ -38,7 +38,8 @@
 
             </esri:Map>
 
-            <Border x:Name="ExportOptions" Background="{StaticResource PhoneBackgroundBrush}" BorderThickness="1" CornerRadius="5"
+            <Border x:Name="ExportOptions" Background="{StaticResource PhoneBackgroundBrush}" 
+                    BorderThickness="1" CornerRadius="5"
                     HorizontalAlignment="Left"  VerticalAlignment="Bottom" 
                     Margin="20" Padding="10" BorderBrush="Black" MaxHeight="700" >
                 <Grid>
@@ -71,15 +72,13 @@
                 <ListBox x:Name="Formats" SelectionChanged="Formats_SelectionChanged" FontSize="{StaticResource PhoneFontSizeLarge}">
                 </ListBox>
             </esriToolkitPrimitives:ChildPage>
-
-        </Grid>        
-        
+        </Grid>         
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
             <shell:ApplicationBar.Buttons>
-                <shell:ApplicationBarIconButton x:Name="ShowOptions" IconUri="Images/List.png" Text="hide options" 
+                <shell:ApplicationBarIconButton x:Name="ShowOptions" IconUri="Images/Dialog.png" Text="options" 
                                                 Click="ShowOptionsButton_Click" />
             </shell:ApplicationBar.Buttons>
         </shell:ApplicationBar>

@@ -8,8 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:esri="clr-namespace:ESRI.ArcGIS.Client;assembly=ESRI.ArcGIS.Client"
     xmlns:esriToolkitPrimitives="clr-namespace:ESRI.ArcGIS.Client.Toolkit.Primitives;assembly=ESRI.ArcGIS.Client.Toolkit"
-    SupportedOrientations="PortraitOrLandscape"
-    mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480">
+    SupportedOrientations="PortraitOrLandscape">
 
     <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
         <Grid.RowDefinitions>

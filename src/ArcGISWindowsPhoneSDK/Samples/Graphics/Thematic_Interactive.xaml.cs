@@ -22,21 +22,36 @@ namespace ArcGISWindowsPhoneSDK
         FeatureSet _featureSet = null;
         int _classType = 0; // EqualInterval = 1; Quantile = 0;
         int _classCount = 6;
-        int _lastGeneratedClassCount = 0;    
-    
+        int _lastGeneratedClassCount = 0;
+
         public Thematic_Interactive()
         {
-            InitializeComponent();        
+            InitializeComponent();
 
             // Get start value for number of classifications in XAML.
             _lastGeneratedClassCount = Convert.ToInt32(((ListBoxItem)ClassCountListBox.SelectedItem).Content);
 
+        }
+
+        private void MyMap_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if ((e.PropertyName == "SpatialReference") &&
+                ((sender as ESRI.ArcGIS.Client.Map).SpatialReference != null))
+            {
+                LoadGraphics();
+                MyMap.PropertyChanged -= MyMap_PropertyChanged;
+            }
+        }
+
+        private void LoadGraphics()
+        {
             // Set query where clause to include features with an area greater than 70 square miles.  This 
             // will effectively exclude the District of Columbia from attributes to avoid skewing classifications.
             ESRI.ArcGIS.Client.Tasks.Query query = new ESRI.ArcGIS.Client.Tasks.Query()
             {
                 Where = "SQMI > 70",
-                ReturnGeometry=true
+                ReturnGeometry = true,
+                OutSpatialReference = MyMap.SpatialReference
             };
             query.OutFields.Add("*");
 
@@ -57,6 +72,7 @@ namespace ArcGISWindowsPhoneSDK
             CreateColorList();
             CreateThematicList();
         }
+
 
         public struct ThematicItem
         {
@@ -128,7 +144,8 @@ namespace ArcGISWindowsPhoneSDK
             ThematicItemList.Add(new ThematicItem() { Name = "SQMI", Description = "Total SqMi", CalcField = "" });
             foreach (ThematicItem items in ThematicItemList)
             {
-                FieldListBox.Items.Add(new ListBoxItem(){
+                FieldListBox.Items.Add(new ListBoxItem()
+                {
                     Content = items.Description,
                     Margin = new Thickness(5)
                 });
@@ -210,7 +227,7 @@ namespace ArcGISWindowsPhoneSDK
                 orderby aValue //"ascending" is default
                 select aValue;
 
-                int increment = Convert.ToInt32(Math.Ceiling(_featureSet.Features.Count / _classCount));
+                int increment = Convert.ToInt32(Math.Ceiling((double)_featureSet.Features.Count / _classCount));
                 for (int i = increment; i < valueList.Count; i += increment)
                 {
                     double value = valueEnumerator.ElementAt(i);

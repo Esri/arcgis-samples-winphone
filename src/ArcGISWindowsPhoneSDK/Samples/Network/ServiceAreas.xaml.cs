@@ -10,6 +10,7 @@ using ESRI.ArcGIS.Client.Symbols;
 using ESRI.ArcGIS.Client.Tasks;
 using Microsoft.Phone.Controls;
 using System.ComponentModel;
+using Microsoft.Phone.Shell;
 
 namespace ArcGISWindowsPhoneSDK
 {
@@ -49,7 +50,7 @@ namespace ArcGISWindowsPhoneSDK
             facilitiesGraphicsLayer = MyMap.Layers["MyFacilityGraphicsLayer"] as GraphicsLayer;
             barriersGraphicsLayer = MyMap.Layers["MyBarrierGraphicsLayer"] as GraphicsLayer;
 
-            myRouteTask = new RouteTask("http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Network/USA/NAServer/Service%20Area");
+            myRouteTask = new RouteTask("http://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/ServiceArea");
             myRouteTask.SolveServiceAreaCompleted += SolveServiceArea_Completed;
             myRouteTask.Failed += SolveServiceArea_Failed;
 
@@ -60,10 +61,8 @@ namespace ArcGISWindowsPhoneSDK
             random = new Random();
         }
 
-        private void SolveButton_Click(object sender, RoutedEventArgs e)
+        private void SolveButton_Click(object sender, EventArgs e)
         {
-            ToggleShowHidebutton(HideShowButton);
-
             List<AttributeParameter> aps = new List<AttributeParameter>();
             AttributeParameter ap = GetAttributeParameterValue(AttributeParameterValues3.SelectionBoxItem.ToString().Trim());
             if (ap != null)
@@ -81,7 +80,7 @@ namespace ArcGISWindowsPhoneSDK
                     Facilities = facilitiesGraphicsLayer.Graphics,
                     //AttributeParameterValues = aps,
                     DefaultBreaks = DefaultBreaks.Text,
-                    ExcludeSourcesFromPolygons = ExculdeSourcesFromPolygons.Text,
+                    ExcludeSourcesFromPolygons = ExcludeSourcesFromPolygons.Text,
                     MergeSimilarPolygonRanges = MergeSimilarPolygonRanges.IsChecked.HasValue ? MergeSimilarPolygonRanges.IsChecked.Value : false,
 
                     OutputLines = GetOutputLines(OutputLines3.SelectionBoxItem.ToString()),
@@ -107,7 +106,8 @@ namespace ArcGISWindowsPhoneSDK
                     RestrictionAttributes = string.IsNullOrEmpty(RestrictionAttributeNames3.Text) ? null : RestrictionAttributeNames3.Text.Split(','),
                     RestrictUTurns = GetRestrictUTurns(RestrictUTurns3.SelectionBoxItem.ToString()),
                     OutputGeometryPrecision = string.IsNullOrEmpty(OutputGeometryPrecision3.Text) ? 0 : double.Parse(OutputGeometryPrecision3.Text),
-                    OutputGeometryPrecisionUnits = GetUnits(OutputGeometryPrecisionUnits3.SelectionBoxItem.ToString().Trim())
+                    OutputGeometryPrecisionUnits = GetUnits(OutputGeometryPrecisionUnits3.SelectionBoxItem.ToString().Trim()),
+                    DoNotLocateOnRestrictedElements = DoNotLocateOnRestrictedElementsCheckBox.IsChecked.HasValue ? DoNotLocateOnRestrictedElementsCheckBox.IsChecked.Value : false, 
                 };
 
                 if (myRouteTask.IsBusy)
@@ -185,10 +185,10 @@ namespace ArcGISWindowsPhoneSDK
         {
             if (e.Action == Editor.EditAction.Add)
             {
-                e.Edits.ElementAt(0).Graphic.Attributes.Add("FacilityNumber",
+                e.Edits.ElementAt(0).Graphic.Attributes.Add("Facility",
                     (e.Edits.ElementAt(0).Layer as GraphicsLayer).Graphics.Count);
 
-                SolveButton.IsEnabled = true;
+                (ApplicationBar.Buttons[0] as IApplicationBarIconButton).IsEnabled = true;
             }
         }
 
@@ -328,17 +328,32 @@ namespace ArcGISWindowsPhoneSDK
             {
                 ControlPanel.Visibility = System.Windows.Visibility.Collapsed;
                 b.Content = "Show";
+                ApplicationBar.IsVisible = true;
             }
             else
             {
                 ControlPanel.Visibility = System.Windows.Visibility.Visible;
                 b.Content = "Hide";
+                ApplicationBar.IsVisible = false;
             }
         }
 
         private void SelectButton_Click(object sender, RoutedEventArgs e)
         {
             ToggleShowHidebutton(HideShowButton);
+        }
+
+        private void ClearButton_Click(object sender, EventArgs e)
+        {
+            foreach (Layer layer in MyMap.Layers)
+                if (layer is GraphicsLayer)
+                    (layer as GraphicsLayer).Graphics.Clear();
+
+            (ApplicationBar.Buttons[0] as IApplicationBarIconButton).IsEnabled = false;
+
+            pointBarriers.Clear();
+            polylineBarriers.Clear();
+            polygonBarriers.Clear();
         }
     }
 }

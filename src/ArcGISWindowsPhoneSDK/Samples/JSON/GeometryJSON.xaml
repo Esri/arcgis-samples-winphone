@@ -17,12 +17,18 @@
     xmlns:esriToolkit="clr-namespace:ESRI.ArcGIS.Client.Toolkit;assembly=ESRI.ArcGIS.Client.Toolkit"
     xmlns:esriDatasources="clr-namespace:ESRI.ArcGIS.Client.Toolkit.DataSources;assembly=ESRI.ArcGIS.Client.Toolkit.DataSources"
     xmlns:esriSymbols="clr-namespace:ESRI.ArcGIS.Client.Symbols;assembly=ESRI.ArcGIS.Client">
-    
-    <Grid x:Name="LayoutRoot" Background="White">
+
+
+
+
+
+    <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
-            <RowDefinition Height="406*" />
-            <RowDefinition Height="362*" />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+
+
         <Grid.Resources>
             <esriSymbols:SimpleMarkerSymbol x:Key="RedMarkerSymbol" Color="Red" Size="12" Style="Circle" />
             <esriSymbols:SimpleLineSymbol x:Key="RedLineSymbol" Color="Red" Width="4" Style="Solid" />
@@ -33,92 +39,95 @@
             <esriSymbols:SimpleLineSymbol x:Key="DrawLineSymbol" Color="Green" Width="4" />
             <esriSymbols:SimpleFillSymbol x:Key="DrawFillSymbol" Fill="#3300FF00" BorderBrush="Green" BorderThickness="2" />
         </Grid.Resources>
+        <Grid Grid.Row="0" x:Name="TitleGrid">
+            <TextBlock x:Name="ApplicationName" Text="Geometry To/From JSON" Style="{StaticResource PhoneTextPageTitle1Style}"/>
+        </Grid>
+        <Grid Grid.Row="1" Background="Black">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="4*" />
+                <RowDefinition Height="3*" />
+            </Grid.RowDefinitions>
 
 
-        <esriClient:Map x:Name="MyMap" WrapAround="True" Grid.Row="0">
-            <esriClient:ArcGISTiledMapServiceLayer ID="TiledLayer" 
+            <esriClient:Map x:Name="MyMap" WrapAround="True" >
+                <esriClient:ArcGISTiledMapServiceLayer ID="TiledLayer" 
                 Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer" />
-            <esriClient:GraphicsLayer ID="MyToJsonGraphicsLayer" />
-            <esriClient:GraphicsLayer ID="MyFromJsonGraphicsLayer" />
+                <esriClient:GraphicsLayer ID="MyToJsonGraphicsLayer" />
+                <esriClient:GraphicsLayer ID="MyFromJsonGraphicsLayer" />
 
-        </esriClient:Map>
- 
-        <Button Content="Reset" FontSize="{StaticResource PhoneFontSizeSmall}" 
-                                        Click="ResetButton_Click" Background="#44444444" Margin="377,0,0,337" />
-        
-        <phonecontrols:Pivot Background="#444444" Grid.Row="1" 
+            </esriClient:Map>
+
+            <Button Content="Reset" FontSize="{StaticResource PhoneFontSizeSmall}" Padding="15,10,15,10"
+                                        Click="ResetButton_Click" Background="DarkSlateGray" HorizontalAlignment="Right" VerticalAlignment="Top" />
+
+            <phonecontrols:Pivot Background="DarkSlateGray" Grid.Row="1" 
                              SelectionChanged="TabControl_SelectionChanged">
-            <phonecontrols:PivotItem>
-                <phonecontrols:PivotItem.Header>
-                    <Grid Height="50">
-                        <TextBlock Text="To JSON" FontSize="40"/>
-                    </Grid>
-                </phonecontrols:PivotItem.Header>
+                <phonecontrols:PivotItem>
+                    <phonecontrols:PivotItem.Header>
+                        <Grid Height="50">
+                            <TextBlock Text="To JSON" FontSize="40"/>
+                        </Grid>
+                    </phonecontrols:PivotItem.Header>
 
-                <Grid Grid.Row="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="90"/>
-                        <RowDefinition Height="191*" />
-                    </Grid.RowDefinitions>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
-                                <Button Content=" Add&#x0a;Point" FontSize="{StaticResource PhoneFontSizeSmall}"
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
+                            <Button Content=" Add&#x0a;Point" FontSize="{StaticResource PhoneFontSizeSmall}"
                                         Click="DrawGeometryButton_Click" Tag="DrawPoint" />
-                                <Button Content="   Add&#x0a;Polyline" FontSize="{StaticResource PhoneFontSizeSmall}"
+                            <Button Content="   Add&#x0a;Polyline" FontSize="{StaticResource PhoneFontSizeSmall}"
                                         Click="DrawGeometryButton_Click" Tag="DrawPolyline" />
-                                <Button Content="   Add&#x0a;Polygon" FontSize="{StaticResource PhoneFontSizeSmall}"
+                            <Button Content="   Add&#x0a;Polygon" FontSize="{StaticResource PhoneFontSizeSmall}"
                                         Click="DrawGeometryButton_Click"  Tag="DrawPolygon"/>
-                                <Button Content="   Add&#x0a;Envelope" FontSize="{StaticResource PhoneFontSizeSmall}"
+                            <Button Content="   Add&#x0a;Envelope" FontSize="{StaticResource PhoneFontSizeSmall}"
                                         Click="DrawGeometryButton_Click" Tag="DrawRectangle" />
-                               
 
-                    </StackPanel>
-                    <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Row="1">
-                        <TextBox x:Name="OutJsonTextBox" TextWrapping="Wrap" 
-                                 IsReadOnly="True" />
-                    </ScrollViewer>
 
-                </Grid>
-
-            </phonecontrols:PivotItem>
-
-        <phonecontrols:PivotItem>
-                <phonecontrols:PivotItem.Header>
-                    <Grid Height="50">
-                        <TextBlock Text="From JSON" FontSize="40"/>
-                    </Grid>
-                </phonecontrols:PivotItem.Header>
-               
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="80" />
-                        <RowDefinition Height="129*" />
-                        <RowDefinition Height="65" />
-                    </Grid.RowDefinitions>
-                    <StackPanel Orientation="Vertical" Margin="0,0,0,105" Grid.RowSpan="2">
-                        <TextBlock Text="Sample JSON" FontWeight="Bold" />
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <Button Content="Point" FontSize="{StaticResource PhoneFontSizeSmall}"
-                                    Click="PointJsonButton_Click" />
-                            <Button Content="Polyline" FontSize="{StaticResource PhoneFontSizeSmall}"
-                                    Click="PolylineJsonButton_Click" />
-                            <Button Content="Polygon" FontSize="{StaticResource PhoneFontSizeSmall}"
-                                    Click="PolygonJsonButton_Click" />
-                            <Button Content="Envelope" FontSize="{StaticResource PhoneFontSizeSmall}"
-                                    Click="EnvelopeJsonButton_Click" />
                         </StackPanel>
-                    </StackPanel>
-                    <ScrollViewer Grid.Row="1">
-                        <TextBox x:Name="InJsonTextBox" FontSize="12" TextWrapping="Wrap" />
-                    </ScrollViewer>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Grid.Row="1" Margin="0,117,0,0" Grid.RowSpan="2">
-                        <Button Content="Create Geometry from JSON"
+                        <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Row="1">
+                            <TextBox x:Name="OutJsonTextBox" TextWrapping="Wrap" 
+                                 IsReadOnly="True" />
+                        </ScrollViewer>
+                    </Grid>
+                </phonecontrols:PivotItem>
+
+                <phonecontrols:PivotItem>
+                    <phonecontrols:PivotItem.Header>
+                        <Grid Height="50">
+                            <TextBlock Text="From JSON" FontSize="40"/>
+                        </Grid>
+                    </phonecontrols:PivotItem.Header>
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Vertical" Grid.Row="0">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <Button Content="Point" FontSize="{StaticResource PhoneFontSizeSmall}"
+                                    Click="PointJsonButton_Click" />
+                                <Button Content="Polyline" FontSize="{StaticResource PhoneFontSizeSmall}"
+                                    Click="PolylineJsonButton_Click" />
+                                <Button Content="Polygon" FontSize="{StaticResource PhoneFontSizeSmall}"
+                                    Click="PolygonJsonButton_Click" />
+                                <Button Content="Envelope" FontSize="{StaticResource PhoneFontSizeSmall}"
+                                    Click="EnvelopeJsonButton_Click" />
+                            </StackPanel>
+                        </StackPanel>
+                        <ScrollViewer Grid.Row="1">
+                            <TextBox x:Name="InJsonTextBox" FontSize="16" TextWrapping="Wrap" />
+                        </ScrollViewer>
+                        <Button Content="Create Geometry from JSON" Grid.Row="2"
                                 FontSize="{StaticResource PhoneFontSizeSmall}"
-                                Click="ApplyButton_Click" Width="452" />
+                                Click="ApplyButton_Click" Width="Auto" />                        
+                    </Grid>
+                </phonecontrols:PivotItem>
 
-                    </StackPanel>
-                </Grid>
-            </phonecontrols:PivotItem>
-
-    </phonecontrols:Pivot>
-            </Grid>
+            </phonecontrols:Pivot>
+        </Grid>
+    </Grid>
 </phone:PhoneApplicationPage>

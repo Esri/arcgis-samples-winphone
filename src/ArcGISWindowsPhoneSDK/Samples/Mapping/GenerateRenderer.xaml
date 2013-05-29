@@ -23,7 +23,7 @@
         <Grid Grid.Row="1" x:Name="ContentPanel">
             <esri:Map x:Name="MyMap" Background="LightGray">
                 <esri:Map.Extent>
-                    <esriGeometry:Envelope XMin="-3548912" YMin="-1847469" XMax="2472012" YMax="1742990">
+                    <esriGeometry:Envelope XMin="-3548912" YMin="-1147469" XMax="2472012" YMax="1942990">
                         <esriGeometry:Envelope.SpatialReference>
                             <esriGeometry:SpatialReference WKID="102009"/>
                         </esriGeometry:Envelope.SpatialReference>

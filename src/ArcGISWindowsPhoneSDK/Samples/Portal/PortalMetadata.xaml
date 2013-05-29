@@ -13,8 +13,8 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
             <shell:ApplicationBar.Buttons>
-                <shell:ApplicationBarIconButton x:Name="ShowMaps" IconUri="Images/DrawPolygon.png" Text="maps" Click="ShowMapsButton_Click" IsEnabled="False" />
-                <shell:ApplicationBarIconButton x:Name="ShowGroups" IconUri="Images/List.png" Text="maps" Click="ShowGroupsButton_Click" IsEnabled="False" />
+                <shell:ApplicationBarIconButton x:Name="ShowMaps" IconUri="Images/map.png" Text="maps" Click="ShowMapsButton_Click" IsEnabled="False" />
+                <shell:ApplicationBarIconButton x:Name="ShowGroups" IconUri="Images/List.png" Text="groups" Click="ShowGroupsButton_Click" IsEnabled="False" />
             </shell:ApplicationBar.Buttons>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
@@ -81,7 +81,6 @@
                                             <TextBlock Text="Creation Date: " FontStyle="Italic" Margin="0 0 3 0"/>
                                             <TextBlock Text="{Binding CreationDate}" TextWrapping="Wrap" HorizontalAlignment="Left" MaxWidth="130" />
                                         </StackPanel>
-                                        <!--<TextBlock Text="{Binding CreationDate, StringFormat='Creation Date: {0}'}" />-->
                                         <HyperlinkButton Content="{Binding Url,StringFormat='Url: {0}'}" NavigateUri="{Binding Url}"/>
                                     </StackPanel>
                                 </StackPanel>

@@ -57,7 +57,7 @@
             </esri:Map>
             <Border Background="DarkGray" VerticalAlignment="Top" HorizontalAlignment="Left" CornerRadius="8" Margin="8">
                 <Border Background="{StaticResource PhoneBackgroundBrush}" Margin="8" CornerRadius="8">
-                <CheckBox x:Name="EnableEditVerticesScaleRotate" Content="Click on geometry to edit" IsChecked="False" Background="{StaticResource PhoneForegroundBrush}"/>
+                <CheckBox x:Name="EnableEditVerticesScaleRotate" Content="Click on geometry to edit" IsChecked="False"/>
                 </Border>
             </Border>
         </Grid>

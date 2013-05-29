@@ -38,14 +38,10 @@ namespace ArcGISWindowsPhoneSDK
             ExtentGrid.Visibility = Visibility.Visible;
         }
 
-        private void ShowExtent_Clicked(object sender, System.EventArgs e)
+        private void ShowInfo_Clicked(object sender, System.EventArgs e)
         {
             ExtentGrid.Visibility = ExtentGrid.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
-        }
-
-        private void ShowUrlEntry_Clicked(object sender, System.EventArgs e)
-        {
-            UrlEntry.Visibility = UrlEntry.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+            UrlEntry.Visibility = UrlEntry.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;       
         }
     }
 }

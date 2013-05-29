@@ -12,10 +12,9 @@ namespace ArcGISWindowsPhoneSDK
         List<Graphic> _stops = new List<Graphic>();
         List<Graphic> _barriers = new List<Graphic>();
         RouteParameters _routeParams = new RouteParameters();
-	Draw myDrawObject;
-	GraphicsLayer stopsLayer = null;
-	GraphicsLayer barriersLayer = null;
-
+        Draw myDrawObject;
+        GraphicsLayer stopsLayer = null;
+        GraphicsLayer barriersLayer = null;
 
         public RoutingBarriers()
         {
@@ -29,7 +28,7 @@ namespace ArcGISWindowsPhoneSDK
             myDrawObject.DrawComplete += myDrawObject_DrawComplete;
 
             _routeTask =
-                new RouteTask("http://tasks.arcgisonline.com/ArcGIS/rest/services/NetworkAnalysis/ESRI_Route_NA/NAServer/Route");
+                new RouteTask("http://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/Route");
             _routeTask.SolveCompleted += routeTask_SolveCompleted;
             _routeTask.Failed += routeTask_Failed;
 
@@ -37,8 +36,8 @@ namespace ArcGISWindowsPhoneSDK
             _routeParams.Barriers = _barriers;
             _routeParams.UseTimeWindows = false;
 
-	     barriersLayer = MyMap.Layers["MyBarriersGraphicsLayer"] as GraphicsLayer;
-	     stopsLayer = MyMap.Layers["MyStopsGraphicsLayer"] as GraphicsLayer;
+            barriersLayer = MyMap.Layers["MyBarriersGraphicsLayer"] as GraphicsLayer;
+            stopsLayer = MyMap.Layers["MyStopsGraphicsLayer"] as GraphicsLayer;
         }
 
         void myDrawObject_DrawComplete(object sender, DrawEventArgs e)
@@ -53,7 +52,7 @@ namespace ArcGISWindowsPhoneSDK
             else if (BarriersRadioButton.IsChecked.Value)
             {
                 Graphic barrier = new Graphic() { Geometry = e.Geometry, Symbol = LayoutRoot.Resources["BarrierSymbol"] as ESRI.ArcGIS.Client.Symbols.Symbol };
-		barriersLayer.Graphics.Add(barrier);
+                barriersLayer.Graphics.Add(barrier);
                 _barriers.Add(barrier);
             }
             if (_stops.Count > 1)
@@ -72,13 +71,13 @@ namespace ArcGISWindowsPhoneSDK
             foreach (string detail in (e.Error as ServiceException).Details)
                 errorMessage += "," + detail;
 
-						MessageBox.Show(errorMessage);
+            MessageBox.Show(errorMessage);
 
-						if ((_stops.Count) > 10)
-						{
-							stopsLayer.Graphics.RemoveAt(stopsLayer.Graphics.Count - 1);
-							_stops.RemoveAt(_stops.Count - 1);
-						}
+            if ((_stops.Count) > 10)
+            {
+                stopsLayer.Graphics.RemoveAt(stopsLayer.Graphics.Count - 1);
+                _stops.RemoveAt(_stops.Count - 1);
+            }
         }
 
         private void routeTask_SolveCompleted(object sender, RouteEventArgs e)
@@ -100,8 +99,7 @@ namespace ArcGISWindowsPhoneSDK
 
             foreach (Layer layer in MyMap.Layers)
                 if (layer is GraphicsLayer)
-                    (layer as GraphicsLayer).ClearGraphics();
+                    (layer as GraphicsLayer).Graphics.Clear();
         }
-
     }
 }

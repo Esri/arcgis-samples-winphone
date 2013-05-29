@@ -10,6 +10,7 @@ using ESRI.ArcGIS.Client.Geometry;
 using ESRI.ArcGIS.Client.Symbols;
 using ESRI.ArcGIS.Client.Tasks;
 using ESRI.ArcGIS.Client.Toolkit;
+using Microsoft.Phone.Shell;
 
 namespace ArcGISWindowsPhoneSDK
 {
@@ -177,8 +178,6 @@ namespace ArcGISWindowsPhoneSDK
 
             for (int i = 0; i < graphicsLayers.Count; i++)
                 MyMap.Layers.Remove(graphicsLayers[i]);
-
-            DisplayInBrowser(string.Empty);
         }
 
         private void CreateFeatureSetJson()
@@ -217,7 +216,6 @@ namespace ArcGISWindowsPhoneSDK
 
         private void Button_Show(object sender, RoutedEventArgs e)
         {
-            DisplayInBrowser(string.Empty);
             FeatureLayer featureLayer = new FeatureLayer()
             {
                 Url = FeatureLayerUrlTextBox.Text
@@ -243,6 +241,7 @@ namespace ArcGISWindowsPhoneSDK
             // show the json in a web browser since too long for a Windows Phone TextBox
             DisplayInBrowser(jsonOutput);
         }
+
         void DisplayInBrowser(string json)
         {
             OutWebBrowser.NavigateToString("<html><head><title>JSON Output</title></head><body>" + json + "</body></html>");
@@ -254,11 +253,20 @@ namespace ArcGISWindowsPhoneSDK
                 "FeatureLayer update failed", MessageBoxButton.OK);
         }
 
-        private void PivotButton_Click(object sender, EventArgs e)
+        private void ShowHideMapClick(object sender, EventArgs e)
         {
-            JsonPivot.Visibility = (JsonPivot.Visibility == Visibility.Collapsed) ? Visibility.Visible : Visibility.Collapsed;
-            if (myInfoWindow != null && myInfoWindow.IsOpen && JsonPivot.Visibility == Visibility.Visible)
-                myInfoWindow.IsOpen = false;
+            if (JsonPivot.Visibility == System.Windows.Visibility.Visible)
+            {
+                JsonPivot.Visibility = System.Windows.Visibility.Collapsed;
+                (ApplicationBar.Buttons[0] as IApplicationBarIconButton).IconUri = new Uri("Images/List.png",UriKind.Relative);
+            }
+            else
+            {
+                JsonPivot.Visibility = System.Windows.Visibility.Visible;
+                (ApplicationBar.Buttons[0] as IApplicationBarIconButton).IconUri = new Uri("Images/map.png", UriKind.Relative);
+                if (myInfoWindow != null)
+                    myInfoWindow.IsOpen = false;
+            }                   
         }
     }
 }

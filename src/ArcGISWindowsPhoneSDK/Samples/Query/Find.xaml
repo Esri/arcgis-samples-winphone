@@ -34,9 +34,9 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="150" />
             </Grid.RowDefinitions>
-            <esri:Map x:Name="MyMap" Grid.Row="0" Extent="-125, 25, -65, 55" Background="Transparent">
+            <esri:Map x:Name="MyMap" Grid.Row="0" Extent="-15000000,2000000,-7000000,8000000" Background="Transparent">
                 <esri:ArcGISTiledMapServiceLayer ID="TopoLayer" 
-                    Url="http://server.arcgisonline.com/ArcGIS/rest/services/NGS_Topo_US_2D/MapServer"/>
+                    Url="http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer"/>
                 <esri:ArcGISDynamicMapServiceLayer ID="DemographicLayer" Opacity="0.5"
                     Url="http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StatesCitiesRivers_USA/MapServer" />
                 <esri:GraphicsLayer ID="MyGraphicsLayer" />

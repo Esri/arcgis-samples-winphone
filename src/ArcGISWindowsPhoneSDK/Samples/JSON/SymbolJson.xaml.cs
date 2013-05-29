@@ -4,6 +4,7 @@ using System.Windows;
 using ESRI.ArcGIS.Client;
 using ESRI.ArcGIS.Client.Geometry;
 using ESRI.ArcGIS.Client.Symbols;
+using System.Windows.Controls;
 
 
 namespace ArcGISWindowsPhoneSDK
@@ -172,7 +173,8 @@ namespace ArcGISWindowsPhoneSDK
 
         private void JsonButton_Click(object sender, EventArgs e)
         {
-            JsonPivot.Visibility = JsonPivot.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
+            TextBox textbox = ((JsonPivot.SelectedItem as ContentControl).Content as ScrollViewer).Content as TextBox;
+            UseSymbol(textbox.Text);
         }
     }
 }

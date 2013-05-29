@@ -15,48 +15,42 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
             <shell:ApplicationBar.Buttons>
-                <shell:ApplicationBarIconButton x:Name="DrawPointButton" IconUri="Images/DrawPoint.png" Click="DrawPointButton_Click" Text="Draw Point" />
                 <shell:ApplicationBarIconButton IconUri="Images/GrayEraser.png" Click="Menu_List_Clear" Text="Clear" />
             </shell:ApplicationBar.Buttons>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
-    
+
     <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.Resources>
-            <esriSymbols:SimpleMarkerSymbol x:Key="StopSymbol" Size="30" Style="Triangle" Color="Green" />
+            <esriSymbols:SimpleMarkerSymbol x:Key="StopSymbol" Size="26" Style="Circle" Color="Green" />
             <esriSymbols:SimpleLineSymbol x:Key="RouteSymbol" Color="#AA0000FF" Width="6"/>
             <esriTasks:RouteTask 
 				x:Name="MyRouteTask"
 				Failed="MyRouteTask_Failed"
 				SolveCompleted="MyRouteTask_SolveCompleted"
-				Url="http://tasks.arcgisonline.com/ArcGIS/rest/services/NetworkAnalysis/ESRI_Route_NA/NAServer/Route" />
+				Url="http://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/Route" />
         </Grid.Resources>
 
-        
         <Grid Grid.Row="0" x:Name="TitleGrid">
             <TextBlock x:Name="ApplicationName" Text="Routing" Style="{StaticResource PhoneTextPageTitle1Style}"/>
-        </Grid>
+        </Grid> 
 
-        <Grid Grid.Row="2" x:Name="ContentPanel">
-            <esri:Map x:Name="MyMap" Background="White" Extent="-117.22,34.04,-117.17,34.07">
-                <esri:Map.Layers>
-                    <esri:ArcGISTiledMapServiceLayer
-                      Url="http://server.arcgisonline.com/ArcGIS/rest/services/ESRI_StreetMap_World_2D/MapServer"/>
-                    <esri:GraphicsLayer ID="MyStopsGraphicsLayer" />
-                    <esri:GraphicsLayer ID="MyRouteGraphicsLayer" />
-                </esri:Map.Layers>
+        <Grid Grid.Row="1" x:Name="ContentPanel">
+            <esri:Map x:Name="MyMap" Extent="-13043074.473,3856628.055,-13040628.488,3857689.246">
+                <esri:ArcGISTiledMapServiceLayer
+                      Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer"/>
+                <esri:GraphicsLayer ID="MyStopsGraphicsLayer" />
+                <esri:GraphicsLayer ID="MyRouteGraphicsLayer" />
             </esri:Map>
 
-        </Grid>
-
-        <Grid Grid.Row="1" x:Name="InfoGrid">
-            <TextBlock x:Name="TimeText" Text="" Style="{StaticResource PhoneTextPageTitle1Style}" HorizontalAlignment="Center" TextAlignment="Center"/>
-        </Grid>
+            <Grid x:Name="InfoGrid" VerticalAlignment="Top" Background="{StaticResource PhoneSemitransparentBrush}">
+                <TextBlock x:Name="TimeText" HorizontalAlignment="Center" Margin="5,0,5,0" TextWrapping="Wrap"/>
+            </Grid>
+        </Grid>     
 
     </Grid>
 </phone:PhoneApplicationPage>

@@ -61,7 +61,7 @@
                 <StackPanel Orientation="Vertical" Margin="25,20,25,25" >
                     <TextBlock Text="Population density" FontWeight="Bold" FontSize="22" Margin="3" />
                     <CheckBox Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" IsChecked="True" Content="Enable Clustering" 
-                        HorizontalAlignment="Center" Margin="0,0,5,0" Background="White" Foreground="White"/>
+                        HorizontalAlignment="Center" Margin="0,0,5,0" />
                 </StackPanel>
             </Grid>
         </Grid>

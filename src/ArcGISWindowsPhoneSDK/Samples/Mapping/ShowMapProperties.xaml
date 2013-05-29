@@ -37,8 +37,8 @@
             </esri:Map>
 
             <Grid x:Name="MapProperties" Margin="10" Background="White" VerticalAlignment="Stretch">
-                <Rectangle Stroke="Gray"  RadiusX="10" RadiusY="10" Fill="#77919191" Margin="0,0,0,5" />
-                <Rectangle Fill="#DDFFFFFF" Stroke="DarkGray" RadiusX="5" RadiusY="5" Margin="10,10,10,15" />
+                <Rectangle Stroke="Gray" Fill="#77919191" Margin="0" />
+                <Rectangle Fill="#DDFFFFFF" Stroke="DarkGray" Margin="10,10,10,15" />
                 <ScrollViewer Margin="20, 20, 20, 25">
                     <TextBlock x:Name="PropertiesTextBlock" Foreground="Black" Text="Initializing..." />
                 </ScrollViewer>

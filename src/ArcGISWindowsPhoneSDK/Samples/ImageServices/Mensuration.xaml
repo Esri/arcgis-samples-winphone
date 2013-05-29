@@ -32,8 +32,11 @@
             <esriSymbols:SimpleFillSymbol x:Key="DrawPolygonSymbol" Fill="#AAFF0000" BorderBrush="Red" BorderThickness="1" />
         </Grid.Resources>
 
+        <Grid Grid.Row="0" x:Name="TitleGrid">
+            <TextBlock x:Name="ApplicationName" Text="Mensuration" Style="{StaticResource PhoneTextPageTitle1Style}"/>
+        </Grid>
 
-        <esri:Map x:Name="MyMap" Grid.ColumnSpan="2" Grid.RowSpan="2">
+        <esri:Map x:Name="MyMap" Grid.ColumnSpan="2" Grid.Row="1">
             <esri:Map.Extent>
                 <esriGeometry:Envelope XMin="-8837539.7478879" YMin="5409958.25627388" XMax="-8837131.23186704" YMax="5410653.60269237" >
                     <esriGeometry:Envelope.SpatialReference>

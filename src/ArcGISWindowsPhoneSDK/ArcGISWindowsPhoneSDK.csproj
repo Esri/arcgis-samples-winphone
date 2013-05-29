@@ -75,6 +75,9 @@
       <HintPath>..\..\..\..\..\..\depfiles\sharedlibs\WindowsPhoneToolkit\wp71\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Phone.Interop" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\..\..\..\depfiles\sharedlibs\JSON.NET\WindowsPhone\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Device" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Servicemodel.Web" />
@@ -105,6 +108,9 @@
     <Compile Include="Samples\Editing\AttributeOnlyEditing.xaml.cs">
       <DependentUpon>AttributeOnlyEditing.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Samples\Editing\EditToolsSelectionOnly.xaml.cs">
+      <DependentUpon>EditToolsSelectionOnly.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Samples\Editing\EditingCodedValueDomains.xaml.cs">
       <DependentUpon>EditingCodedValueDomains.xaml</DependentUpon>
     </Compile>
@@ -115,6 +121,23 @@
     <Compile Include="Samples\Extras\ArcGISWebClientSimple.xaml.cs">
       <DependentUpon>ArcGISWebClientSimple.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Samples\Extras\SOEElevationDataContract.xaml.cs">
+      <DependentUpon>SOEElevationDataContract.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Extras\SOEElevationLatLonJsonObject.xaml.cs">
+      <DependentUpon>SOEElevationLatLonJsonObject.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Extras\SOEElevationData.xaml.cs">
+      <DependentUpon>SOEElevationData.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Extras\ElevationProfile\ElevationProfile.xaml.cs">
+      <DependentUpon>ElevationProfile.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Extras\ElevationProfile\GraphControl\Graph.xaml.cs">
+      <DependentUpon>Graph.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Extras\ElevationProfile\GraphDataTypes\BasicGraphData.cs" />
+    <Compile Include="Samples\Extras\ElevationProfile\GraphDataTypes\CloseData.cs" />
     <Compile Include="Samples\FeatureLayers\FeatureLayerChangeVersion.xaml.cs">
       <DependentUpon>FeatureLayerChangeVersion.xaml</DependentUpon>
     </Compile>
@@ -190,6 +213,10 @@
     <Compile Include="Samples\Mapping\ShowMapProperties.xaml.cs">
       <DependentUpon>ShowMapProperties.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Samples\Mapping\SwipeMap.xaml.cs">
+      <DependentUpon>SwipeMap.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Samples\Network\ClosestFacility.xaml.cs">
       <DependentUpon>ClosestFacility.xaml</DependentUpon>
     </Compile>
@@ -199,6 +226,15 @@
     <Compile Include="Samples\Network\ServiceAreas.xaml.cs">
       <DependentUpon>ServiceAreas.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Samples\Query\QueryRelatedRecords.xaml.cs">
+      <DependentUpon>QueryRelatedRecords.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\TimeAware\TemporalRendererTracks.xaml.cs">
+      <DependentUpon>TemporalRendererTracks.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\TimeAware\TemporalRendererPoints.xaml.cs">
+      <DependentUpon>TemporalRendererPoints.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Samples\TimeAware\TimeMapService.xaml.cs">
       <DependentUpon>TimeMapService.xaml</DependentUpon>
     </Compile>
@@ -207,6 +243,9 @@
     </Compile>
     <Compile Include="Samples\TimeAware\TimeImageService.xaml.cs">
       <DependentUpon>TimeImageService.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Toolkit\LegendWithTemplates.xaml.cs">
+      <DependentUpon>LegendWithTemplates.xaml</DependentUpon>
     </Compile>
     <Compile Include="Samples\Toolkit\LegendKmlWms.xaml.cs">
       <DependentUpon>LegendKmlWms.xaml</DependentUpon>
@@ -552,6 +591,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Samples\Editing\EditToolsSelectionOnly.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Samples\Editing\EditingCodedValueDomains.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -561,6 +604,26 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Samples\Extras\ArcGISWebClientSimple.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Extras\SOEElevationDataContract.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Extras\SOEElevationLatLonJsonObject.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Extras\SOEElevationData.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Extras\ElevationProfile\ElevationProfile.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Extras\ElevationProfile\GraphControl\Graph.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -664,6 +727,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Samples\Mapping\SwipeMap.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Samples\Network\ClosestFacility.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -673,6 +740,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Samples\Network\ServiceAreas.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Query\QueryRelatedRecords.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\TimeAware\TemporalRendererTracks.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\TimeAware\TemporalRendererPoints.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -687,6 +766,10 @@
     <Page Include="Samples\TimeAware\TimeImageService.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Samples\Toolkit\LegendWithTemplates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Samples\Toolkit\LegendKmlWms.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1113,6 +1196,8 @@
     <Resource Include="Images\ArrowImgLight.png" />
     <Content Include="Images\Add.png" />
     <Content Include="Images\Cancel.png" />
+    <Content Include="Images\Delete.png" />
+    <Content Include="Images\DrawChart.png" />
     <Content Include="Images\DrawGraphics.pspimage" />
     <Content Include="Images\DrawRectangle.pspimage" />
     <Content Include="Images\Edit.png" />
@@ -1121,7 +1206,7 @@
     <Content Include="Images\GrayEraser.png" />
     <Content Include="Images\home.png" />
     <Content Include="Images\hurricane_legend.png" />
-    <Content Include="Images\icons.psd" />
+    <Content Include="Images\hurr_100_icon.png" />
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml" />
     <Content Include="Images\flag-48x48.png" />
@@ -1146,6 +1231,7 @@
     <Content Include="Images\i_pushpin.png" />
     <Content Include="Images\List.png" />
     <Content Include="Images\Forward.png" />
+    <Content Include="Images\map.png" />
     <Content Include="Images\person.png" />
     <Content Include="Images\Pin.png" />
     <Content Include="Images\point-16x16.png" />
@@ -1162,9 +1248,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Samples\WhatsNew\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

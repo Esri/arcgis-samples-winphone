@@ -12,7 +12,12 @@
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:esriSymbols="clr-namespace:ESRI.ArcGIS.Client.Symbols;assembly=ESRI.ArcGIS.Client">
 
-    <Grid x:Name="LayoutRoot" Background="White">
+    <Grid x:Name="LayoutRoot" Background="Black">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
         <Grid.Resources>
             <esriSymbols:MarkerSymbol x:Key="SelectMarkerSymbol" OffsetX="0" OffsetY="24">
                 <esriSymbols:MarkerSymbol.ControlTemplate>
@@ -25,13 +30,8 @@
                     </ControlTemplate>
                 </esriSymbols:MarkerSymbol.ControlTemplate>
             </esriSymbols:MarkerSymbol>
-            <esri:SimpleRenderer x:Key="MySelectionRenderer" Symbol="{StaticResource SelectMarkerSymbol }"/>
-            <esri:SimpleRenderer x:Key="MySimpleRenderer">
-                <esri:SimpleRenderer.Symbol>
-                    <esriSymbols:PictureMarkerSymbol Source="/Images/point-16x16.png" OffsetX="8" OffsetY="8" />
-                </esri:SimpleRenderer.Symbol>
-            </esri:SimpleRenderer>
-
+            <esri:SimpleRenderer x:Key="MyResultsRenderer" Symbol="{StaticResource SelectMarkerSymbol }" />
+           
             <DataTemplate x:Key="MyWorldGeocodingInfoWindowTemplate">
                 <Border Background="Black" BorderBrush="Black" 
                             BorderThickness="1">
@@ -43,12 +43,16 @@
             </DataTemplate>
         </Grid.Resources>
 
-        <esri:Map x:Name="MyMap" WrapAround="True" Extent="2636359.040,4573160.312,2646142.979,4578315.528" 
-                  MouseClick="MyMap_MouseClick" Grid.RowSpan="3">
+        <Grid Grid.Row="0" x:Name="TitleGrid">
+            <TextBlock x:Name="ApplicationName" Text="World Geocoding" Style="{StaticResource PhoneTextPageTitle1Style}"/>
+        </Grid>
+
+        <esri:Map x:Name="MyMap" Grid.Row="1" WrapAround="True" Extent="2636359.040,4573160.312,2646142.979,4578315.528" 
+                  MouseClick="MyMap_MouseClick" BorderBrush="Black" BorderThickness="1">
+
             <esri:ArcGISTiledMapServiceLayer 
-                Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer" />
-            <esri:GraphicsLayer ID="SearchOriginGraphicsLayer" Renderer="{StaticResource MySimpleRenderer}" />
-            <esri:GraphicsLayer ID="FindResultLocationsGraphicsLayer" Renderer="{StaticResource MySelectionRenderer}" />
+                Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer" />           
+            <esri:GraphicsLayer ID="FindResultLocationsGraphicsLayer" Renderer="{StaticResource MyResultsRenderer}" />
         </esri:Map>
 
         <toolkit:InfoWindow x:Name="MyInfoWindow" CornerRadius="0" BorderBrush="Black"                            
@@ -59,22 +63,17 @@
                             MouseLeftButtonUp="MyInfoWindow_MouseLeftButtonUp">
         </toolkit:InfoWindow>
 
-        <Canvas Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" >
-            <Ellipse Width="10" Height="10" Stroke="#BB000000" StrokeThickness="1" Canvas.Left="5" Canvas.Top="5" />
-            <Line X1="0" X2="20" Y1="10" Y2="10" Stroke="#BB000000" StrokeThickness="1" />
-            <Line X1="10" X2="10" Y1="0" Y2="20" Stroke="#BB000000" StrokeThickness="1" />
-        </Canvas>
-
-        <Border HorizontalAlignment="Right" VerticalAlignment="Top" Padding="5" Background="White" 
-                BorderBrush="Black" BorderThickness="1" Height="90">
-            <Grid Width="480" Height="65">
+        <Border Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="Black"                
+                Height="75">
+            <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="353*" />
-                    <ColumnDefinition Width="127"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBox x:Name="SearchTextBox" Text="Starbucks" AcceptsReturn="True" Margin="0,0,0,-12" />
-                <Button Content="Search" Click="FindButton_Click" Background="#444444" Grid.Column="1" Margin="0,0,0,-10" />
+                <TextBox x:Name="SearchTextBox" Margin="5,0,0,0" TextAlignment="Left" Text="Starbucks" AcceptsReturn="True" />
+                <Button Content="Search" Click="FindButton_Click" Background="#444444" Grid.Column="1" />
             </Grid>
         </Border>
+
     </Grid>
 </phone:PhoneApplicationPage>

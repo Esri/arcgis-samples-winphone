@@ -18,18 +18,20 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.Resources>
-            <ControlTemplate x:Name="CompositeSymbol"
-                xmlns="http://schemas.microsoft.com/client/2007"
-                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-                <Grid>
-                    <Ellipse Fill="{Binding Symbol.Color}" Width="{Binding Symbol.Size}" Height="{Binding Symbol.Size}" Stroke="Black" StrokeThickness="1" />
-                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
-                        Text="{Binding Path=Attributes[StopNumber]}"
-                        FontSize="24" Margin="0" FontWeight="Bold" Foreground="Black" />
-                </Grid>
-            </ControlTemplate>
-            <esriSymbols:SimpleMarkerSymbol x:Name="StopSymbol" Size="40" Style="Circle" Color="Salmon" ControlTemplate="{StaticResource CompositeSymbol}" />
-            <esriSymbols:SimpleMarkerSymbol x:Name="BarrierSymbol" Size="30" Style="Triangle" Color="Red"  />
+            <esriSymbols:SimpleMarkerSymbol x:Name="StopSymbol" Size="40" Style="Circle" Color="LightGreen">
+                <esriSymbols:SimpleMarkerSymbol.ControlTemplate>
+                    <ControlTemplate>
+                        <Grid>
+                            <Ellipse Fill="{Binding Symbol.Color}" Width="{Binding Symbol.Size}" 
+                                     Height="{Binding Symbol.Size}" Stroke="Black" StrokeThickness="1" />
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                                Text="{Binding Path=Attributes[StopNumber]}"
+                                FontSize="24" Margin="0" FontWeight="Bold" Foreground="Black" />
+                        </Grid>
+                    </ControlTemplate>
+                </esriSymbols:SimpleMarkerSymbol.ControlTemplate>
+            </esriSymbols:SimpleMarkerSymbol>
+            <esriSymbols:SimpleMarkerSymbol x:Name="BarrierSymbol" Size="26" Style="Square" Color="Red"  />
             <esriSymbols:SimpleLineSymbol x:Name="RouteSymbol" Color="#AA0000FF" Width="6"/>
         </Grid.Resources>
 
@@ -38,20 +40,20 @@
         </Grid>
 
         <Grid Grid.Row="1">
-                <StackPanel Orientation="Horizontal" Margin="0">
-                    <RadioButton Content="Add Stops" x:Name="StopsRadioButton" IsChecked="true" Padding="0"  Margin="-5"
+            <StackPanel Orientation="Horizontal" Margin="0">
+                <RadioButton Content="Add Stops" x:Name="StopsRadioButton" IsChecked="true" Padding="0"  Margin="-5"
 						Foreground="White" GroupName="add" VerticalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}"/>
-                    <RadioButton Content="Add Barriers" x:Name="BarriersRadioButton" Padding="0" Margin="-5"
+                <RadioButton Content="Add Barriers" x:Name="BarriersRadioButton" Padding="0" Margin="-5"
 						Foreground="White" GroupName="add" VerticalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}"/>
-                    <Button Content="Clear" Click="Button_Click" Margin="0"/>
-                </StackPanel>
-            </Grid>
-        
+                <Button Content="Clear" Click="Button_Click" Margin="0"/>
+            </StackPanel>
+        </Grid>
+
         <Grid Grid.Row="2" x:Name="ContentPanel">
-            <esri:Map x:Name="MyMap" Background="White" Extent="-117.22,34.04,-117.17,34.07">
+            <esri:Map x:Name="MyMap" Background="White" Extent="-13043074.473,3856628.055,-13040628.488,3857689.246">
                 <esri:Map.Layers>
                     <esri:ArcGISTiledMapServiceLayer
-                      Url="http://server.arcgisonline.com/ArcGIS/rest/services/ESRI_StreetMap_World_2D/MapServer"/>
+                      Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer"/>
                     <esri:GraphicsLayer ID="MyRouteGraphicsLayer" />
                     <esri:GraphicsLayer ID="MyStopsGraphicsLayer" />
                     <esri:GraphicsLayer ID="MyBarriersGraphicsLayer" />

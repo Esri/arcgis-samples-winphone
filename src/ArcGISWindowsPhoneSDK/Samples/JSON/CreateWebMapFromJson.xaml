@@ -16,25 +16,30 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" d:DesignHeight="800" d:DesignWidth="480">
 
-    <Grid x:Name="LayoutRoot" Background="White">
+    <Grid x:Name="LayoutRoot" Background="Black">
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-         <Grid x:Name="MyMapGrid" Grid.Row="0" Background="Gray" />
-         <TextBlock x:Name="ApplicationName" Text="WebMap From JSON" Foreground="White" Style="{StaticResource PhoneTextPageTitle1Style}" Margin="12,12,248,343" Grid.Row="0"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>      
 
-        <Grid  Grid.Row="1" Background="Gray" VerticalAlignment="Stretch">
+        <Grid Grid.Row="0" x:Name="TitleGrid">
+            <TextBlock x:Name="ApplicationName" Text="WebMap from JSON" Style="{StaticResource PhoneTextPageTitle1Style}"/>
+        </Grid>
+        
+        <Grid x:Name="MyMapGrid" Grid.Row="1" Background="Gray" />
+        
+        <Grid  Grid.Row="2" Background="DarkSlateGray" VerticalAlignment="Stretch">
             <Grid.RowDefinitions>
-                <RowDefinition Height="90" />
-                <RowDefinition Height="300*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal" Grid.Row="0" >
                 <Button FontSize="{StaticResource PhoneFontSizeSmall}" Content="Clear Map"  Click="Button_ClearMap" />
                 <Button FontSize="{StaticResource PhoneFontSizeSmall}" Content="Create Map from Web Map JSON" Click="Button_Load"/>
             </StackPanel>
             <ScrollViewer Grid.Row="1">
-                <TextBox x:Name="JsonTextBox" FontSize="12" />
+                <TextBox x:Name="JsonTextBox" FontSize="16" />
             </ScrollViewer>
         </Grid>
     </Grid>

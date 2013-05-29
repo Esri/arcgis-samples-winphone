@@ -21,33 +21,28 @@
         </Grid>
 
         <Grid Grid.Row="1" x:Name="ContentPanel">
-            <esri:Map x:Name="MyMap" WrapAround="True" Extent="-10728987.963,4616738.441,-10682108.766,4659000.747">
+            <esri:Map x:Name="MyMap" WrapAround="True" Extent="-10728900,4616700,-10682100,4659000">
                 <esri:ArcGISTiledMapServiceLayer ID="Street Map" 
                     Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer"/>
-                <esri:FeatureLayer ID="Kansas Wells - Less than 1:350000"  Mode="OnDemand" IgnoreServiceScaleRange="False" 
+                <esri:FeatureLayer ID="Kansas Wells - Less than 1:350000" Mode="OnDemand" IgnoreServiceScaleRange="False"
                     Url="http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Petroleum/KSPetro/MapServer/0" />
             </esri:Map>
 
-            <Border Background="#77919191" BorderThickness="1" CornerRadius="5"
-                HorizontalAlignment="Right"  VerticalAlignment="Top"
-                Margin="20" Padding="5" BorderBrush="Black" >
-                <Grid>
-                    <ListBox Margin="5">
-                        <esriToolkit:Legend Map="{Binding ElementName=MyMap}" 
-                                            LayerItemsMode="Flat" 
-                                            LayerIDs="Kansas Wells - Less than 1:350000" />
-                    </ListBox>
-                </Grid>
-            </Border>
+            <Grid Background="Black" Margin="5" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+                <ListBox Padding="5">
+                    <esriToolkit:Legend Map="{Binding ElementName=MyMap}" 
+                                        LayerItemsMode="Flat" 
+                                        LayerIDs="Kansas Wells - Less than 1:350000" />
+                </ListBox>
+            </Grid>
 
             <esriToolkit:MapProgressBar x:Name="MyProgressBar" 
 			    Map="{Binding ElementName=MyMap}"
 			    HorizontalAlignment="Center" VerticalAlignment="Center"
-			    Width="200" 
-			    Margin="25" Foreground="White" FontSize="15"/>
+			    Width="200" Margin="25" Foreground="White" FontSize="15"/>
 
             <Border Background="Black" BorderBrush="#FF999999" BorderThickness="1" Padding="5" 
-                CornerRadius="10" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" >
+                    HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" >
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Padding="0 0 5 0">Map Scale:</TextBlock>
                     <TextBlock Text="{Binding ElementName=MyMap, Path=Scale}" FontWeight="Bold" />

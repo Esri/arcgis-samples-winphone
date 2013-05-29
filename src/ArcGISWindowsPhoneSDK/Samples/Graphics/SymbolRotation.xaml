@@ -21,6 +21,10 @@
 
 
     <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <Grid.Resources>
             <!-- Use a control template that contains a shape or an image source. Bind the CompositeTransform.Rotation property to the field in the 
             feature layer that contains the wind direction value. -->
@@ -55,7 +59,12 @@
             </DataTemplate>
         </Grid.Resources>
 
-        <esri:Map x:Name="MyMap" WrapAround="True" Extent="-10720000,4757000,-9468000,5419000" MouseClick="MyMap_MouseClick">
+        <Grid Grid.Row="0" x:Name="TitleGrid">
+            <TextBlock x:Name="ApplicationName" Text="Symbol Rotation" Style="{StaticResource PhoneTextPageTitle1Style}"/>
+        </Grid>
+
+
+        <esri:Map x:Name="MyMap" WrapAround="True" Grid.Row="1" Extent="-10720000,4757000,-9468000,5419000" MouseClick="MyMap_MouseClick">
             <esri:ArcGISTiledMapServiceLayer
                     Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer"/>
             <!-- Only return features within the current map extent and where wind direction is greater than 0.  

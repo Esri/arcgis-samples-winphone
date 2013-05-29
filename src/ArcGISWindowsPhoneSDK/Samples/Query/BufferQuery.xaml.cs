@@ -22,7 +22,7 @@ namespace ArcGISWindowsPhoneSDK
             myDrawObject = new Draw(MyMap)
             {
                 DrawMode = DrawMode.Point,
-                IsEnabled = false
+                IsEnabled = true
             };
 
             myDrawObject.DrawComplete += myDrawObject_DrawComplete;
@@ -42,8 +42,6 @@ namespace ArcGISWindowsPhoneSDK
         
         void myDrawObject_DrawComplete(object sender, DrawEventArgs e)
         {
-            myDrawObject.IsEnabled = false;
-
             _geometryService.CancelAsync();
             _queryTask.CancelAsync();
 
@@ -119,12 +117,6 @@ namespace ArcGISWindowsPhoneSDK
         private void Menu_List_Click(object sender, EventArgs e)
         {
             InfoGrid.Visibility = InfoGrid.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
-        }
-
-        private void DrawPointButton_Click(object sender, EventArgs e)
-        {
-            myDrawObject.DrawMode = DrawMode.Point;
-            myDrawObject.IsEnabled = true;
         }
     }
 }

@@ -16,7 +16,6 @@
             <shell:ApplicationBar.Buttons>
                 <shell:ApplicationBarIconButton IconUri="Images/GrayEraser.png" Click="ClearMapButton_Click" Text="clear map" />
                 <shell:ApplicationBarIconButton IconUri="Images/Add.png" Click="CreateFeatureLayerButton_Click" Text="create layer" />
-                <shell:ApplicationBarIconButton IconUri="Images/Dialog.png" Click="JsonButton_Click" Text="view json" />
             </shell:ApplicationBar.Buttons>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
@@ -24,6 +23,7 @@
     <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -31,15 +31,17 @@
             <TextBlock x:Name="ApplicationName" Text="Feature Layer" Style="{StaticResource PhoneTextPageTitle1Style}"/>
         </Grid>
 
-        <Grid Grid.Row="1" x:Name="ContentPanel">
-            <esri:Map x:Name="MyMap" Extent="-15000000,2600000,-7000000,13950000" WrapAround="True" >
-                <esri:ArcGISTiledMapServiceLayer ID="StreetMapLayer" 
-                      Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer"/>
-            </esri:Map>
-            
-            <phone:WebBrowser x:Name="JsonBrowser" Height="383" Width="480" Visibility="Visible"
-                                  HorizontalAlignment="Left" VerticalAlignment="Top" />
+        <ScrollViewer Grid.Row="1" Margin="-10,0,-10,5">
+            <TextBox x:Name="JsonTextBox" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeMedium}" />
+        </ScrollViewer>
 
-        </Grid>
+        <esri:Map x:Name="MyMap" Grid.Row="2" WrapAround="True" Extent="-15000000,2600000,-7000000,13950000"  >
+            <esri:ArcGISTiledMapServiceLayer ID="TiledLayer" 
+                    Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer" />
+            <esri:FeatureLayer ID="MyFeatureLayerStates" 
+                    Url="http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StatesCitiesRivers_USA/MapServer/2"               
+                    OutFields="*" />
+        </esri:Map>
+
     </Grid>
 </phone:PhoneApplicationPage>

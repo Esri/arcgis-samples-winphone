@@ -7,44 +7,50 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:esri="clr-namespace:ESRI.ArcGIS.Client;assembly=ESRI.ArcGIS.Client"
+    xmlns:esriSymbols="clr-namespace:ESRI.ArcGIS.Client.Symbols;assembly=ESRI.ArcGIS.Client"
     SupportedOrientations="PortraitOrLandscape"
     mc:Ignorable="d" d:DesignHeight="728" d:DesignWidth="480">
 
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
             <shell:ApplicationBar.Buttons>
-                <shell:ApplicationBarIconButton x:Name="ShowHintButton" IconUri="Images/List.png" Click="ShowHintButton_Click" Text="Info" />
-                <shell:ApplicationBarIconButton x:Name="ShowCoordsButton" IconUri="Images/Dialog.png" Click="ShowCoordsButton_Click" Text="Coordinates" />
+                <shell:ApplicationBarIconButton x:Name="ShowCoordsButton" IconUri="Images/Dialog.png" 
+                                                Click="ShowCoordsButton_Click" Text="info" />
             </shell:ApplicationBar.Buttons>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
     
     <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" x:Name="TitleGrid">
-            <TextBlock x:Name="ApplicationName" Text="Show Coordinates" Style="{StaticResource PhoneTextPageTitle1Style}"/>
+            <TextBlock x:Name="ApplicationName" Text="Show Coordinates" 
+                       Style="{StaticResource PhoneTextPageTitle1Style}"/>
         </Grid>
 
         <Grid Grid.Row="1" x:Name="ContentPanel">
             <esri:Map x:Name="MyMap" WrapAround="True" MapGesture="MyMap_MapGesture">
                 <esri:ArcGISTiledMapServiceLayer ID="MyLayer" 
                 Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer"/>
+                <esri:GraphicsLayer ID="MyGraphicsLayer">
+                    <esri:GraphicsLayer.Graphics>
+                        <esri:Graphic>
+                            <esri:Graphic.Symbol>
+                                <esriSymbols:SimpleMarkerSymbol x:Name="DefaultMarkerSymbol" Color="Red" Size="12" 
+                                                                Style="Circle" />
+                            </esri:Graphic.Symbol>
+                        </esri:Graphic>
+                    </esri:GraphicsLayer.Graphics>
+                </esri:GraphicsLayer>
             </esri:Map>
 
-            <Grid x:Name="HintTextGrid" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" >
-                <Rectangle Fill="#44FFFFFF" Stroke="Gray"  RadiusX="10" RadiusY="10" Margin="0" />
-                <Rectangle Fill="#FF000000" Stroke="DarkGray" RadiusX="5" RadiusY="5" Margin="5" />
-                <TextBlock x:Name="InformationText"
-                           Text="Tap and hold to show coordinates." HorizontalAlignment="Center" VerticalAlignment="Top" TextAlignment="Left" Margin="15" Style="{StaticResource PhoneTextSmallWhiteStyle}" />
-            </Grid>
-
             <Grid x:Name="CoordsGrid" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5" >
-                <Rectangle Fill="#44FFFFFF" Stroke="Gray"  RadiusX="10" RadiusY="10" Margin="0" />
-                <Rectangle Fill="#FF000000" Stroke="DarkGray" RadiusX="5" RadiusY="5" Margin="5" />
+                <Rectangle Fill="#44FFFFFF" Stroke="Gray" Margin="0" />
+                <Rectangle Fill="#FF000000" Stroke="DarkGray" Margin="5" />
                 <StackPanel Margin="15">
                     <TextBlock x:Name="ScreenCoordsTextBlock"
                                Text="Screen Coordinates: " HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left" 

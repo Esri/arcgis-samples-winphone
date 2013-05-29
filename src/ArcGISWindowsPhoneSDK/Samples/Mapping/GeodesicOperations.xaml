@@ -60,7 +60,7 @@
                 <esri:GraphicsLayer ID="VerticesGraphicsLayer" />
             </esri:Map>
 
-            <Grid x:Name="InfoDialog" VerticalAlignment="Top" HorizontalAlignment="Right" 
+            <Grid x:Name="InfoDialog" VerticalAlignment="Top" HorizontalAlignment="Right"
                   Margin="10" Background="{StaticResource PhoneBackgroundBrush}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />

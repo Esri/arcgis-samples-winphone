@@ -58,6 +58,7 @@ namespace ArcGISWindowsPhoneSDK
             mvm_map.Items.Add(new ItemViewModel() { Title = "Interactive Thematic Mapping", XAML = "/Samples/Mapping/DynamicLayerThematic.xaml" });
             mvm_map.Items.Add(new ItemViewModel() { Title = "Printing", XAML = "/Samples/Mapping/ExportWebMap.xaml" });
             mvm_map.Items.Add(new ItemViewModel() { Title = "Resample No Data Tiles", XAML = "/Samples/Mapping/ResampleNoDataTiles.xaml" });
+            mvm_map.Items.Add(new ItemViewModel() { Title = "Swipe Map", XAML = "/Samples/Mapping/SwipeMap.xaml" });
             ListBox_Mapping.DataContext = mvm_map;
             _listBoxes.Add(ListBox_Mapping);
 
@@ -68,20 +69,22 @@ namespace ArcGISWindowsPhoneSDK
             mvm_toolkit.Items.Add(new ItemViewModel() { Title = "InfoWindow with Child Page", XAML = "/Samples/Toolkit/InfoWindowChildPage.xaml" });
             mvm_toolkit.Items.Add(new ItemViewModel() { Title = "Legend", XAML = "/Samples/Toolkit/LegendSimple.xaml" });
             mvm_toolkit.Items.Add(new ItemViewModel() { Title = "Legend with KML and WMS", XAML = "/Samples/Toolkit/LegendKmlWms.xaml" });
+            mvm_toolkit.Items.Add(new ItemViewModel() { Title = "Legend With Templates", XAML = "/Samples/Toolkit/LegendWithTemplates.xaml" });
             mvm_toolkit.Items.Add(new ItemViewModel() { Title = "MapProgressBar", XAML = "/Samples/Toolkit/MapProgressBarSimple.xaml" });
             mvm_toolkit.Items.Add(new ItemViewModel() { Title = "ScaleLine", XAML = "/Samples/Toolkit/ScaleLine.xaml" });
+           
             ListBox_Toolkit.DataContext = mvm_toolkit;
             _listBoxes.Add(ListBox_Toolkit);
 
             // Toolkit Data Sources category
             MainViewModel mvm_tds = new MainViewModel();
             mvm_tds.Items.Add(new ItemViewModel() { Title = "OpenStreetMap", XAML = "/Samples/DataSources/OpenStreetMapSimple.xaml" });
+            mvm_tds.Items.Add(new ItemViewModel() { Title = "OSM Tile Servers", XAML = "/Samples/DataSources/OSMTileServers.xaml" });
             mvm_tds.Items.Add(new ItemViewModel() { Title = "GPS", XAML = "/Samples/DataSources/GpsSimple.xaml" });
             mvm_tds.Items.Add(new ItemViewModel() { Title = "KML", XAML = "/Samples/DataSources/KmlSimple.xaml" });
             mvm_tds.Items.Add(new ItemViewModel() { Title = "WMS", XAML = "/Samples/DataSources/WMSSimple.xaml" });
             mvm_tds.Items.Add(new ItemViewModel() { Title = "WMTS Layer", XAML = "/Samples/DataSources/WmtsLayerSimple.xaml" });
             mvm_tds.Items.Add(new ItemViewModel() { Title = "CSV Layer", XAML = "/Samples/DataSources/CSVLayer.xaml" });
-            mvm_tds.Items.Add(new ItemViewModel() { Title = "OSM Tile Servers", XAML = "/Samples/DataSources/OSMTileServers.xaml" });
             ListBox_ToolkitDataSources.DataContext = mvm_tds;
             _listBoxes.Add(ListBox_ToolkitDataSources);
 
@@ -116,7 +119,7 @@ namespace ArcGISWindowsPhoneSDK
             mvm_query.Items.Add(new ItemViewModel() { Title = "Query with Order By Field", XAML = "/Samples/Query/OrderByFieldQuery.xaml" });
             mvm_query.Items.Add(new ItemViewModel() { Title = "Statistics", XAML = "/Samples/Query/Statistics.xaml" });
             mvm_query.Items.Add(new ItemViewModel() { Title = "Statistics with Map", XAML = "/Samples/Query/StatisticsRenderOnMap.xaml" });
-            
+            mvm_query.Items.Add(new ItemViewModel() { Title = "Query Related Records", XAML = "/Samples/Query/QueryRelatedRecords.xaml" });      
             ListBox_Query.DataContext = mvm_query;
             _listBoxes.Add(ListBox_Query);
 
@@ -137,7 +140,8 @@ namespace ArcGISWindowsPhoneSDK
             mvm_edit.Items.Add(new ItemViewModel() { Title = "With Coded Value Domain", XAML = "/Samples/Editing/EditingCodedValueDomains.xaml" });
             mvm_edit.Items.Add(new ItemViewModel() { Title = "Editor Tracking", XAML = "/Samples/Editing/EditorTracking.xaml" });
             mvm_edit.Items.Add(new ItemViewModel() { Title = "Attribute Only", XAML = "/Samples/Editing/AttributeOnlyEditing.xaml" });
-            mvm_edit.Items.Add(new ItemViewModel() { Title = "Ownership Based", XAML = "/Samples/Editing/OwnershipBasedEditing.xaml" });      
+            mvm_edit.Items.Add(new ItemViewModel() { Title = "Ownership Based", XAML = "/Samples/Editing/OwnershipBasedEditing.xaml" });
+            mvm_edit.Items.Add(new ItemViewModel() { Title = "Edit Tools - Selection Only", XAML = "/Samples/Editing/EditToolsSelectionOnly.xaml" });      
             ListBox_Editing.DataContext = mvm_edit;
             _listBoxes.Add(ListBox_Editing);
 
@@ -153,9 +157,9 @@ namespace ArcGISWindowsPhoneSDK
             MainViewModel mvm_network = new MainViewModel();
             mvm_network.Items.Add(new ItemViewModel() { Title = "Routing", XAML = "/Samples/Network/Routing.xaml" });
             mvm_network.Items.Add(new ItemViewModel() { Title = "Routing with Barriers", XAML = "/Samples/Network/RoutingBarriers.xaml" });
+            mvm_network.Items.Add(new ItemViewModel() { Title = "Driving Directions", XAML = "/Samples/Network/RoutingDirections.xaml" });
             mvm_network.Items.Add(new ItemViewModel() { Title = "Closest Facility", XAML = "/Samples/Network/ClosestFacility.xaml" });
             mvm_network.Items.Add(new ItemViewModel() { Title = "Service Areas", XAML = "/Samples/Network/ServiceAreas.xaml" });
-            mvm_network.Items.Add(new ItemViewModel() { Title = "Driving Directions", XAML = "/Samples/Network/RoutingDirections.xaml" });
             ListBox_Network.DataContext = mvm_network;
             _listBoxes.Add(ListBox_Network);
 
@@ -252,6 +256,11 @@ namespace ArcGISWindowsPhoneSDK
             mvm_timeaware.Items.Add(new ItemViewModel() { Title = "Map Service Over Time", XAML = "/Samples/TimeAware/TimeMapService.xaml" });
             mvm_timeaware.Items.Add(new ItemViewModel() { Title = "Feature Layer Over Time", XAML = "/Samples/TimeAware/TimeFeatureLayer.xaml" });
             mvm_timeaware.Items.Add(new ItemViewModel() { Title = "Image Service Over Time", XAML = "/Samples/TimeAware/TimeImageService.xaml" });
+            // these don't work well on win phone 7
+            // a) the LatestObservationRenderer doesn't work reliably (never in the emulator and only sometimes on the device)
+            // b) tracks don't show up in the hurricane example
+            //mvm_timeaware.Items.Add(new ItemViewModel() { Title = "Temporal Renderer - Points", XAML = "/Samples/TimeAware/TemporalRendererPoints.xaml" });
+            //mvm_timeaware.Items.Add(new ItemViewModel() { Title = "Temporal Renderer - Tracks", XAML = "/Samples/TimeAware/TemporalRendererTracks.xaml" });
             ListBox_TimeAware.DataContext = mvm_timeaware;
             _listBoxes.Add(ListBox_TimeAware);
 
@@ -263,7 +272,11 @@ namespace ArcGISWindowsPhoneSDK
 
             // Device category
             MainViewModel mvm_extras = new MainViewModel();
-            mvm_extras.Items.Add(new ItemViewModel() { Title = "ArcGISWebClient", XAML = "/Samples/Device/ShowGPSLocation.xaml" });
+            mvm_extras.Items.Add(new ItemViewModel() { Title = "ArcGISWebClient", XAML = "/Samples/Extras/ArcGISWebClientSimple.xaml" });
+            mvm_extras.Items.Add(new ItemViewModel() { Title = "Elevation Profile", XAML = "/Samples/Extras/ElevationProfile/ElevationProfile.xaml" });
+            mvm_extras.Items.Add(new ItemViewModel() { Title = "SOE Elevation - Data Contract", XAML = "/Samples/Extras/SOEElevationDataContract.xaml" });
+            mvm_extras.Items.Add(new ItemViewModel() { Title = "SOE Elevation - JSON Object", XAML = "/Samples/Extras/SOEElevationLatLonJsonObject.xaml" });
+            mvm_extras.Items.Add(new ItemViewModel() { Title = "SOE Elevation Data", XAML = "/Samples/Extras/SOEElevationData.xaml" });
             ListBox_Extras.DataContext = mvm_extras;
             _listBoxes.Add(ListBox_Extras);
 
@@ -275,6 +288,7 @@ namespace ArcGISWindowsPhoneSDK
             mvm_whatsnew.Items.Add(new ItemViewModel() { Title = "World Geocoding", XAML = "/Samples/Address/WorldGeocoding.xaml" });
             mvm_whatsnew.Items.Add(new ItemViewModel() { Title = "Geometry To/From JSON", XAML = "/Samples/JSON/GeometryJSON.xaml" });
             mvm_whatsnew.Items.Add(new ItemViewModel() { Title = "ArcGISWebClient", XAML = "/Samples/Extras/ArcGISWebClientSimple.xaml" });
+            mvm_whatsnew.Items.Add(new ItemViewModel() { Title = "Elevation Profile", XAML = "/Samples/Extras/ElevationProfile/ElevationProfile.xaml" });
             _listBoxes.Add(ListBox_WhatsNew);
         }
 

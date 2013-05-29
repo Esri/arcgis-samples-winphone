@@ -16,7 +16,7 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
             <shell:ApplicationBar.Buttons>
-                <shell:ApplicationBarIconButton IconUri="Images/Dialog.png" Click="JsonButton_Click" Text="display json" />
+                <shell:ApplicationBarIconButton IconUri="Images/Rotate.png" Click="JsonButton_Click" Text="apply" />
             </shell:ApplicationBar.Buttons>
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="simple marker symbol" Click="SimpleMarkerMenuItem_Click" />
@@ -39,7 +39,11 @@
         </Grid>
 
         <Grid Grid.Row="1" x:Name="ContentPanel">
-            <esri:Map x:Name="MyMap" Extent="-15702104.9142708,-4347018.49622919,14213576.3907292,38095854.3552396" >
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <esri:Map Grid.Row="1" x:Name="MyMap" >
                 <esri:ArcGISTiledMapServiceLayer Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer"/>
                 <esri:GraphicsLayer ID="MyGraphicsLayer" Initialized="GraphicsLayer_Initialized">
                     <esri:GraphicsLayer.Graphics>
@@ -88,13 +92,13 @@
                 </esri:GraphicsLayer>
             </esri:Map>
 
-            <controls:Pivot x:Name="JsonPivot" Height="383" Background="{StaticResource PhoneBackgroundBrush}" VerticalAlignment="Top" FontSize="{StaticResource PhoneFontSizeMediumLarge}">
+            <controls:Pivot Grid.Row="0" x:Name="JsonPivot" Background="{StaticResource PhoneBackgroundBrush}" VerticalAlignment="Stretch" FontSize="{StaticResource PhoneFontSizeMediumLarge}">
                 <controls:PivotItem>
                     <controls:PivotItem.Header>
                         <TextBlock Text="Marker" Style="{StaticResource PhoneTextSubtleStyle}" FontSize="{StaticResource PhoneFontSizeLarge}"/>
                     </controls:PivotItem.Header>
                     <ScrollViewer>
-                        <TextBox x:Name="JsonTextBoxMarkerCurrent" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeSmall}" />
+                        <TextBox x:Name="JsonTextBoxMarkerCurrent" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeMedium}" />
                     </ScrollViewer>
                 </controls:PivotItem>
 
@@ -103,7 +107,7 @@
                         <TextBlock Text="Line" Style="{StaticResource PhoneTextSubtleStyle}" FontSize="{StaticResource PhoneFontSizeLarge}"/>
                     </controls:PivotItem.Header>
                     <ScrollViewer>
-                        <TextBox x:Name="JsonTextBoxLineCurrent" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeSmall}" />
+                        <TextBox x:Name="JsonTextBoxLineCurrent" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeMedium}" />
                     </ScrollViewer>
                 </controls:PivotItem>
 
@@ -112,7 +116,7 @@
                         <TextBlock Text="Fill" Style="{StaticResource PhoneTextSubtleStyle}" FontSize="{StaticResource PhoneFontSizeLarge}"/>
                     </controls:PivotItem.Header>
                     <ScrollViewer>
-                        <TextBox x:Name="JsonTextBoxFillCurrent" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeSmall}" />
+                        <TextBox x:Name="JsonTextBoxFillCurrent" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeMedium}" />
                     </ScrollViewer>
                 </controls:PivotItem>
             </controls:Pivot>

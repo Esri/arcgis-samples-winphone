@@ -9,16 +9,18 @@
     xmlns:esriSymbols="clr-namespace:ESRI.ArcGIS.Client.Symbols;assembly=ESRI.ArcGIS.Client"
     xmlns:esriToolkit="clr-namespace:ESRI.ArcGIS.Client.Toolkit;assembly=ESRI.ArcGIS.Client.Toolkit"
     xmlns:esriToolkitPrimitives="clr-namespace:ESRI.ArcGIS.Client.Toolkit.Primitives;assembly=ESRI.ArcGIS.Client.Toolkit"
-                            xmlns:local="clr-namespace:ArcGISWindowsPhoneSDK"
+    xmlns:local="clr-namespace:ArcGISWindowsPhoneSDK"
     SupportedOrientations="PortraitOrLandscape"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeSmall}"
     Foreground="{StaticResource PhoneForegroundBrush}" mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480">
+    
     <Grid x:Name="LayoutRoot" Background="White">
         <Grid.RowDefinitions>
-            <RowDefinition Height="63*" />
-            <RowDefinition Height="737*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        
         <Grid.Resources>
             <local:CodeToValueConverter x:Key="CodeToValueConverter"/>
             <esri:Editor x:Key="MyEditor"                                                  
@@ -40,7 +42,7 @@
             <TextBlock x:Name="ApplicationName" Text="Attribute Only Editing" Style="{StaticResource PhoneTextPageTitle1Style}"/>
         </Grid>
 
-        <esri:Map Name="MyMap"
+        <esri:Map Name="MyMap"  Grid.RowSpan="2"
                   Extent="-13075150.8872716,4015586.5093488,-13073624.4294544,4016213.20181174" Grid.Row="1">
             <esri:ArcGISTiledMapServiceLayer ID="StreetMapLayer"
                                              Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer" />
@@ -67,8 +69,6 @@
                 <TextBox x:Name="Pool_PermitTB" Text="{Binding Attributes[pool_permit],  Mode=TwoWay}" />
 
                 <TextBlock Text="Has_Pool" VerticalAlignment="Center" FontSize="24" Padding="8"/>
-                <!--<Button x:Name="Has_PoolButton" Style="{StaticResource ListBoxButtonStyle}" >
-                    <Button.Content> SelectedItem="{Binding Attributes[has_pool], Converter={StaticResource CodeToValueConverter}, Mode=TwoWay}"-->
                         <ListBox x:Name="Has_PoolChoicesListBox" FontSize="34">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
@@ -76,9 +76,7 @@
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-                    <!--</Button.Content>
-                </Button>-->
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button Content="OK" Click="OKButton_Click" />
                  </StackPanel>
             </StackPanel>

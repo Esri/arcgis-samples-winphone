@@ -1,13 +1,13 @@
-﻿using Microsoft.Phone.Controls;
-using System;
-using System.Windows;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
-using Microsoft.Phone.Shell;
 using ESRI.ArcGIS.Client;
-using ESRI.ArcGIS.Client.Tasks;
 using ESRI.ArcGIS.Client.Geometry;
+using ESRI.ArcGIS.Client.Tasks;
+using Microsoft.Phone.Controls;
+using Microsoft.Phone.Shell;
 
 namespace ArcGISWindowsPhoneSDK
 {
@@ -29,10 +29,10 @@ namespace ArcGISWindowsPhoneSDK
         List<string> travelDirectionChoices = new List<string>(new string[] { "From Facility", "To Facility" });
         List<string> attributeParameterChoices = new List<string>(new string[] { "None", "15 MPH", "20 MPH", "25 MPH", "35 MPH", "45 MPH", "50 MPH", "55 MPH", "65 MPH", "Other Roads" });
         List<string> restrictUTurnChoices = new List<string>(new string[] { "Allow Backtrack", "At Dead Ends Only", "No Backtrack" });
-        List<string> outputLineChoices = new List<string>(new string[] {"None", "Straight", "True Shape" });
+        List<string> outputLineChoices = new List<string>(new string[] { "None", "Straight", "True Shape" });
         List<string> outputGeomPrecisionChoices = new List<string>(new string[] { "Unknown", "Decimal Degrees", "Kilometers", "Meters", "Miles", "Nautical Miles", "Inches", "Points", "Feet", "Yards", "Millimeters", "Centimeters", "Decimeters" });
         List<string> directionsLengthUnitChoices = new List<string>(new string[] { "Unkown", "Kilometers", "Meters", "Miles", "Nautical Miles" });
-                                    
+
         public ClosestFacility()
         {
             InitializeComponent();
@@ -42,7 +42,7 @@ namespace ArcGISWindowsPhoneSDK
             barriersGraphicsLayer = MyMap.Layers["MyBarriersGraphicsLayer"] as GraphicsLayer;
             routeGraphicsLayer = MyMap.Layers["MyRoutesGraphicsLayer"] as GraphicsLayer;
 
-            myRouteTask = new RouteTask("http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Network/USA/NAServer/Closest%20Facility");
+            myRouteTask = new RouteTask("http://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/ClosestFacility");
             myRouteTask.SolveClosestFacilityCompleted += SolveClosestFacility_Completed;
             myRouteTask.Failed += SolveClosestFacility_Failed;
 
@@ -59,6 +59,10 @@ namespace ArcGISWindowsPhoneSDK
 
         private void SolveButton_Click(object sender, EventArgs e)
         {
+            foreach (object o in LayoutRoot.Resources.Values)
+                if (o is Editor && (o as Editor).CancelActive.CanExecute(null))
+                    (o as Editor).CancelActive.Execute(null);
+
             MyRouteInfoWindow.IsOpen = false;
 
             List<AttributeParameter> aps = new List<AttributeParameter>();
@@ -171,7 +175,9 @@ namespace ArcGISWindowsPhoneSDK
         {
             foreach (Layer layer in MyMap.Layers)
                 if (layer is GraphicsLayer)
-                    (layer as GraphicsLayer).ClearGraphics();
+                    (layer as GraphicsLayer).Graphics.Clear();
+
+            MyRouteInfoWindow.IsOpen = false;
 
             ((ApplicationBarIconButton)ApplicationBar.Buttons[2]).IsEnabled = false;
         }
@@ -179,7 +185,7 @@ namespace ArcGISWindowsPhoneSDK
         private AttributeParameter GetAttributeParameterValue(string attributeParamSelection)
         {
             // See Attribute Parameter Values list at 
-            // http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Network/USA/NAServer/Closest%20Facility
+            // http://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/ClosestFacility
             if (attributeParamSelection.Equals("None"))
                 return null;
 
@@ -191,11 +197,11 @@ namespace ArcGISWindowsPhoneSDK
                     value = "5"
                 };
 
-            return new AttributeParameter 
-			{ 
+            return new AttributeParameter
+            {
                 attributeName = "Time",
                 parameterName = attributeParamSelection,
-                value = attributeParamSelection.Replace(" MPH", "") 
+                value = attributeParamSelection.Replace(" MPH", "")
             };
         }
 
@@ -362,11 +368,13 @@ namespace ArcGISWindowsPhoneSDK
 
         private void AddFacility_Click(object sender, EventArgs e)
         {
+            facilitiesEditor.ContinuousMode = true;
             facilitiesEditor.Add.Execute(LayoutRoot.Resources["MyFacilitiesSymbol"]);
         }
 
         private void AddIncident_Click(object sender, EventArgs e)
         {
+            incidentsEditor.ContinuousMode = true;
             incidentsEditor.Add.Execute(LayoutRoot.Resources["MyIncidentsSymbol"]);
         }
 

@@ -13,7 +13,7 @@ namespace ArcGISWindowsPhoneSDK
             InitializeComponent();
             MyDrawObject = new Draw(MyMap)
             {
-                IsEnabled = false,
+                IsEnabled = true,
                 DrawMode = DrawMode.Point
             };
 
@@ -21,7 +21,7 @@ namespace ArcGISWindowsPhoneSDK
         }
 
         private void MyDrawObject_DrawComplete(object sender, ESRI.ArcGIS.Client.DrawEventArgs e)
-        {            
+        {
             GraphicsLayer stopsGraphicsLayer = MyMap.Layers["MyStopsGraphicsLayer"] as GraphicsLayer;
             Graphic stop = new Graphic() { Geometry = e.Geometry, Symbol = LayoutRoot.Resources["StopSymbol"] as ESRI.ArcGIS.Client.Symbols.Symbol };
             stopsGraphicsLayer.Graphics.Add(stop);
@@ -34,7 +34,8 @@ namespace ArcGISWindowsPhoneSDK
                     routeTask.CancelAsync();
                     stopsGraphicsLayer.Graphics.RemoveAt(stopsGraphicsLayer.Graphics.Count - 1);
                 }
-                routeTask.SolveAsync(new RouteParameters() { Stops = stopsGraphicsLayer, UseTimeWindows = false, OutSpatialReference = MyMap.SpatialReference });
+                routeTask.SolveAsync(new RouteParameters() { Stops = stopsGraphicsLayer, UseTimeWindows = false, 
+                    OutSpatialReference = MyMap.SpatialReference });
             }
         }
 
@@ -60,7 +61,7 @@ namespace ArcGISWindowsPhoneSDK
 
             Graphic lastRoute = routeResult.Route;
 
-            decimal totalTime = (decimal)lastRoute.Attributes["Total_Time"];
+            decimal totalTime = (decimal)lastRoute.Attributes["Total_TravelTime"];
             string tip = string.Format("Total Time: {0} minutes", totalTime.ToString("#0.00"));
             TimeText.Text = tip;
 
@@ -74,13 +75,8 @@ namespace ArcGISWindowsPhoneSDK
 
             GraphicsLayer routeGraphicsLayer = MyMap.Layers["MyRouteGraphicsLayer"] as GraphicsLayer;
             routeGraphicsLayer.Graphics.Clear();
-        }
 
-        private void DrawPointButton_Click(object sender, System.EventArgs e)
-        {
-            MyDrawObject.DrawMode = DrawMode.Point;
-            MyDrawObject.IsEnabled = true;
+            TimeText.Text = "";
         }
-
     }
 }

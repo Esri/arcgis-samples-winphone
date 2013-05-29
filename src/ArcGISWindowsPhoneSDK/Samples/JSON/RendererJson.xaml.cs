@@ -448,7 +448,7 @@ namespace ArcGISWindowsPhoneSDK
         private void FeatureLayer_Initialized(object sender, EventArgs e)
         {
             FeatureLayer featureLayer = sender as FeatureLayer;
-            DisplayInBrowser((featureLayer.Renderer as IJsonSerializable).ToJson());
+            JsonTextBox.Text = (featureLayer.Renderer as IJsonSerializable).ToJson();
             featureLayer.MaxAllowableOffset = MyMap.Resolution * 4;
         }
 
@@ -457,7 +457,7 @@ namespace ArcGISWindowsPhoneSDK
             if (e.PropertyName == "Renderer")
             {
                 FeatureLayer featureLayer = sender as FeatureLayer;
-                DisplayInBrowser((featureLayer.Renderer as IJsonSerializable).ToJson());
+                JsonTextBox.Text = (featureLayer.Renderer as IJsonSerializable).ToJson();
             }
         }
 
@@ -469,30 +469,28 @@ namespace ArcGISWindowsPhoneSDK
 
         private void SimpleMenuItem_Click(object sender, System.EventArgs e)
         {
-            IRenderer irenderer = Renderer.FromJson(simpleJson);
-            (MyMap.Layers["MyFeatureLayerStates"] as FeatureLayer).Renderer = irenderer;
+            ApplyRenderer(simpleJson);
         }
 
         private void ClassBreaksMenuItem_Click(object sender, System.EventArgs e)
         {
-            IRenderer irenderer = Renderer.FromJson(classBreaksJson);
-            (MyMap.Layers["MyFeatureLayerStates"] as FeatureLayer).Renderer = irenderer;
+            ApplyRenderer(classBreaksJson);
         }
 
         private void UniqueValueMenuItem_Click(object sender, System.EventArgs e)
         {
-            IRenderer irenderer = Renderer.FromJson(uniqueValueJson);
+            ApplyRenderer(uniqueValueJson);            
+        }
+
+        private void ApplyButton_Click(object sender, EventArgs e)
+        {
+            ApplyRenderer(JsonTextBox.Text);           
+        }
+
+        private void ApplyRenderer(string json)
+        {
+            IRenderer irenderer = Renderer.FromJson(json);
             (MyMap.Layers["MyFeatureLayerStates"] as FeatureLayer).Renderer = irenderer;
-        }
-
-        private void JsonButton_Click(object sender, EventArgs e)
-        {
-            JsonBrowser.Visibility = JsonBrowser.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        private void DisplayInBrowser(string json)
-        {
-            JsonBrowser.NavigateToString("<html><head><title>JSON</title></head><body>" + json + "</body></html>");
         }
     }
 }

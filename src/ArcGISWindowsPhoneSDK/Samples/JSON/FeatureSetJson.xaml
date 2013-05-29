@@ -15,7 +15,7 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
             <shell:ApplicationBar.Buttons>
-                <shell:ApplicationBarIconButton x:Name="PivotButton" IconUri="Images/List.png" Click="PivotButton_Click" Text="pivot" />
+                <shell:ApplicationBarIconButton x:Name="ShowMapButton" IconUri="Images/map.png" Click="ShowHideMapClick" Text="show map" />
             </shell:ApplicationBar.Buttons>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
@@ -36,13 +36,13 @@
                     Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer" />
             </esri:Map>
 
-            <controls:Pivot x:Name="JsonPivot" Background="{StaticResource PhoneBackgroundBrush}">
+            <controls:Pivot x:Name="JsonPivot" Background="Black">
                 <controls:PivotItem Header="from JSON">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
-                            <RowDefinition />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Button Grid.Row="0" Content="Clear Map" Click="Button_ClearMap"/>
                         <Button Grid.Row="1" Content="Create FeatureSet from JSON" Click="Button_Load" />

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Phone.Controls;
 using ESRI.ArcGIS.Client.Toolkit.Primitives;
+using System.Windows;
 
 namespace ArcGISWindowsPhoneSDK
 {
@@ -16,6 +17,11 @@ namespace ArcGISWindowsPhoneSDK
                 foreach (LayerItemViewModel layerItemVM in e.LayerItem.LayerItems)
                     if (layerItemVM.IsExpanded)
                         layerItemVM.IsExpanded = false;
+        }
+
+        private void InfoButton_Click(object sender, System.EventArgs e)
+        {
+            LegendGrid.Visibility = LegendGrid.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;      
         }
     }
 }

@@ -37,11 +37,11 @@
             <TextBlock x:Name="ApplicationName" Text="Rendering with Code" Style="{StaticResource PhoneTextPageTitle1Style}"/>
         </Grid>
 
-
         <Grid Grid.Row="1" x:Name="ContentPanel">
-            <esri:Map x:Name="MyMap" Background="White" Extent="-130,10,-70,60">
+            <esri:Map x:Name="MyMap" Background="White" PropertyChanged="MyMap_PropertyChanged"
+                      Extent="-16239186.120,2553785.352,-6220431.949,6885360.887">
                 <esri:ArcGISTiledMapServiceLayer ID="BaseMapLayer" 
-                    Url="http://server.arcgisonline.com/ArcGIS/rest/services/NGS_Topo_US_2D/MapServer" />
+                    Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer" />
                 <esri:GraphicsLayer ID="MyGraphicsLayer" />
             </esri:Map>
 

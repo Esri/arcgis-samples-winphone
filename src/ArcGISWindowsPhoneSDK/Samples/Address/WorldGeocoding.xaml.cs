@@ -13,7 +13,6 @@ namespace ArcGISWindowsPhoneSDK
     public partial class WorldGeocoding : PhoneApplicationPage
     {
         Locator _locatorTask;
-        GraphicsLayer SearchOriginGraphicsLayer;
         GraphicsLayer FindResultLocationsGraphicsLayer;   
         public WorldGeocoding()
         {
@@ -35,14 +34,13 @@ namespace ArcGISWindowsPhoneSDK
                 MessageBox.Show("Locator service failed: " + e.Error);
             };
 
-            FindResultLocationsGraphicsLayer = MyMap.Layers["FindResultLocationsGraphicsLayer"] as GraphicsLayer;
-            SearchOriginGraphicsLayer = MyMap.Layers["SearchOriginGraphicsLayer"] as GraphicsLayer; ;
+            FindResultLocationsGraphicsLayer = MyMap.Layers["FindResultLocationsGraphicsLayer"] as GraphicsLayer; 
         }
 
         private void FindButton_Click(object sender, RoutedEventArgs e)
         {
+            MyInfoWindow.IsOpen = false;
             FindResultLocationsGraphicsLayer.Graphics.Clear();
-            SearchOriginGraphicsLayer.Graphics.Clear();
 
             // If locator already processing a request, cancel it.  Note, the request is not cancelled on the server.   
             if (_locatorTask.IsBusy)
@@ -51,13 +49,6 @@ namespace ArcGISWindowsPhoneSDK
             // If search text is empty, return
             if (string.IsNullOrEmpty(SearchTextBox.Text))
                 return;
-
-            // Search will return results based on a start location.  In this sample, the location is the center of the map.  
-            // Add a graphic when a search is initiated to determine what location was used to search from and rank results.
-            SearchOriginGraphicsLayer.Graphics.Add(new Graphic()
-            {
-                Geometry = MyMap.Extent.GetCenter()
-            });
 
             // In this sample, the center of the map is used as the location from which results will be ranked and distance calculated. 
             // The distance from the location is optional.  Specifies the radius of an area around a point location which is used to boost
@@ -91,7 +82,6 @@ namespace ArcGISWindowsPhoneSDK
 
             foreach (Graphic g in selected)
             {
-
                 MyInfoWindow.Anchor = e.MapPoint;
                 MyInfoWindow.IsOpen = true;
                 //Since a ContentTemplate is defined, Content will define the DataContext for the ContentTemplate
@@ -104,6 +94,5 @@ namespace ArcGISWindowsPhoneSDK
         {
             MyInfoWindow.IsOpen = false;
         }
-
     }
 }

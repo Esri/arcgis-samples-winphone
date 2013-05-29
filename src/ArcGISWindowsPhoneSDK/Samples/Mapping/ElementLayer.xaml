@@ -35,7 +35,7 @@
 
                         <!--Arrow pointing at Copenhagen from the right-->
                         <TextBlock Text="&lt;=" HorizontalAlignment="Right" 
-						   FontSize="15" Foreground="Blue" FontWeight="Bold"
+						   FontSize="32" Foreground="Blue" FontWeight="Bold"
 						   esri:ElementLayer.Envelope="12.5698,55.6765,12.5698,55.6765" />
                         
                         <!--Arrow pointing at Copenhagen from the left-->
@@ -45,11 +45,6 @@
 
                         <!-- Red box - No size specified. Envelope guides the size -->
                         <Rectangle Fill="Red" esri:ElementLayer.Envelope="0,0,15,15" />
-
-                        <!--Editable textbox-->
-                        
-                        <TextBox Width="200" TextWrapping="Wrap" esri:ElementLayer.Envelope="40,0,40,0"
-						 Text="Editable text" HorizontalAlignment="Right" />
                         
                     </esri:ElementLayer.Children>
                 </esri:ElementLayer>

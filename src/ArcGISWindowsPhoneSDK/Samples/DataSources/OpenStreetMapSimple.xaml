@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:esri="clr-namespace:ESRI.ArcGIS.Client;assembly=ESRI.ArcGIS.Client"
     xmlns:esriToolkitDataSources="clr-namespace:ESRI.ArcGIS.Client.Toolkit.DataSources;assembly=ESRI.ArcGIS.Client.Toolkit.DataSources"
+    xmlns:esriToolkit="clr-namespace:ESRI.ArcGIS.Client.Toolkit;assembly=ESRI.ArcGIS.Client.Toolkit"
     SupportedOrientations="PortraitOrLandscape"
     mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480">
 
@@ -25,17 +26,15 @@
                 <esriToolkitDataSources:OpenStreetMapLayer ID="OSMLayer" Style="Mapnik" />
             </esri:Map>
 
-            <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10">
-                <Rectangle Fill="#77919191" Stroke="Gray" RadiusX="10" RadiusY="10"></Rectangle>
-                <StackPanel Orientation="Vertical" >
+            <Grid HorizontalAlignment="Stretch" Background="#CC919191" VerticalAlignment="Top"  >
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Background="Transparent" >
                     <RadioButton x:Name="MapnikRB" Content="Mapnik" IsChecked="true" Click="RadioButton_Click"/>
                     <RadioButton x:Name="CycleMapRB" Content="CycleMap" Click="RadioButton_Click"/>
                     <RadioButton x:Name="NoNameRB" Content="NoName" Click="RadioButton_Click"/>
                 </StackPanel>
             </Grid>
-
-            <TextBlock Foreground="DarkCyan" FontSize="22" IsHitTestVisible="False" Margin="5" 
-                   VerticalAlignment="Bottom" HorizontalAlignment="Left"><Run>Map data © OpenStreetMap contributors</Run><LineBreak></LineBreak><Run>CC-BY-SA</Run></TextBlock>
+            
+            <esriToolkit:Attribution Layers="{Binding ElementName=MyMap, Path=Layers}" Margin="10" VerticalAlignment="Bottom" />
         </Grid>
     </Grid>
 </phone:PhoneApplicationPage>

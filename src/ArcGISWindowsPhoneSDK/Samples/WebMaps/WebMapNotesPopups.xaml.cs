@@ -32,8 +32,10 @@ namespace ArcGISWindowsPhoneSDK
                 {
                     layer.ID = i.ToString();
                     layerCollection.Add(layer);
-                    if (layer is GraphicsLayer)
-                        (layer as GraphicsLayer).MouseLeftButtonUp += WebMapMapNotesPopups_MouseLeftButtonUp;
+                    if (layer is GroupLayer) // the graphicslayer we are interested in is in a grouplayer
+                        foreach (Layer childLayer in (layer as GroupLayer).ChildLayers)
+                            if (childLayer is GraphicsLayer)
+                                  (childLayer as GraphicsLayer).MouseLeftButtonUp += WebMapMapNotesPopups_MouseLeftButtonUp;
                     i++;
                 }
 
@@ -60,6 +62,11 @@ namespace ArcGISWindowsPhoneSDK
                     lastPoint = clickPoint;
                 }
             }
+        }
+
+        private void MyMap_MouseLeftButtonUp_1(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+
         }
     }
 }

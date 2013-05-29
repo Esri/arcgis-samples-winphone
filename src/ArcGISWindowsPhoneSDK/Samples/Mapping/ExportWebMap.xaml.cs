@@ -80,6 +80,5 @@ namespace ArcGISWindowsPhoneSDK
         {
             ExportOptions.Visibility = ExportOptions.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
         }
-
     }
 }

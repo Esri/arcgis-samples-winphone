@@ -30,63 +30,47 @@
                 OffsetX="0" OffsetY="32" Source="/Images/flag-yellow-32x32.png" />
         </Grid.Resources>
 
-        
         <Grid Grid.Row="0" x:Name="TitleGrid">
-            <TextBlock x:Name="ApplicationName" Text="Find an Address" Style="{StaticResource PhoneTextPageTitle1Style}"/>            
+            <TextBlock x:Name="ApplicationName" Text="Find an Address" Style="{StaticResource PhoneTextPageTitle1Style}"/>
         </Grid>
 
-        
         <Grid Grid.Row="1" x:Name="ContentPanel">
-
-            <esri:Map x:Name="MyMap" Background="White" Extent="-122.554, 37.615, -122.245, 37.884" 
-                      MapGesture="MyMap_MapGesture"
-                      SizeChanged="MyMap_SizeChanged" 
-                       RenderTransformOrigin="0.5,0.5">
-                <esri:Map.RenderTransform>
-                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
-                </esri:Map.RenderTransform>
-                <esri:ArcGISTiledMapServiceLayer ID="StreetMapLayer" 
-                      Url="http://server.arcgisonline.com/ArcGIS/rest/services/ESRI_StreetMap_World_2D/MapServer" />
+            <esri:Map x:Name="MyMap" Extent="-13639957.285,4541403.700,-13620389.406,4549305.317">
+                <esri:ArcGISTiledMapServiceLayer
+                      Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer" />
                 <esri:GraphicsLayer ID="MyGraphicsLayer" />
             </esri:Map>
 
-            <Grid VerticalAlignment="Top" Background="{StaticResource PhoneSemitransparentBrush}" Opacity="0.85"  >
-                <TextBlock x:Name="ResultsTextBlock" Text="" Visibility="Visible" HorizontalAlignment="Center" 
+            <Grid VerticalAlignment="Top" Background="{StaticResource PhoneSemitransparentBrush}">
+                <TextBlock x:Name="ResultsTextBlock" Visibility="Collapsed" HorizontalAlignment="Center" 
                            Margin="5,0,5,0" TextWrapping="Wrap"/>
             </Grid>
 
-            <Grid x:Name="AddressGrid" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" >
-                <Rectangle Stroke="Gray"  RadiusX="10" RadiusY="10" Fill="#66FFFFFF" Margin="0" >
-                </Rectangle>
-                <Rectangle Fill="#cc000000" Stroke="DarkGray" RadiusX="5" RadiusY="5" Margin="5" />
+            <Border x:Name="AddressBorder" Background="Black" BorderThickness="1" Visibility="Visible" 
+                HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                Margin="5" Padding="5" BorderBrush="Black">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="10">
                     <TextBlock Text="Enter Address Information" FontWeight="Bold" HorizontalAlignment="Center" Foreground="White" />
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
-                        <TextBlock Text="Address: " Width="90" TextAlignment="Right" FontSize="{StaticResource PhoneFontSizeNormal}" VerticalAlignment="Center" Foreground="White" />
-                        <TextBox x:Name="Address" Text="400 Market Street" Width="225" FontSize="{StaticResource PhoneFontSizeNormal}" />
+                        <TextBlock Text="Address: " Width="90" TextAlignment="Left" FontSize="{StaticResource PhoneFontSizeNormal}" VerticalAlignment="Center" Foreground="White" />
+                        <TextBox x:Name="Address" Text="400 Market Street" Width="250" FontSize="{StaticResource PhoneFontSizeNormal}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
-                        <TextBlock Text="City: " Width="90" TextAlignment="Right" FontSize="{StaticResource PhoneFontSizeNormal}" VerticalAlignment="Center" Foreground="White" />
-                        <TextBox x:Name="City" Text="San Francisco" Width="225" FontSize="{StaticResource PhoneFontSizeNormal}" />
+                        <TextBlock Text="City: " Width="90" TextAlignment="Left" FontSize="{StaticResource PhoneFontSizeNormal}" VerticalAlignment="Center" Foreground="White" />
+                        <TextBox x:Name="City" Text="San Francisco" Width="250" FontSize="{StaticResource PhoneFontSizeNormal}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
-                        <TextBlock Text="State: " Width="90" TextAlignment="Right" FontSize="{StaticResource PhoneFontSizeNormal}" VerticalAlignment="Center" Foreground="White" />
-                        <TextBox x:Name="StateAbbrev" Text="CA" Width="225" FontSize="{StaticResource PhoneFontSizeNormal}" />
+                        <TextBlock Text="State: " Width="90" TextAlignment="Left" FontSize="{StaticResource PhoneFontSizeNormal}" VerticalAlignment="Center" Foreground="White" />
+                        <TextBox x:Name="StateAbbrev" Text="CA" Width="250" FontSize="{StaticResource PhoneFontSizeNormal}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
-                        <TextBlock Text="Zip: " Width="90" TextAlignment="Right" FontSize="{StaticResource PhoneFontSizeNormal}" VerticalAlignment="Center" Foreground="White" />
-                        <TextBox x:Name="Zip" Text="" Width="225" FontSize="{StaticResource PhoneFontSizeNormal}" />
+                        <TextBlock Text="Zip: " Width="90" TextAlignment="Left" FontSize="{StaticResource PhoneFontSizeNormal}" VerticalAlignment="Center" Foreground="White" />
+                        <TextBox x:Name="Zip" Text="94111" Width="250" FontSize="{StaticResource PhoneFontSizeNormal}" />
                     </StackPanel>
                     <Button x:Name="FindAddressButton" Content="Find" Width="100" HorizontalAlignment="Center"
                         Click="FindAddressButton_Click" Margin="0,5,0,0" />
                 </StackPanel>
-            </Grid>
-
-            <Canvas>
-                <Border x:Name="CandidatePanel" BorderBrush="Blue" BorderThickness="2" CornerRadius="10" Background="White" Visibility="Collapsed">
-                    <TextBlock HorizontalAlignment="Left" x:Name="MessageTextBlock" Margin="10" Foreground="Blue" FontWeight="Bold" FontSize="24"/>
-                </Border>
-            </Canvas>
+            </Border>
 
         </Grid>
     </Grid>

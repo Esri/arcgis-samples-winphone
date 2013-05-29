@@ -10,9 +10,7 @@ using ESRI.ArcGIS.Client.Geometry;
 using ESRI.ArcGIS.Client.Symbols;
 using ESRI.ArcGIS.Client.Tasks;
 using ESRI.ArcGIS.Client.Toolkit;
-using System.Windows.Controls;
 using ESRI.ArcGIS.Client.WebMap;
-using ESRI.ArcGIS.Client.Geometry;
 
 namespace ArcGISWindowsPhoneSDK
 {

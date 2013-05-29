@@ -3,12 +3,25 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
-    xmlns:esri="clr-namespace:ESRI.ArcGIS.Client;assembly=ESRI.ArcGIS.Client" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignHeight="800" d:DesignWidth="480">
+    xmlns:esriToolkitPrimitives="clr-namespace:ESRI.ArcGIS.Client.Toolkit.Primitives;assembly=ESRI.ArcGIS.Client.Toolkit"
+    xmlns:esri="clr-namespace:ESRI.ArcGIS.Client;assembly=ESRI.ArcGIS.Client" 
+    mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    d:DesignHeight="800" d:DesignWidth="480">
+
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBar.Buttons>
+                <shell:ApplicationBarIconButton IconUri="Images/Dialog.png" Click="Menu_Dialog_Click" Text="Version" />
+            </shell:ApplicationBar.Buttons>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
 
     <Grid x:Name="LayoutRoot" Background="White">
         <Grid.RowDefinitions>
-            <RowDefinition Height="51*" />
-            <RowDefinition Height="749*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="15*" />
         </Grid.RowDefinitions>
         <Grid.Resources>
             <esri:Editor x:Key="MyEditor"
@@ -21,30 +34,24 @@
             <TextBlock x:Name="ApplicationName" Text="Change Version" Style="{StaticResource PhoneTextPageTitle1Style}"/>
         </Grid>
 
-        <esri:Map WrapAround="True" x:Name="MyMap" Extent="-9813504.6933477,5127140.45392125,-9812977.49431059,5127508.54492118" Grid.Row="1">
+        <esri:Map Grid.Row="1" x:Name="MyMap" Extent="-9813294,5127334,-9813159,5127418" 
+                  WrapAround="True" >
             <esri:ArcGISTiledMapServiceLayer Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer"/>
-            <esri:FeatureLayer ID="ServiceConnections" GdbVersion="sde.DEFAULT" OutFields="*" AutoSave="False"                               
+            <esri:FeatureLayer ID="ServiceConnections" GdbVersion="sde.DEFAULT" OutFields="*" AutoSave="False" Mode="OnDemand"                                
                                Url="http://sampleserver6.arcgisonline.com/arcgis/rest/services/Water_Network/FeatureServer/7"/>
         </esri:Map>
 
-        <Border Background="#DD919191" BorderThickness="1" CornerRadius="5"
-                HorizontalAlignment="Right"  VerticalAlignment="Top"
-                Padding="10" BorderBrush="Black" Grid.Row="1">
-            <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Right">
-                <TextBlock Text="The dropdown displays the list of versions available for the Water Service Connections featurelayer.
-                           Switch values to display featurelayer in selected version " TextWrapping="Wrap" Width="200" TextAlignment="Center" Foreground="White"/>
-                <ComboBox x:Name="VersionsCombo" Width="110" ItemsSource="{Binding Features}" Margin="0,5,0,0"
+        <esriToolkitPrimitives:ChildPage x:Name="FieldChoicesPage" IsOpen="False" Padding="20" Foreground="White">
+            <ListBox x:Name="VersionsCombo" ItemsSource="{Binding Features}" FontSize="34"
                       SelectionChanged="VersionsCombo_SelectionChanged">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Attributes[name]}"/>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-            </StackPanel>
-
-        </Border>
-
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Attributes[name]}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>           
+        </esriToolkitPrimitives:ChildPage>
+        
     </Grid>
 
 </phone:PhoneApplicationPage>

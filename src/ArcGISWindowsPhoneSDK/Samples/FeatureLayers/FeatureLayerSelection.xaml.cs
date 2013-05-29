@@ -10,8 +10,10 @@ namespace ArcGISWindowsPhoneSDK
         private static ESRI.ArcGIS.Client.Projection.WebMercator mercator = new ESRI.ArcGIS.Client.Projection.WebMercator();
 
         ESRI.ArcGIS.Client.Geometry.Envelope initialExtent = new ESRI.ArcGIS.Client.Geometry.Envelope(
-            mercator.FromGeographic(new ESRI.ArcGIS.Client.Geometry.MapPoint(-117.190346717, 34.0514888762)) as ESRI.ArcGIS.Client.Geometry.MapPoint,
-            mercator.FromGeographic(new ESRI.ArcGIS.Client.Geometry.MapPoint(-117.160305976, 34.072946548)) as ESRI.ArcGIS.Client.Geometry.MapPoint)
+            mercator.FromGeographic(new ESRI.ArcGIS.Client.Geometry.MapPoint(-117.190346717, 34.0514888762)) as 
+            ESRI.ArcGIS.Client.Geometry.MapPoint,
+            mercator.FromGeographic(new ESRI.ArcGIS.Client.Geometry.MapPoint(-117.160305976, 34.072946548)) as 
+            ESRI.ArcGIS.Client.Geometry.MapPoint)
         {
             SpatialReference = new ESRI.ArcGIS.Client.Geometry.SpatialReference(102100)
         };
@@ -28,37 +30,16 @@ namespace ArcGISWindowsPhoneSDK
 
         private void InfoButton_Click(object sender, System.EventArgs e)
         {
-            if (InformationGrid.Visibility == Visibility.Visible)
-            {
-                InformationGrid.Visibility = Visibility.Collapsed;
-                // set the context menu label
-                ApplicationBarMenuItem menuItem = sender as ApplicationBarMenuItem;
-                menuItem.Text = "Show info";
-            }
+            if (InformationGrid.Visibility == Visibility.Visible)       
+                InformationGrid.Visibility = Visibility.Collapsed;          
             else
-            {
-                InformationGrid.Visibility = Visibility.Visible;
-                ApplicationBarMenuItem menuItem = sender as ApplicationBarMenuItem;
-                menuItem.Text = "Hide info";
-            }
+                InformationGrid.Visibility = Visibility.Visible;           
         }
 
         private void NewButton_Click(object sender, System.EventArgs e)
         {
             if (editor.Select.CanExecute("New"))
                 editor.Select.Execute("New");
-        }
-
-        private void AddButton_Click(object sender, System.EventArgs e)
-        {
-            if (editor.Select.CanExecute("Add"))
-                editor.Select.Execute("Add");
-        }
-
-        private void RemoveButton_Click(object sender, System.EventArgs e)
-        {
-            if (editor.Select.CanExecute("Remove"))
-                editor.Select.Execute("Remove");
         }
 
         private void ClearButton_Click(object sender, System.EventArgs e)

@@ -11,14 +11,6 @@
     SupportedOrientations="PortraitOrLandscape"
     mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480">
 
-    <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBar.Buttons>
-                <shell:ApplicationBarIconButton x:Name="ClickButton" IconUri="Images/DrawPoint.png" Click="Menu_LocateMeClick" Text="Add Point" />
-            </shell:ApplicationBar.Buttons>
-        </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>
-
     <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -30,27 +22,23 @@
             OffsetX="12" OffsetY="15" Source="/Images/x-24x24.png" />
         </Grid.Resources>
 
-        
         <Grid Grid.Row="0" x:Name="TitleGrid">
             <TextBlock x:Name="ApplicationName" Text="Address of a Location" Style="{StaticResource PhoneTextPageTitle1Style}"/>
         </Grid>
 
-        
         <Grid Grid.Row="1" x:Name="ContentPanel">
-            <esri:Map x:Name="MyMap" Background="White" Extent="-117.387, 33.97, -117.355, 33.988" MouseClick="MyMap_MouseClick" >
+            <esri:Map x:Name="MyMap" Background="White" Extent="-13639957.285,4541403.700,-13620389.406,4549305.317" 
+                     MapGesture="MyMap_MapGesture" >
                 <esri:ArcGISTiledMapServiceLayer ID="StreetMapLayer" 
-                    Url="http://server.arcgisonline.com/ArcGIS/rest/services/ESRI_StreetMap_World_2D/MapServer" />
+                    Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer" />
                 <esri:GraphicsLayer ID="MyGraphicsLayer" />
             </esri:Map>
-            <Rectangle x:Name="ClickScreen" Stretch="Fill" Fill="#00FFFFFF" Visibility="Collapsed" MouseLeftButtonDown="ClickScreen_MouseLeftButtonDown" />
 
-            <Border x:Name="AddressBorder" Background="#66FFFFFF" BorderThickness="1" CornerRadius="5" Visibility="Collapsed" 
-                HorizontalAlignment="Right"  VerticalAlignment="Top"
+            <Border x:Name="AddressBorder" Background="Black" BorderThickness="1" Visibility="Collapsed" 
+                HorizontalAlignment="Right" VerticalAlignment="Top"
                 Margin="5" Padding="5" BorderBrush="Black">
-                
-                <Border Background="#FF000000" >
-                    <TextBlock x:Name="AddressText" Margin="10" Text="" Foreground="White" FontSize="{StaticResource PhoneFontSizeLarge}" />
-                </Border>
+                <TextBlock x:Name="AddressText" Margin="10" Text="" Foreground="White" 
+                               FontSize="{StaticResource PhoneFontSizeLarge}" />
             </Border>
 
         </Grid>

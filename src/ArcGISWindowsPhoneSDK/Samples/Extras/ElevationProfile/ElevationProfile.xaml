@@ -1,0 +1,67 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="ElevationProfile.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:esri="clr-namespace:ESRI.ArcGIS.Client;assembly=ESRI.ArcGIS.Client"
+    xmlns:esriSymbols="clr-namespace:ESRI.ArcGIS.Client.Symbols;assembly=ESRI.ArcGIS.Client"
+    xmlns:esriToolkit="clr-namespace:ESRI.ArcGIS.Client.Toolkit;assembly=ESRI.ArcGIS.Client.Toolkit"
+    xmlns:esriToolkitPrimitives="clr-namespace:ESRI.ArcGIS.Client.Toolkit.Primitives;assembly=ESRI.ArcGIS.Client.Toolkit"
+    xmlns:graph="clr-namespace:GraphSample.CustomControls"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    Orientation="Portrait"
+    SupportedOrientations="PortraitOrLandscape"
+    OrientationChanged="PhoneApplicationPage_OrientationChanged"
+    shell:SystemTray.IsVisible="True" mc:Ignorable="d" d:DesignHeight="696" d:DesignWidth="480">
+    
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.Resources>
+            <esriSymbols:SimpleMarkerSymbol x:Name="DefaultMarkerSymbol" Color="Red" Size="18" Style="Circle" />
+            <esriSymbols:SimpleLineSymbol x:Name="DrawLineSymbol" Color="Green" Width="6" />
+            <esriSymbols:SimpleLineSymbol x:Name="DefaultLineSymbol" Color="Red" Width="6" />
+            <esri:Editor x:Key="MyEditor" Map="{Binding ElementName=MyMap}" LayerIDs="MyGraphicsLayer" />
+        </Grid.Resources>
+
+        <esriToolkitPrimitives:ChildPage x:Name="GraphPage" Grid.Row="0" Grid.RowSpan="2" >
+            <Grid>
+                <graph:Graph x:Name="graph1" Background="White" Padding="100" DarkAccentColor="DarkBlue" AccentColor="Blue"/>
+                <TextBlock Foreground="Firebrick" VerticalAlignment="Center" FontWeight="Bold" Margin="-6,0,0,0" Text="meters">
+                    <TextBlock.RenderTransform>
+                     <RotateTransform Angle="-90" />
+                    </TextBlock.RenderTransform>
+                </TextBlock>
+                <TextBlock Foreground="Firebrick" VerticalAlignment="Bottom" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,-3">miles</TextBlock>
+            </Grid>
+        </esriToolkitPrimitives:ChildPage>
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock x:Name="ApplicationTitle" Text="Elevation Profile" Style="{StaticResource PhoneTextNormalStyle}"/>
+        </StackPanel>
+
+         <Grid x:Name="ContentPanel" Grid.Row="1" >
+            <esri:Map x:Name="MyMap" 
+                  Extent="-15000000,2000000,-7000000,8000000"
+                  Background="Gainsboro">
+            <esri:ArcGISTiledMapServiceLayer ID="National Geographic" Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer"/>
+                <esri:GraphicsLayer ID="MyGraphicsLayer"/>
+        </esri:Map>
+        </Grid>
+    </Grid>
+    
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBarIconButton IconUri="/Images/Cancel.png" Text="Clear" Click="ClearButton_Click"/>
+            <shell:ApplicationBarIconButton IconUri="/Images/DrawChart.png" Text="Show Graph" Click="DrawChartButton_Click"/>
+            <shell:ApplicationBarIconButton IconUri="/Images/Map.png" Text="Back" Click="BackButton_Click"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+</phone:PhoneApplicationPage>

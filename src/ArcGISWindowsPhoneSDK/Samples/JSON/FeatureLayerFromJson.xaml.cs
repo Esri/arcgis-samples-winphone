@@ -233,8 +233,8 @@ namespace ArcGISWindowsPhoneSDK
     ]
   }
 }";
-
-            JsonBrowser.NavigateToString("<html><head><title>JSON Input</title></head><body>" + jsonInput.Replace("\r\n", "<br/>").Replace(" ", "&nbsp;") + "</body></html>");
+            JsonTextBox.Text = jsonInput;
+            
         }
 
         private void ClearMapButton_Click(object sender, EventArgs e)
@@ -261,12 +261,6 @@ namespace ArcGISWindowsPhoneSDK
             {
                 MessageBox.Show(ex.Message, "FeatureLayer creation failed", MessageBoxButton.OK);
             }
-        }
-
-        private void JsonButton_Click(object sender, EventArgs e)
-        {
-            JsonBrowser.Visibility = JsonBrowser.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
-        }
-
+        }   
     }
 }

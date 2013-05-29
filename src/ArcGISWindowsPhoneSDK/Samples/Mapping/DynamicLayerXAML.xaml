@@ -24,7 +24,7 @@
         <Grid Grid.Row="1" x:Name="ContentPanel">
             <esri:Map x:Name="MyMap" >
                 <esri:Map.Extent>
-                    <esriGeometry:Envelope XMin="-3170138" YMin="-1823795" XMax="2850785" YMax="1766663">
+                    <esriGeometry:Envelope XMin="-3548912" YMin="-1147469" XMax="2472012" YMax="1942990">
                         <esriGeometry:Envelope.SpatialReference>
                             <esriGeometry:SpatialReference WKID="102009"/>
                         </esriGeometry:Envelope.SpatialReference>

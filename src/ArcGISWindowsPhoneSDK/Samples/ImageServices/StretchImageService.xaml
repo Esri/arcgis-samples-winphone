@@ -15,12 +15,15 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     >
 
-    <Grid x:Name="LayoutRoot" Background="White">
+    <Grid x:Name="LayoutRoot" Background="Black">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
+
+        <Grid Grid.Row="0" x:Name="TitleGrid">
+            <TextBlock x:Name="ApplicationName" Text="Stretch" Style="{StaticResource PhoneTextPageTitle1Style}"/>
+        </Grid>
         <esri:Map x:Name="MyMap" Grid.Row="0" Grid.RowSpan="2"  WrapAround="True" MinimumResolution="0.001">
             <esri:Map.Extent>
                 <geom:Envelope XMin="-13483041.1159268" YMin="5707158.06847372" XMax="-13300798.7006729" YMax="5776035.73908334">

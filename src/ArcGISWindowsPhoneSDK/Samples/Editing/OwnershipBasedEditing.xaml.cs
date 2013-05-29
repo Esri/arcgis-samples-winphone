@@ -1,154 +1,203 @@
 ﻿using Microsoft.Phone.Controls;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
+using System.Collections.Generic;
 using ESRI.ArcGIS.Client;
-using ESRI.ArcGIS.Client.Toolkit;
-using Microsoft.Phone.Controls;
+using System.Windows.Controls;
+using ESRI.ArcGIS.Client.Toolkit.Primitives;
 using Microsoft.Phone.Shell;
 
 namespace ArcGISWindowsPhoneSDK
 {
     public partial class OwnershipBasedEditing : PhoneApplicationPage
     {
+        Dictionary<string, int> challengeAttemptsPerUrl = new Dictionary<string, int>();
+
         public OwnershipBasedEditing()
         {
             InitializeComponent();
+            MyMap.Layers.LayersInitialized += Layers_LayersInitialized;
             IdentityManager.Current.ChallengeMethod = Challenge;
+            MyEditor.MoveEnabled = true;
         }
 
         private void Challenge(string url,
             Action<IdentityManager.Credential, Exception> callback, IdentityManager.GenerateTokenOptions options)
         {
+            LoginGrid.Visibility = System.Windows.Visibility.Visible;
 
-            //SignInDialog.DoSignIn(url, (credential, error) =>
-            //{
-            //    if (error == null)
-            //    {
-            //        ToolBorder.Visibility = System.Windows.Visibility.Visible;
-            //        LoggedInGrid.Visibility = System.Windows.Visibility.Visible;
-            //        LoggedInUserTextBlock.Text = credential.UserName;
-            //    }
-            //    callback(credential, error);
-            //}
-            //, options);
-        }
+            TitleTextBlock.Text = string.Format("Login to access: \n{0}", url);
 
-        private void FeatureLayer_InitializationFailed(object sender, EventArgs e)
-        { }
+            if (!challengeAttemptsPerUrl.ContainsKey(url))
+                challengeAttemptsPerUrl.Add(url, 0);
 
-        private void SignOut_Click(object sender, RoutedEventArgs e)
-        {
-            SignOut();
-        }
-
-        private void SignOut()
-        {
-
-            var l = MyMap.Layers["SaveTheBayMarineLayer"] as FeatureLayer;
-            var credential = IdentityManager.Current.FindCredential(l.Url, LoggedInUserTextBlock.Text);
-            if (credential == null) return;
-//            ToolBorder.Visibility = System.Windows.Visibility.Collapsed;
-            LoggedInGrid.Visibility = System.Windows.Visibility.Collapsed;
-            IdentityManager.Current.RemoveCredential(credential);
-            MyMap.Layers.Remove(l);
-            l = new FeatureLayer()
+            RoutedEventHandler handleClick = null;
+            handleClick = (s, e) =>
             {
-                ID = "SaveTheBayMarineLayer",
-                DisplayName = "Save the Bay - Marine Layer",
-                Url = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/SaveTheBay/FeatureServer/0",
-                Mode = FeatureLayer.QueryMode.OnDemand
+                IdentityManager.Current.GenerateCredentialAsync(url, UserTextBox.Text, PasswordTextBox.Text,
+                (credential, ex) =>
+                {
+                    challengeAttemptsPerUrl[url]++;
+                    if (ex == null || challengeAttemptsPerUrl[url] == 3)
+                    {
+                        LoginLoadLayerButton.Click -= handleClick;
+                        callback(credential, ex);
+                        LoggedInUserButton.Content = credential.UserName;
+                    }
+
+                }, options);
             };
-            l.OutFields.Add("*");
-            l.MouseLeftButtonDown += FeatureLayer_MouseLeftButtonDown;
-            l.InitializationFailed += FeatureLayer_InitializationFailed;
-            MyMap.Layers.Add(l);
+            LoginLoadLayerButton.Click += handleClick;
+
+            System.Windows.Input.KeyEventHandler handleEnterKeyDown = null;
+            handleEnterKeyDown = (s, e) =>
+            {
+                if (e.Key == System.Windows.Input.Key.Enter)
+                {
+                    PasswordTextBox.KeyDown -= handleEnterKeyDown;
+                    handleClick(null, null);
+                }
+            };
+            PasswordTextBox.KeyDown += handleEnterKeyDown;
         }
+
+
+        void Layers_LayersInitialized(object sender, EventArgs args)
+        {
+            LoginGrid.Visibility = System.Windows.Visibility.Collapsed;
+
+            FeatureLayer l = MyMap.Layers["SaveTheBayMarineLayer"] as FeatureLayer;
+            if (l == null) return;
+
+            #region Build TemplatePicker
+            // Use LayerInfo.FeatureTypes and FeatureTemplates with Editor.Add and SymbolDisplay to build TemplatePicker
+            if (l.LayerInfo.FeatureTypes != null && l.LayerInfo.FeatureTypes.Count > 0)
+            {
+                foreach (var featureType in l.LayerInfo.FeatureTypes)
+                {
+                    if (featureType.Value.Templates != null && featureType.Value.Templates.Count > 0)
+                    {
+                        foreach (var featureTemplate in featureType.Value.Templates)
+                        {
+                            var sp = new StackPanel() { Orientation = System.Windows.Controls.Orientation.Horizontal };
+                            sp.Children.Add(new Button()
+                            {
+                                Content = new SymbolDisplay()
+                                {
+                                    Height = 25,
+                                    Width = 25,
+                                    Symbol = featureTemplate.Value.GetSymbol(l.Renderer)
+                                },
+                                DataContext = MyEditor,
+                                CommandParameter = featureType.Value.Id,
+                                Command = MyEditor.Add
+                            });
+                            sp.Children.Add(new TextBlock() { Text = featureTemplate.Value.Name, VerticalAlignment = System.Windows.VerticalAlignment.Center });
+                            TemplatePicker.Children.Add(sp);
+                        }
+                    }
+                }
+            }
+            #endregion
+        }
+
+        private void Layer_InitializationFailed(object sender, EventArgs e) { }
+
 
         private void FeatureLayer_MouseLeftButtonDown(object sender, GraphicMouseButtonEventArgs e)
         {
-            if (e.Graphic != null && !e.Graphic.Selected && (sender as FeatureLayer).IsUpdateAllowed(e.Graphic))
-            {
-                Editor editor = LayoutRoot.Resources["MyEditor"] as Editor;
-                if ((sender as FeatureLayer).IsUpdateAllowed(e.Graphic))
-                {
-                    if (editor.EditVertices.CanExecute(null))
-                        editor.EditVertices.Execute(null);
-                }
-                else
-                    if (editor.CancelActive.CanExecute(null))
-                        editor.CancelActive.Execute(null);
-            }
+            // enable the delete icon if user is the owner, otherwise disable it
+            if (e.Graphic != null && (sender as FeatureLayer).IsUpdateAllowed(e.Graphic))
+                    (ApplicationBar.Buttons[1] as IApplicationBarIconButton).IsEnabled = true;
+            else
+                (ApplicationBar.Buttons[1] as IApplicationBarIconButton).IsEnabled = false;
+
             (sender as FeatureLayer).ClearSelection();
             e.Graphic.Select();
-//            MyDataGrid.ScrollIntoView(e.Graphic, null);
-
+            (ApplicationBar.Buttons[2] as IApplicationBarIconButton).IsEnabled = true;
         }
 
-
-
-        #region Sign in/out
-        private void ShowSignInPageButton_Click(object sender, EventArgs e)
+        private void UsernameButton_Click(object sender, RoutedEventArgs e)
         {
-            //if ((ApplicationBar.Buttons[0] as IApplicationBarIconButton).Text.Equals("Sign In"))
-            //{
-            //    SignInPage.IsOpen = true;
-            //}
-            //else //Sign Out
-            //{
-            //    //ResultsListBox.ItemsSource = null;
-            //    //WebmapContent.Children.Clear();
-            //    var crd = IdentityManager.Current.FindCredential(DEFAULT_SERVER_URL, portal.CurrentUser.UserName);
-            //    IdentityManager.Current.RemoveCredential(crd);
-            //    portal.InitializeAsync(portal.Url, (credential, exception) =>
-            //    {
-            //        if (exception == null)
-            //        {
-            //            ResetVisibility();
-            //            (ApplicationBar.Buttons[0] as IApplicationBarIconButton).Text = "Sign In";
-            //        }
-            //        else
-            //        {
-            //            MessageBox.Show("Error initializing portal : " + exception.Message);
-            //        }
-            //    });
-            //}
+            FeatureLayer featureLayer = MyMap.Layers["SaveTheBayMarineLayer"] as FeatureLayer;
+            if (featureLayer == null)
+                return;
+
+            TemplatePickerGrid.Visibility = Visibility.Collapsed;
+
+            ESRI.ArcGIS.Client.IdentityManager.Credential c = IdentityManager.Current.FindCredential(featureLayer.Url, featureLayer.EditUserName);
+            if (c == null)
+                return;
+
+            IdentityManager.Current.RemoveCredential(c);
+
+            var cloneLayer = new FeatureLayer()
+                {
+                    Url = featureLayer.Url,
+                    Mode = featureLayer.Mode,
+                    ID = featureLayer.ID,
+                    DisplayName = featureLayer.DisplayName,
+                    OutFields = featureLayer.OutFields,
+                    
+                };
+
+            cloneLayer.MouseLeftButtonDown += FeatureLayer_MouseLeftButtonDown;
+            featureLayer.MouseLeftButtonDown -= FeatureLayer_MouseLeftButtonDown;
+            MyMap.Layers.Remove(featureLayer);               
+            MyMap.Layers.Add(cloneLayer);
         }
 
-        private void SignInButton_Click(object sender, RoutedEventArgs e)
+
+        private void MyMap_MapGesture(object sender, Map.MapGestureEventArgs e)
         {
-            //ResultsListBox.ItemsSource = null;
-            //WebmapContent.Children.Clear();
-            //IdentityManager.Current.GenerateCredentialAsync(DEFAULT_SERVER_URL, UsernameTB.Text, PasswordTB.Password, (crd, ex) =>
-            //{
-            //    if (crd != null)
-            //    {
-            //        IdentityManager.Current.AddCredential(crd);
-            //        portal.InitializeAsync(DEFAULT_SERVER_URL, (credential, exception) =>
-            //        {
-            //            if (credential != null && credential.CurrentUser != null)
-            //            {
-            //                ResetVisibility();
-            //                (ApplicationBar.Buttons[0] as IApplicationBarIconButton).Text = "Sign Out";
-            //            }
-            //        });
-            //    }
-            //    else
-            //    {
-            //        MessageBox.Show("Could not log in. Please check credentials.");
-            //    }
-            //});
+           if (e.Gesture == GestureType.Hold)
+           {
+               FeatureLayer featureLayer = MyMap.Layers["SaveTheBayMarineLayer"] as FeatureLayer;
+                IEnumerable<Graphic> selected = e.DirectlyOver(10, new GraphicsLayer[] { featureLayer });
+                foreach (Graphic g in selected)
+                {
+                    InfoWindow.Anchor = e.MapPoint;
+                    InfoWindow.IsOpen = true;
+                    InfoWindow.Content = g;
+                    return;
+                }
+            }
+            else 
+                InfoWindow.IsOpen = false;
+            
         }
-        #endregion
 
+        private void AddIconButton_Click(object sender, EventArgs e)
+        {
+            ShowElement(TemplatePickerGrid);
+        }
+
+        private void DeleteIconButton_Click(object sender, EventArgs e)
+        {
+            if (MyEditor.DeleteSelected.CanExecute(null))
+            {
+                MyEditor.DeleteSelected.Execute(null);
+                (ApplicationBar.Buttons[2] as IApplicationBarIconButton).IsEnabled = true;
+            }
+        }
+
+        private void CancelIconButton_Click(object sender, EventArgs e)
+        {
+            if (MyEditor.ClearSelection.CanExecute(null))
+            {
+                MyEditor.ClearSelection.Execute(null);
+                (ApplicationBar.Buttons[1] as IApplicationBarIconButton).IsEnabled = false;
+            }
+        }
+
+        private void ShowElement(UIElement element)
+        {
+            if (TemplatePickerGrid == element)
+              if (TemplatePickerGrid.Visibility == Visibility.Visible)
+                TemplatePickerGrid.Visibility =  Visibility.Collapsed;
+              else
+                  TemplatePickerGrid.Visibility = Visibility.Visible;
+        }
 
     }
 }

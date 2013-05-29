@@ -39,10 +39,8 @@
                 </esri:ElementLayer>
             </esri:Map>
 
-            <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" >
-                <Rectangle Fill="#44FFFFFF" Stroke="Gray"  RadiusX="10" RadiusY="10" Margin="0" >
-                </Rectangle>
-                <Rectangle Fill="#FF000000" Stroke="DarkGray" RadiusX="5" RadiusY="5" Margin="5" />
+            <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5">               
+                <Rectangle Fill="#FF000000" Stroke="DarkGray" Margin="5" />
                 <TextBlock x:Name="ResponseTextBlock" Text="For the video to play, your phone cannot be connected to a computer. It also requires an actual device and not the emulator." 
                        Width="300" TextAlignment="Left" Margin="30,20,20,30" TextWrapping="Wrap" Style="{StaticResource PhoneTextSmallWhiteStyle}" />
             </Grid>

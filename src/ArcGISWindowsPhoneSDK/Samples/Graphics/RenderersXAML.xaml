@@ -58,11 +58,11 @@
                 </esri:ClassBreaksRenderer>
             </Grid.Resources>
 
-            <esri:Map x:Name="MyMap" Background="White" Extent="-115,28,-95,38" >
+            <esri:Map x:Name="MyMap" Background="White" Extent="-12973654.221,3386165.276,-10468965.678,4469059.160" >
                 <esri:Map.Layers>
 
                     <esri:ArcGISTiledMapServiceLayer ID="StreetMapLayer" 
-                      Url="http://server.arcgisonline.com/ArcGIS/rest/services/ESRI_StreetMap_World_2D/MapServer"/>
+                      Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer"/>
 
                     <esri:FeatureLayer ID="MyFeatureLayerUnique"
                     Url="http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Demographics/ESRI_Census_USA/MapServer/5" 
