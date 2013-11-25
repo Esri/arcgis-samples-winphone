@@ -22,7 +22,7 @@
             </shell:ApplicationBar.Buttons>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
-    
+
     <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -51,28 +51,52 @@
                             <esri:Graphic x:Name="Graphic0" Symbol="{StaticResource DefaultPolygonFillSymbol}">
                                 <esriGeometry:Polygon x:Name="Polygon_0">
                                     <esriGeometry:Polygon.Rings>
-                                        <esriGeometry:PointCollection>-117,33 -116.5,33 -116.5,34 -117,34 -117,33</esriGeometry:PointCollection>
+                                        <esriGeometry:PointCollection>
+                                            <esriGeometry:MapPoint X="-117" Y="33" />
+                                            <esriGeometry:MapPoint X="-116.5" Y="33" />
+                                            <esriGeometry:MapPoint X="-116.5" Y="34" />
+                                            <esriGeometry:MapPoint X="-117" Y="34" />
+                                            <esriGeometry:MapPoint X="-117" Y="33" />
+                                        </esriGeometry:PointCollection>
                                     </esriGeometry:Polygon.Rings>
                                 </esriGeometry:Polygon>
                             </esri:Graphic>
                             <esri:Graphic x:Name="Graphic1" Symbol="{StaticResource DefaultPolygonFillSymbol}">
                                 <esriGeometry:Polygon x:Name="Polygon_1">
                                     <esriGeometry:Polygon.Rings>
-                                        <esriGeometry:PointCollection>-118,34 -117.5,34 -117.5,35 -118,35 -118,34</esriGeometry:PointCollection>
+                                        <esriGeometry:PointCollection>
+                                            <esriGeometry:MapPoint X="-118" Y="34" />
+                                            <esriGeometry:MapPoint X="-117.5" Y="34" />
+                                            <esriGeometry:MapPoint X="-117.5" Y="35" />
+                                            <esriGeometry:MapPoint X="-118" Y="35" />
+                                            <esriGeometry:MapPoint X="-118" Y="34" />
+                                        </esriGeometry:PointCollection>
                                     </esriGeometry:Polygon.Rings>
                                 </esriGeometry:Polygon>
                             </esri:Graphic>
                             <esri:Graphic x:Name="Graphic2" Symbol="{StaticResource DefaultPolygonFillSymbol}">
                                 <esriGeometry:Polygon x:Name="Polygon_2">
                                     <esriGeometry:Polygon.Rings>
-                                        <esriGeometry:PointCollection>-116,32 -117,32 -117,33.5 -116,33.5 -116,32</esriGeometry:PointCollection>
+                                        <esriGeometry:PointCollection>
+                                            <esriGeometry:MapPoint X="-116" Y="32" />
+                                            <esriGeometry:MapPoint X="-117" Y="32" />
+                                            <esriGeometry:MapPoint X="-117" Y="33.5" />
+                                            <esriGeometry:MapPoint X="-116" Y="33.5" />
+                                            <esriGeometry:MapPoint X="-116" Y="32" />
+                                        </esriGeometry:PointCollection>
                                     </esriGeometry:Polygon.Rings>
                                 </esriGeometry:Polygon>
                             </esri:Graphic>
                             <esri:Graphic x:Name="Graphic3" Symbol="{StaticResource DefaultPolygonFillSymbol}">
                                 <esriGeometry:Polygon x:Name="Polygon_3">
                                     <esriGeometry:Polygon.Rings>
-                                        <esriGeometry:PointCollection>-115,31 -115.5,31 -115.5,32 -115,32 -115,31</esriGeometry:PointCollection>
+                                        <esriGeometry:PointCollection>
+                                            <esriGeometry:MapPoint X="-115" Y="31" />
+                                            <esriGeometry:MapPoint X="-115.5" Y="31" />
+                                            <esriGeometry:MapPoint X="-115.5" Y="32" />
+                                            <esriGeometry:MapPoint X="-115" Y="32" />
+                                            <esriGeometry:MapPoint X="-115" Y="31" />
+                                        </esriGeometry:PointCollection>
                                     </esriGeometry:Polygon.Rings>
                                 </esriGeometry:Polygon>
                             </esri:Graphic>

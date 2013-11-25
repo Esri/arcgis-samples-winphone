@@ -33,7 +33,7 @@
             <esriSymbols:SimpleFillSymbol x:Key="DifferenceFillSymbol" Fill="#88FFFF00" BorderBrush="Yellow" />
         </Grid.Resources>
 
-        
+
         <Grid Grid.Row="0" x:Name="TitleGrid">
             <TextBlock x:Name="ApplicationName" Text="Utilities - Difference" Style="{StaticResource PhoneTextPageTitle1Style}"/>
         </Grid>
@@ -50,7 +50,13 @@
                                     <esriGeometry:SpatialReference WKID="4326"/>
                                 </esriGeometry:Polygon.SpatialReference>
                                 <esriGeometry:Polygon.Rings>
-                                    <esriGeometry:PointCollection>-116.5,33 -116.5,34 -116,34 -116,33 -116.5,33</esriGeometry:PointCollection>
+                                    <esriGeometry:PointCollection>
+                                        <esriGeometry:MapPoint X="-116.5" Y="33" />
+                                        <esriGeometry:MapPoint X="-116.5" Y="34" />
+                                        <esriGeometry:MapPoint X="-116" Y="34" />
+                                        <esriGeometry:MapPoint X="-116" Y="33" />
+                                        <esriGeometry:MapPoint X="-116.5" Y="33" />
+                                    </esriGeometry:PointCollection>
                                 </esriGeometry:Polygon.Rings>
                             </esriGeometry:Polygon>
                         </esri:Graphic>
@@ -60,7 +66,13 @@
                                     <esriGeometry:SpatialReference WKID="4326"/>
                                 </esriGeometry:Polygon.SpatialReference>
                                 <esriGeometry:Polygon.Rings>
-                                    <esriGeometry:PointCollection>-118,34 -118,35 -117.5,35 -117.5,34 -118,34</esriGeometry:PointCollection>
+                                    <esriGeometry:PointCollection>
+                                        <esriGeometry:MapPoint X="-118" Y="34" /> 
+                                        <esriGeometry:MapPoint X="-118" Y="35" /> 
+                                        <esriGeometry:MapPoint X="-117.5" Y="35" /> 
+                                        <esriGeometry:MapPoint X="-117.5" Y="34" /> 
+                                        <esriGeometry:MapPoint X="-118" Y="34" /> 
+                                    </esriGeometry:PointCollection>
                                 </esriGeometry:Polygon.Rings>
                             </esriGeometry:Polygon>
                         </esri:Graphic>
@@ -70,7 +82,13 @@
                                     <esriGeometry:SpatialReference WKID="4326"/>
                                 </esriGeometry:Polygon.SpatialReference>
                                 <esriGeometry:Polygon.Rings>
-                                    <esriGeometry:PointCollection>-117.3,34 -116.3,34 -116.3,33.5 -117.3,33.5 -117.3,34</esriGeometry:PointCollection>
+                                    <esriGeometry:PointCollection>
+                                        <esriGeometry:MapPoint X="-117.3" Y="34" /> 
+                                        <esriGeometry:MapPoint X="-116.3" Y="34" />
+                                        <esriGeometry:MapPoint X="-116.3" Y="33.5" /> 
+                                        <esriGeometry:MapPoint X="-117.5" Y="33.5" /> 
+                                        <esriGeometry:MapPoint X="-117.3" Y="34" /> 
+                                    </esriGeometry:PointCollection>
                                 </esriGeometry:Polygon.Rings>
                             </esriGeometry:Polygon>
                         </esri:Graphic>
@@ -84,8 +102,8 @@
                 </Rectangle>
                 <Rectangle Fill="#FF000000" Stroke="DarkGray" RadiusX="5" RadiusY="5" Margin="5" />
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="30,20,30,30" >
-                <TextBlock x:Name="ResponseTextBlock" Text="Click the Polygon Button then create a polygon on the map that intersects the existing graphic on the map (red). When complete the difference between the polygon and the original graphics will be displayed (yellow).  Click the Reset button to remove the results."
-                       Width="300" TextAlignment="Left" TextWrapping="Wrap" Style="{StaticResource PhoneTextSmallWhiteStyle}" />                
+                    <TextBlock x:Name="ResponseTextBlock" Text="Click the Polygon Button then create a polygon on the map that intersects the existing graphic on the map (red). When complete the difference between the polygon and the original graphics will be displayed (yellow).  Click the Reset button to remove the results."
+                       Width="300" TextAlignment="Left" TextWrapping="Wrap" Style="{StaticResource PhoneTextSmallWhiteStyle}" />
                     <Button Content="Reset" Margin="0,5,5,0" x:Name="ResetButton" 
                              Click="ResetButton_Click" IsEnabled="False" Width="150" />
                 </StackPanel>

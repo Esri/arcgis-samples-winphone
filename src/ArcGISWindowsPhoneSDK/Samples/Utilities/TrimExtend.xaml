@@ -19,7 +19,7 @@
             </shell:ApplicationBar.Buttons>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
-    
+
     <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -31,7 +31,7 @@
             <esriSymbols:SimpleLineSymbol x:Key="ResultsLineSymbol" Color="Red" Width="4" />
         </Grid.Resources>
 
-        
+
         <Grid Grid.Row="0" x:Name="TitleGrid">
             <TextBlock x:Name="ApplicationName" Text="Utilities - TrimExtend" Style="{StaticResource PhoneTextPageTitle1Style}"/>
         </Grid>
@@ -48,28 +48,40 @@
                             <esri:Graphic Symbol="{StaticResource DefaultLineSymbol}">
                                 <esriGeometry:Polyline x:Name="Polyline_0">
                                     <esriGeometry:Polyline.Paths>
-                                        <esriGeometry:PointCollection>-117,34 -117,32</esriGeometry:PointCollection>
+                                        <esriGeometry:PointCollection>
+                                            <esriGeometry:MapPoint X="-117" Y="34" />
+                                            <esriGeometry:MapPoint X="-117" Y="32" />
+                                        </esriGeometry:PointCollection>
                                     </esriGeometry:Polyline.Paths>
                                 </esriGeometry:Polyline>
                             </esri:Graphic>
                             <esri:Graphic Symbol="{StaticResource DefaultLineSymbol}">
                                 <esriGeometry:Polyline x:Name="Polyline_1">
                                     <esriGeometry:Polyline.Paths>
-                                        <esriGeometry:PointCollection>-118,35 -118,31</esriGeometry:PointCollection>
+                                        <esriGeometry:PointCollection>
+                                            <esriGeometry:MapPoint X="-118" Y="35" />
+                                            <esriGeometry:MapPoint X="-118" Y="31" />
+                                        </esriGeometry:PointCollection>
                                     </esriGeometry:Polyline.Paths>
                                 </esriGeometry:Polyline>
                             </esri:Graphic>
                             <esri:Graphic Symbol="{StaticResource DefaultLineSymbol}">
                                 <esriGeometry:Polyline x:Name="Polyline_2">
                                     <esriGeometry:Polyline.Paths>
-                                        <esriGeometry:PointCollection>-116,33.8 -116,31.4</esriGeometry:PointCollection>
+                                        <esriGeometry:PointCollection>
+                                            <esriGeometry:MapPoint X="-116" Y="33.8" />
+                                            <esriGeometry:MapPoint X="-116" Y="31.4" />
+                                        </esriGeometry:PointCollection>
                                     </esriGeometry:Polyline.Paths>
                                 </esriGeometry:Polyline>
                             </esri:Graphic>
                             <esri:Graphic Symbol="{StaticResource DefaultLineSymbol}">
                                 <esriGeometry:Polyline x:Name="Polygline_3">
                                     <esriGeometry:Polyline.Paths>
-                                        <esriGeometry:PointCollection>-115,34.5 -115,32.3</esriGeometry:PointCollection>
+                                        <esriGeometry:PointCollection>
+                                            <esriGeometry:MapPoint X="-115" Y="34.5" />
+                                            <esriGeometry:MapPoint X="-115" Y="32.3" />
+                                        </esriGeometry:PointCollection>
                                     </esriGeometry:Polyline.Paths>
                                 </esriGeometry:Polyline>
                             </esri:Graphic>

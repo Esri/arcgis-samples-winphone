@@ -134,7 +134,7 @@
                                     </esriGeometry:Geometry.SpatialReference>
                                 </esriGeometry:MapPoint>
                             </esri:Graphic>
- 
+
                             <!-- Rotate marker symbol -->
                             <esri:Graphic>
                                 <esri:Graphic.Symbol>
@@ -275,7 +275,13 @@
                             <esri:Graphic>
                                 <esriGeometry:Polyline >
                                     <esriGeometry:Polyline.Paths>
-                                        <esriGeometry:PointCollection>-118.169,44.016 -104.941,49.7072 -96.724,42.732 -87.671,45.804 -74,50.68</esriGeometry:PointCollection>
+                                        <esriGeometry:PointCollection>
+                                            <esriGeometry:MapPoint X="-118.169" Y="44.016" />
+                                            <esriGeometry:MapPoint X="-104.941" Y="49.7072" />
+                                            <esriGeometry:MapPoint X="-96.724" Y="42.732" />
+                                            <esriGeometry:MapPoint X="-87.671" Y="45.804" />
+                                            <esriGeometry:MapPoint X="-74" Y="50.68" />
+                                        </esriGeometry:PointCollection>
                                     </esriGeometry:Polyline.Paths>
                                     <esriGeometry:Geometry.SpatialReference>
                                         <esriGeometry:SpatialReference WKID="4326" />

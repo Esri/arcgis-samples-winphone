@@ -186,7 +186,13 @@
                             <esriGeometry:Polygon >
                                 <esriGeometry:Polygon.Rings>
                                     <esriGeometry:PointCollection>
-                                        110.039,-20.303 132.539,-7.0137 153.281,-13.923 162.773,-35.174 133.594,-43.180 111.797,-36.032 110.039,-20.303
+                                        <esriGeometry:MapPoint X="110.039" Y="-20.303" /> 
+                                        <esriGeometry:MapPoint X="132.539" Y="-7.0137" /> 
+                                        <esriGeometry:MapPoint X="153.281" Y="-13.923" /> 
+                                        <esriGeometry:MapPoint X="162.773" Y="-35.174" /> 
+                                        <esriGeometry:MapPoint X="133.594" Y="-43.180" /> 
+                                        <esriGeometry:MapPoint X="111.797" Y="-36.032" /> 
+                                        <esriGeometry:MapPoint X="110.039" Y="-20.303" /> 
                                     </esriGeometry:PointCollection>
                                 </esriGeometry:Polygon.Rings>
                                 <esriGeometry:Geometry.SpatialReference>
