@@ -63,7 +63,7 @@
 
             <client:Map x:Name="MyMap" WrapAround="True" MouseClick="MyMap_MouseClick">
                 <client:ArcGISTiledMapServiceLayer Url="http://services.arcgisonline.com/arcgis/rest/services/world_topo_map/MapServer" />
-                <datasources:CsvLayer ID="MyCSVLayer" Url="http://earthquake.usgs.gov/earthquakes/catalogs/eqs7day-M2.5.txt" 
+                <datasources:CsvLayer ID="MyCSVLayer" Url="http://earthquake.usgs.gov/earthquakes/feed/csv/1.0/day" 
                            Renderer="{StaticResource MyClassBreaksRenderer}" />
             </client:Map>
             <toolkit:InfoWindow x:Name="MyInfoWindow" Padding="2" Background="White" Foreground="Black"
